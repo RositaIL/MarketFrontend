@@ -1,57 +1,71 @@
 
 import { createSlice } from "@reduxjs/toolkit";
-import { Marca } from '../../marbella/interface/marca';
+import { Marca } from '../../marbella/types/marca';
+import { MarcaState } from "../interfaceState";
+
+const initialMarca: Marca[] = [];
+
+type PayloadAction<T> = {
+    payload: T
+}
 
 export const marcaSlice = createSlice(
     {
         name: 'marca',
         initialState: {
             loading: false,
-            marcas: [] as Marca[],
+            marcas: initialMarca,
             messageError: '',
-            status: ''
+            operationState: ''
         },
         reducers: {
-            checkingMarca: (state) => {
+            startLoading: (state: MarcaState) => {
                 state.loading = true;
-                state.marcas = [];
             },
-            handleErrorMessage: (state, { payload }) => {
+            handleErrorMessage: (state: MarcaState, { payload }: PayloadAction<string>) => {
                 state.messageError = payload;
+                state.operationState = '';
             },
-            getAllMarca: (state, { payload }) => {
-                state.loading = false;
-                state.marcas = payload;
+            clearHandleErrorMessage: (state: MarcaState) => {
                 state.messageError = '';
-                state.status = '';
+                state.operationState = '';
+                state.loading = false;
             },
-            updateMarca: (state, { payload }: { payload: Marca }) => {
+            clearOperationState: (state: MarcaState) => {
+                state.operationState = '';
+            },
+            getAllMarca: (state, { payload }: PayloadAction<Marca[]>) => {
+                state.marcas = payload;
+                state.loading = false;
+                state.messageError = '';
+                state.operationState = '';
+            },
+            saveMarca: (state: MarcaState, { payload }: PayloadAction<Marca>) => {
+                state.marcas = [payload, ...state.marcas];
+                state.loading = false;
+                state.operationState = 'Agregado';
+                state.messageError = '';
+            },
+            updateMarca: (state: MarcaState, { payload }: PayloadAction<Marca>) => {
                 const index = state.marcas.findIndex((marca: Marca) => marca.idMarca === payload.idMarca);
                 if (index !== -1) {
                     state.marcas[index] = payload;
-                    state.status = 'Actualizó';
+                    state.loading = false;
+                    state.operationState = 'Actualizado';
                     state.messageError = '';
                 }
             },
-            deleteByIdMarca: (state, { payload }) => {
+            deleteMarca: (state: MarcaState, { payload }: PayloadAction<number>) => {
                 const index = state.marcas.findIndex((marca: Marca) => marca.idMarca === payload);
                 if (index !== -1) {
                     state.marcas = state.marcas.filter(marca => marca.idMarca !== payload);
-                    state.status = 'Eliminó';
+                    state.loading = false;
+                    state.operationState = 'Eliminado';
                     state.messageError = '';
                 }
-            },
-            addMarca: (state, { payload }) => {
-                state.marcas = [payload, ...state.marcas];
-                state.status = 'Añadio';
-                state.messageError = '';
-            },
-            clearSuccessMessage: (state) => {
-                state.status = '';
             }
-
         }
     }
 )
 
-export const { checkingMarca, getAllMarca, updateMarca, clearSuccessMessage, handleErrorMessage, deleteByIdMarca } = marcaSlice.actions;
+export const { getAllMarca, saveMarca, updateMarca, deleteMarca, handleErrorMessage, clearHandleErrorMessage, startLoading, clearOperationState } = marcaSlice.actions;

@@ -1,7 +1,21 @@
+import {
+    AuthState,
+    CategoriaState,
+    MarcaState,
+    ProductoState,
+    ProveedorState,
+    RolState,
+    UnidadMedidaState,
+    UsuarioState,
+} from "./interfaceState";
 
-import { AuthState, MarcaState } from "./interfaceState";
-
-export interface RootState {
-    auth: AuthState,
-    marca: MarcaState
+export type RootState = {
+    auth: AuthState;
+    rol: RolState;
+    unidadMedida: UnidadMedidaState;
+    marca: MarcaState;
+    categoria: CategoriaState;
+    usuario: UsuarioState;
+    producto: ProductoState;
+    proveedor: ProveedorState,
 }

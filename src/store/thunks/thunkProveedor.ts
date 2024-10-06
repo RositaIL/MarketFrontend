@@ -1,17 +1,36 @@
-import axios from "axios";
 import { marbellaApi } from "../../api/marbellaApi";
-import { Marca } from "../../marbella/types/marca";
+import axios from "axios";
+import { Proveedor } from "../../marbella/types/proveedor";
 import { StoreDispatch } from "../store";
-import { getAllMarca, saveMarca, updateMarca, deleteMarca, startLoading, handleErrorMessage, } from "../slices/marcaSlice"
+import { deleteProveedor, getAllProveedor, handleErrorMessage, saveProveedor, startLoading, updateProveedor } from "../slices/proveedorSlice";
 
-export const obtenerMarcas = () => {
+
+
+export const obtenerProveedores = () => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.get<Marca[]>('/marca');
+            const { data } = await marbellaApi.get<Proveedor[]>('/proveedor');
             setTimeout(() => {
-                dispatch(getAllMarca(data))
-            }, 1500);
+                dispatch(getAllProveedor(data));
+            }, 1400);
+        } catch (Error) {
+            if (axios.isAxiosError(Error)) {
+                if (Error.code === "ERR_NETWORK") {
+                    dispatch(handleErrorMessage("El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"));
+                }
+                console.log("ERROR: ", Error);
+            }
+        }
+    }
+}
+
+export const agregarProveedor = (proveedor: Proveedor) => {
+    return async (dispatch: StoreDispatch) => {
+        dispatch(startLoading());
+        try {
+            const { data } = await marbellaApi.post<Proveedor>('/proveedor', proveedor);
+            dispatch(saveProveedor(data));
         } catch (Error) {
             if (axios.isAxiosError(Error)) {
                 if (Error.code === "ERR_NETWORK") {
@@ -26,64 +45,42 @@ export const obtenerMarcas = () => {
     }
 }
 
-export const actualizarMarca = (id: number, marca: Marca) => {
+export const actualizarProveedor = (idProveedor: number, proveedor: Proveedor) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.put<Marca>(`/marca/${id}`, marca);
-            dispatch(updateMarca(data));
+            const { data } = await marbellaApi.put<Proveedor>(`proveedor/${idProveedor}`, proveedor);
+            dispatch(updateProveedor(data))
         } catch (Error) {
             if (axios.isAxiosError(Error)) {
                 if (Error.code === "ERR_NETWORK") {
-                    dispatch(handleErrorMessage('El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde'));
+                    dispatch(handleErrorMessage("El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"));
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
                 }
             }
-            console.log('Error: ', Error);
+            console.log("Error: ", Error);
         }
     }
 }
 
-export const eliminarMarca = (id: number) => {
+export const eliminarProveedor = (idProveedor: number) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            await marbellaApi.delete(`/marca/${id}`);
-            dispatch(deleteMarca(id));
+            await marbellaApi.delete(`/proveedor/${idProveedor}`);
+            dispatch(deleteProveedor(idProveedor));
         } catch (Error) {
             if (axios.isAxiosError(Error)) {
                 if (Error.code === "ERR_NETWORK") {
-                    dispatch(handleErrorMessage('El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde'));
+                    dispatch(handleErrorMessage("El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"));
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
                 }
             }
-            console.log('Error: ', Error);
-        }
-    }
-}
-
-export const agregarMarca = (marca: Marca) => {
-    return async (dispatch: StoreDispatch) => {
-        dispatch(startLoading());
-        try {
-            const { data } = await marbellaApi.post('marca', marca);
-            dispatch(saveMarca(data));
-        } catch (Error) {
-            if (axios.isAxiosError(Error)) {
-                if (Error.code === "ERR_NETWORK") {
-                    dispatch(handleErrorMessage('El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde'));
-                } else {
-                    const { error }: { error: string } = Error.response!.data;
-                    dispatch(handleErrorMessage(error));
-                    console.log('Error: ', Error);
-                }
-            }
-
-
+            console.log("Error: ", Error);
         }
     }
 }

@@ -1,13 +1,13 @@
 
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { Marca } from "../../interface/marca";
+import { Marca } from "../../types/marca";
 import React from "react";
 
 interface MarcaItemProps {
     marca: Marca,
     actualizarMarca: (marca: Marca) => void
-    openShowDelete: (id: string) => void
+    openShowDelete: (id: number) => void
 }
 
 export const MarcaItem: React.FC<MarcaItemProps> = ({ marca, actualizarMarca, openShowDelete }) => {

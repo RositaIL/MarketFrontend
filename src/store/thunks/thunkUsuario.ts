@@ -1,17 +1,18 @@
-import axios from "axios";
-import { marbellaApi } from "../../api/marbellaApi";
-import { Marca } from "../../marbella/types/marca";
-import { StoreDispatch } from "../store";
-import { getAllMarca, saveMarca, updateMarca, deleteMarca, startLoading, handleErrorMessage, } from "../slices/marcaSlice"
 
-export const obtenerMarcas = () => {
+import { marbellaApi } from "../../api/marbellaApi";
+import axios from "axios";
+import { StoreDispatch } from "../store";
+import { Usuario } from "../../marbella/types/Usuario";
+import { getAllUsuario, saveUsuario, updateUsuario, deleteUsuario, handleErrorMessage, startLoading } from "../slices/usuarioSlice";
+
+export const obtenerUsuarios = () => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.get<Marca[]>('/marca');
+            const { data } = await marbellaApi.get<Usuario[]>('/usuario');
             setTimeout(() => {
-                dispatch(getAllMarca(data))
-            }, 1500);
+                dispatch(getAllUsuario(data));
+            }, 1400)
         } catch (Error) {
             if (axios.isAxiosError(Error)) {
                 if (Error.code === "ERR_NETWORK") {
@@ -26,64 +27,62 @@ export const obtenerMarcas = () => {
     }
 }
 
-export const actualizarMarca = (id: number, marca: Marca) => {
+export const guardarUsuario = (usuario: Usuario) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.put<Marca>(`/marca/${id}`, marca);
-            dispatch(updateMarca(data));
+            const { data } = await marbellaApi.post<Usuario>('/usuario', usuario);
+            dispatch(saveUsuario(data));
         } catch (Error) {
             if (axios.isAxiosError(Error)) {
                 if (Error.code === "ERR_NETWORK") {
-                    dispatch(handleErrorMessage('El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde'));
+                    dispatch(handleErrorMessage("El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"));
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
                 }
             }
-            console.log('Error: ', Error);
+            console.log("Error: ", Error);
         }
     }
 }
 
-export const eliminarMarca = (id: number) => {
+export const actualizarUsuario = (idUsuario: number, usuario: Usuario) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            await marbellaApi.delete(`/marca/${id}`);
-            dispatch(deleteMarca(id));
+            const { data } = await marbellaApi.put<Usuario>(`/usuario/${idUsuario}`, usuario);
+            dispatch(updateUsuario(data));
         } catch (Error) {
             if (axios.isAxiosError(Error)) {
                 if (Error.code === "ERR_NETWORK") {
-                    dispatch(handleErrorMessage('El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde'));
+                    dispatch(handleErrorMessage("El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"));
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
                 }
             }
-            console.log('Error: ', Error);
+            console.log("Error: ", Error);
         }
     }
 }
 
-export const agregarMarca = (marca: Marca) => {
+export const eliminarUsuario = (idUsuario: number) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.post('marca', marca);
-            dispatch(saveMarca(data));
+            await marbellaApi.delete(`/usuario/${idUsuario}`);
+            dispatch(deleteUsuario(idUsuario));
         } catch (Error) {
             if (axios.isAxiosError(Error)) {
                 if (Error.code === "ERR_NETWORK") {
-                    dispatch(handleErrorMessage('El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde'));
+                    dispatch(handleErrorMessage("El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"));
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                    console.log('Error: ', Error);
                 }
             }
-
-
+            console.log("Error: ", Error);
         }
     }
 }
