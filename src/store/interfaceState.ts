@@ -5,18 +5,21 @@ import { Proveedor } from "../marbella/types/proveedor"
 import { Rol } from "../marbella/types/rol"
 import { Usuario } from "../marbella/types/Usuario"
 import { UnidadMedida } from '../marbella/types/unidadMedida';
+import { UserAuthenticate } from "./auth/userAuthenticate"
 
 
-export interface AuthState {
-    status: string
+export type AuthState = {
+    loading: boolean,
     authenticated: boolean,
-    user: Usuario
-    messageError: string
+    user: UserAuthenticate,
+    messageError: string,
+    operationState: string,
 }
 
 export type RolState = {
     roles: Rol[],
 }
+
 export type UnidadMedidaState = {
     unidadMedidas: UnidadMedida[]
 }

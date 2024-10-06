@@ -1,6 +1,5 @@
 
 import { configureStore } from "@reduxjs/toolkit"
-import { authSlice } from "./auth"
 import { marcaSlice } from "./slices/marcaSlice"
 import { categoriaSlice } from "./slices/categoriaSlice"
 import { productoSlice } from "./slices/productoSlice"
@@ -8,6 +7,7 @@ import { proveedorSlice } from "./slices/proveedorSlice"
 import { usuarioSlice } from "./slices/usuarioSlice"
 import { rolSlice } from "./slices/rolSlice"
 import { unidadMedidaSlice } from "./slices/unidadMediaSlice"
+import { authSlice } from "./auth/authSlice"
 
 export const store = configureStore(
     {

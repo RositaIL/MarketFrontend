@@ -1,8 +1,5 @@
 
 import axios from "axios";
-import { getEnvVariables } from "../helpers";
-
-const { API_URL } = getEnvVariables();
 
 export const marbellaApi = axios.create({
     baseURL: 'http://localhost:8081',

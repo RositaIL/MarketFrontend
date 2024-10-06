@@ -1,17 +1,17 @@
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/rootState";
-import { startLogout } from "../../store/thunks/thunkAuth";
+import { StoreDispatch } from "../../store/store";
 
 export const Profile = () => {
 
     const [isOpen, setIsOpen] = useState(false);
     const { user } = useSelector((state: RootState) => state.auth)
 
-    const dispatch: any = useDispatch();
+    const dispatch: StoreDispatch = useDispatch();
 
     const logout = () => {
-        dispatch(startLogout())
+        // dispatch(startLogout())
     }
 
     const handleProfile = () => {
