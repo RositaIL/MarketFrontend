@@ -9,6 +9,7 @@ import { ProveedorPage } from "../marbella/pages/proveedor/ProveedorPage";
 import { useEffect } from "react";
 import LoginPage from "../marbella/auth/signIn/LoginPage";
 import { useAuthStore } from "../marbella/hooks/useAuthStore";
+import { EntradaPage } from "../marbella/pages/movimiento/entrada/EntradaPage";
 
 export const AppRoute = () => {
 
@@ -27,6 +28,7 @@ export const AppRoute = () => {
           <Route path="/productos" element={<ProductoPage />} />
           <Route path="/usuario" element={<UsuarioPage />} />
           <Route path="/proveedor" element={<ProveedorPage />} />
+          <Route path="/entrada" element={<EntradaPage />} />
           <Route path="/*" element={<Navigate to={"/marca"} />} />
         </Route>
       </>

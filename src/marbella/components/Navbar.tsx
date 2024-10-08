@@ -40,6 +40,11 @@ export const Navbar = () => {
                 </NavLink>
             </li>
             <li className='max-lg:border-b max-lg:py-3 px-3'>
+                <NavLink to={'/entrada'} className='hover:text-[#007bff] text-[#007bff] block font-bold text-[15px]'>
+                    Entrada
+                </NavLink>
+            </li>
+            <li className='max-lg:border-b max-lg:py-3 px-3'>
                 <NavLink to={'/reportes'} className='hover:text-[#007bff] text-[#007bff] block font-bold text-[15px]'>
                     Reportes
                 </NavLink>

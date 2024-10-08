@@ -11,7 +11,7 @@ import { IoMdAdd } from "react-icons/io";
 import { Search } from "../../components/Search";
 import { StoreDispatch } from "../../../store/store";
 import { Formulario } from "../../components/Formulario";
-import { DropdownMenu } from "../../components/dropdownMenu";
+import { DropdownMenu } from "../../components/DropdownMenu";
 
 const initialMarca: Marca = {
   idMarca: -1,

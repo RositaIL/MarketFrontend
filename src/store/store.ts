@@ -8,6 +8,8 @@ import { usuarioSlice } from "./slices/usuarioSlice"
 import { rolSlice } from "./slices/rolSlice"
 import { unidadMedidaSlice } from "./slices/unidadMediaSlice"
 import { authSlice } from "./auth/authSlice"
+import { detalleEntradaSlice } from "./slices/detalleEntradaSlice"
+import { entradaProductoSlice } from "./slices/entradaProductoSlice"
 
 export const store = configureStore(
     {
@@ -20,6 +22,8 @@ export const store = configureStore(
             producto: productoSlice.reducer,
             proveedor: proveedorSlice.reducer,
             usuario: usuarioSlice.reducer,
+            entradaProducto: entradaProductoSlice.reducer,
+            detalleEntrada: detalleEntradaSlice.reducer,
         },
     }
 )

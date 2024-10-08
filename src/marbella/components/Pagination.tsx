@@ -61,14 +61,12 @@ export const Pagination: React.FC<PaginationProps> = ({ paginaActual, totalPagin
             );
         }
         buttons.push(
-            <button key="next" >
-                <button
-                    onClick={() => onPageChange(paginaActual + 1)}
-                    disabled={paginaActual === totalPagina - 1}
-                    key="next"
-                    className="flex items-center justify-center shrink-0 bg-gray-300 w-10 h-10 rounded-lg">
-                    <GrPrevious className="w-4 fill-gray-400 rotate-180" />
-                </button>
+            <button
+                onClick={() => onPageChange(paginaActual + 1)}
+                disabled={paginaActual === totalPagina - 1}
+                key="next"
+                className="flex items-center justify-center shrink-0 bg-gray-300 w-10 h-10 rounded-lg">
+                <GrPrevious className="w-4 fill-gray-400 rotate-180" />
             </button>
         );
 

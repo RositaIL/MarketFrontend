@@ -20,7 +20,6 @@ export const productoSlice = createSlice({
         startLoading: (state: ProductoState) => {
             state.loading = true;
         },
-
         clearOperationState: (state: ProductoState) => {
             state.operationState = "";
         },

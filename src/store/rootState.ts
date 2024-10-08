@@ -1,6 +1,9 @@
+
 import {
     AuthState,
     CategoriaState,
+    DetalleEntradaState,
+    EntradaProductoState,
     MarcaState,
     ProductoState,
     ProveedorState,
@@ -18,4 +21,6 @@ export type RootState = {
     usuario: UsuarioState;
     producto: ProductoState;
     proveedor: ProveedorState,
+    entradaProducto: EntradaProductoState,
+    detalleEntrada: DetalleEntradaState,
 }

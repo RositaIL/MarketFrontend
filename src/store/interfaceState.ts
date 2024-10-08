@@ -6,6 +6,7 @@ import { Rol } from "../marbella/types/rol"
 import { Usuario } from "../marbella/types/Usuario"
 import { UnidadMedida } from '../marbella/types/unidadMedida';
 import { UserAuthenticate } from "./auth/userAuthenticate"
+import { DetalleEntrada, EntradaProducto } from "../marbella/types/entrada"
 
 
 export type AuthState = {
@@ -55,6 +56,18 @@ export type ProductoState = {
 export type ProveedorState = {
     loading: boolean,
     proveedores: Proveedor[],
+    messageError: string,
+    operationState: string,
+}
+export type EntradaProductoState = {
+    loading: boolean,
+    entradaProductos: EntradaProducto[],
+    messageError: string,
+    operationState: string,
+}
+export type DetalleEntradaState = {
+    loading: boolean,
+    detalleEntradas: DetalleEntrada[],
     messageError: string,
     operationState: string,
 }
