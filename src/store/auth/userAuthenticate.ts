@@ -1,11 +1,9 @@
 
-
 export type UserAuthenticate = {
-    uid: string,
     accessToken: string,
-    name: string,
-    email: string,
+    exp: number;
+    iat: number;
+    rol: string;
+    sub: string;
     photoURL: string,
-    rol: string,
-
 }

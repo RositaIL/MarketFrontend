@@ -11,6 +11,7 @@ import { IoMdAdd } from "react-icons/io";
 import { Search } from "../../components/Search";
 import { StoreDispatch } from "../../../store/store";
 import { Formulario } from "../../components/Formulario";
+import { DropdownMenu } from "../../components/dropdownMenu";
 
 const initialMarca: Marca = {
   idMarca: -1,
@@ -25,7 +26,7 @@ export const MarcaLista = () => {
 
 
   const dispatch: StoreDispatch = useDispatch();
-  const { loading, marcas } = useSelector(
+  const { loading, marcas, pageSize } = useSelector(
     (state: RootState) => state.marca
   );
 
@@ -64,11 +65,14 @@ export const MarcaLista = () => {
     }
     closeModalEdit();
   }
-
   const deleteMarcaItem = () => {
     dispatch(eliminarMarca(marca.idMarca));
     closeModalDelete();
   };
+
+  const getMarcaWithLimit = (size: number) => {
+    dispatch(obtenerMarcas(0, size))
+  }
 
   const inicialValues: Marca = isEditMode ? marca : initialMarca;
 
@@ -84,6 +88,7 @@ export const MarcaLista = () => {
   useEffect(() => {
     dispatch(obtenerMarcas());
   }, []);
+
   return (
     <>
       <div className="container flex items-center justify-between p-4">
@@ -91,7 +96,10 @@ export const MarcaLista = () => {
           <IoMdAdd className="w-6 h-6" />
           Agregar nueva marca
         </Button>
-        <Search name={"marca"} hadleSearch={hadleSearch} />
+        <div className="flex items-center gap-9 ">
+          <DropdownMenu getDataWithLimit={getMarcaWithLimit} pageSize={pageSize} />
+          <Search name={"marca"} hadleSearch={hadleSearch} />
+        </div>
       </div>
       <table className="min-w-full bg-white">
         <thead className="bg-blue-200 whitespace-nowrap">

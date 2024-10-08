@@ -2,6 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Marca } from '../../marbella/types/marca';
 import { MarcaState } from "../interfaceState";
+import { PaginationResponse } from '../../marbella/types/paginationResponse';
 
 const initialMarca: Marca[] = [];
 
@@ -16,7 +17,10 @@ export const marcaSlice = createSlice(
             loading: false,
             marcas: initialMarca,
             messageError: '',
-            operationState: ''
+            operationState: '',
+            paginaActual: 0,
+            totalPagina: 0,
+            pageSize: 3
         },
         reducers: {
             startLoading: (state: MarcaState) => {
@@ -34,8 +38,11 @@ export const marcaSlice = createSlice(
             clearOperationState: (state: MarcaState) => {
                 state.operationState = '';
             },
-            getAllMarca: (state, { payload }: PayloadAction<Marca[]>) => {
-                state.marcas = payload;
+            getAllMarca: (state, { payload }: PayloadAction<PaginationResponse<Marca>>) => {
+                state.marcas = payload.content;
+                state.paginaActual = payload.pageable.pageNumber;
+                state.totalPagina = payload.totalPages;
+                state.pageSize = payload.pageable.pageSize;
                 state.loading = false;
                 state.messageError = '';
                 state.operationState = '';

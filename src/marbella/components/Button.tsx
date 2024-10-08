@@ -1,7 +1,7 @@
 import React from "react"
 
-interface ButtonProps {
-    onClick?: () => void;
+type ButtonProps = {
+    onClick: () => void;
     type?: "button" | "submit" | "reset" | undefined;
     children: React.ReactNode;
     text?: string;
@@ -25,7 +25,7 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
 
     const handleClick = () => {
-        onClick && onClick();
+        onClick();
     };
 
     return (

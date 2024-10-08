@@ -3,15 +3,16 @@ import { marbellaApi } from "../../api/marbellaApi";
 import { Marca } from "../../marbella/types/marca";
 import { StoreDispatch } from "../store";
 import { getAllMarca, saveMarca, updateMarca, deleteMarca, startLoading, handleErrorMessage, } from "../slices/marcaSlice"
+import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
-export const obtenerMarcas = () => {
+export const obtenerMarcas = (page: number = 0, size: number = 5) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.get<Marca[]>('/marca');
+            const { data } = await marbellaApi.get<PaginationResponse<Marca>>(`/marca/paginada?page=${page}&size=${size}`);
             setTimeout(() => {
                 dispatch(getAllMarca(data))
-            }, 1500);
+            }, 1000);
         } catch (Error) {
             if (axios.isAxiosError(Error)) {
                 if (Error.code === "ERR_NETWORK") {

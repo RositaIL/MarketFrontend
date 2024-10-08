@@ -66,7 +66,7 @@ export const Formulario = <T extends Record<string, unknown>>({
     <div
       className={`fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]`}
     >
-      <div className={`w-full max-w-${selects ? '4xl' : 'xl'} bg-white shadow-lg rounded-lg p-8 relative`}>
+      <div className={`w-full bg-white shadow-lg rounded-lg p-8 relative`} style={{ maxWidth: (selects ? 800 : 576) }}>
         < div className="flex items-center">
           <h3 className="text-blue-600 text-xl font-bold flex-1">
             {isEditMode ? "Editar" : "Agregar nuevo"} {nameForm}

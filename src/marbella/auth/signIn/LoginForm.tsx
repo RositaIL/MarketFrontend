@@ -27,15 +27,15 @@ export const LoginForm = () => {
     }
 
     const valuesForm = (values: Login) => {
-        startAuthenticate(values.username, values.password)
+        startAuthenticate(values);
     }
 
     const validateForm = (values: Login) => {
         const errors: Partial<Login> = {};
-        if (!values.username) {
+        if (!values.username.trim()) {
             errors.username = 'Por favor ingrese su usuario';
         }
-        if (!values.password) {
+        if (!values.password.trim()) {
             errors.password = 'Por favor ingrese su contraseña';
         }
         return errors;

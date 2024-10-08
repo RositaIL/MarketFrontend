@@ -6,12 +6,17 @@ import { ProductoPage } from "../marbella/pages/producto/ProductoPage";
 import { UsuarioPage } from "../marbella/pages/usuario/UsuarioPage";
 import { MarcaPage } from "../marbella/pages/marcas/MarcaPage";
 import { ProveedorPage } from "../marbella/pages/proveedor/ProveedorPage";
-import { useState } from "react";
+import { useEffect } from "react";
 import LoginPage from "../marbella/auth/signIn/LoginPage";
+import { useAuthStore } from "../marbella/hooks/useAuthStore";
 
 export const AppRoute = () => {
 
-  const [authenticated, setAuthenticate] = useState<boolean>(true);
+  const { authenticated, checkAuthToken } = useAuthStore();
+
+  useEffect(() => {
+    checkAuthToken();
+  }, [])
 
   return (
     <Routes>

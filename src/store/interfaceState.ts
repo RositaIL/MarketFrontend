@@ -29,6 +29,9 @@ export type MarcaState = {
     marcas: Marca[],
     messageError: string,
     operationState: string,
+    paginaActual: number,
+    totalPagina: number,
+    pageSize: number,
 }
 
 export type CategoriaState = {
