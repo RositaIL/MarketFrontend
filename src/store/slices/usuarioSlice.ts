@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Usuario } from '../../marbella/types/Usuario';
 import { UsuarioState } from '../interfaceState';
+import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
 const initialUsers: Usuario[] = []
 
@@ -15,6 +16,9 @@ export const usuarioSlice = createSlice({
         usuarios: initialUsers,
         messageError: '',
         operationState: '',
+        paginaActual: 0,
+        totalPagina: 0,
+        pageSize: 0,
     },
     reducers: {
         startLoading: (state: UsuarioState) => {
@@ -31,8 +35,11 @@ export const usuarioSlice = createSlice({
             state.operationState = '';
             state.loading = false;
         },
-        getAllUsuario: (state: UsuarioState, { payload }: PayloadAction<Usuario[]>) => {
-            state.usuarios = payload;
+        getAllUsuario: (state: UsuarioState, { payload }: PayloadAction<PaginationResponse<Usuario>>) => {
+            state.usuarios = payload.content;
+            state.totalPagina = payload.page.totalPages;
+            state.pageSize = payload.page.size;
+            state.paginaActual = payload.page.number;
             state.loading = false;
             state.messageError = '';
             state.operationState = '';

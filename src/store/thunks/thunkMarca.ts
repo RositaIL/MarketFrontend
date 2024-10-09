@@ -9,7 +9,7 @@ export const obtenerMarcas = (page: number = 0, size: number = 5) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.get<PaginationResponse<Marca>>(`/marca/paginada?page=${page}&size=${size}`);
+            const { data } = await marbellaApi.get<PaginationResponse<Marca>>(`/marca?page=${page}&size=${size}`);
             setTimeout(() => {
                 dispatch(getAllMarca(data))
             }, 1000);

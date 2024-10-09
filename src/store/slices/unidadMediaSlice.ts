@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UnidadMedida } from "../../marbella/types/unidadMedida";
 import { UnidadMedidaState } from "../interfaceState";
+import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
 const initialUnidadMedida: UnidadMedida[] = [];
 
@@ -14,8 +15,8 @@ export const unidadMedidaSlice = createSlice({
         unidadMedidas: initialUnidadMedida
     },
     reducers: {
-        getAllUnidadMedida: (state: UnidadMedidaState, { payload }: PayloadAction<UnidadMedida[]>) => {
-            state.unidadMedidas = payload;
+        getAllUnidadMedida: (state: UnidadMedidaState, { payload }: PayloadAction<PaginationResponse<UnidadMedida>>) => {
+            state.unidadMedidas = payload.content;
         }
     }
 })

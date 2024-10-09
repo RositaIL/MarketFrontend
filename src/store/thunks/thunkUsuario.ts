@@ -4,12 +4,13 @@ import axios from "axios";
 import { StoreDispatch } from "../store";
 import { Usuario } from "../../marbella/types/Usuario";
 import { getAllUsuario, saveUsuario, updateUsuario, deleteUsuario, handleErrorMessage, startLoading } from "../slices/usuarioSlice";
+import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
-export const obtenerUsuarios = () => {
+export const obtenerUsuarios = (page: number = 0, size: number = 3) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.get<Usuario[]>('/usuario');
+            const { data } = await marbellaApi.get<PaginationResponse<Usuario>>(`/usuario?page=${page}&size=${size}`);
             setTimeout(() => {
                 dispatch(getAllUsuario(data));
             }, 1400)

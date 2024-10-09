@@ -7,13 +7,19 @@ import { StoreDispatch } from "../../../../store/store";
 import { useEffect } from "react";
 import Swal from 'sweetalert2';
 import { clearHandleErrorMessage, clearOperationState } from "../../../../store/slices/salidaProductoSlice";
+import { Pagination } from "../../../components/Pagination";
+import { obtenerSalidaProductos } from "../../../../store/thunks/thunkSalidaProducto";
 
 
 
 export const SalidaPage = () => {
 
-    const { operationState, messageError } = useSelector((state: RootState) => state.salidaProducto);
+    const { operationState, pageSize, totalPagina, paginaActual, messageError } = useSelector((state: RootState) => state.salidaProducto);
     const dispatch: StoreDispatch = useDispatch();
+
+    const handlePageChange = (newPage: number) => {
+        dispatch(obtenerSalidaProductos(newPage, pageSize))
+    };
 
     useEffect(() => {
         if (messageError) {
@@ -40,14 +46,14 @@ export const SalidaPage = () => {
                 </div>
             )}
             <SalidaLista />
-            {/* <div className="md:flex m-4">
+            <div className="md:flex m-4">
                 <p className="text-sm text-gray-500 flex-1">Mostrando {paginaActual} a {pageSize} de {totalPagina} entradas</p>
                 <div className="flex items-center max-md:mt-4">
                     <ul className="flex space-x-4 justify-center">
                         <Pagination paginaActual={paginaActual} totalPagina={totalPagina} handlePageChange={handlePageChange} />
                     </ul>
                 </div>
-            </div> */}
+            </div>
         </div>
     )
 

@@ -41,30 +41,45 @@ export type CategoriaState = {
     categorias: Categoria[],
     messageError: string,
     operationState: string,
+    paginaActual: number,
+    totalPagina: number,
+    pageSize: number,
 }
 export type UsuarioState = {
     loading: boolean,
     usuarios: Usuario[],
     messageError: string,
     operationState: string,
+    paginaActual: number,
+    totalPagina: number,
+    pageSize: number,
 }
 export type ProductoState = {
     loading: boolean,
     productos: Producto[],
     messageError: string,
     operationState: string,
+    paginaActual: number,
+    totalPagina: number,
+    pageSize: number,
 }
 export type ProveedorState = {
     loading: boolean,
     proveedores: Proveedor[],
     messageError: string,
     operationState: string,
+    paginaActual: number,
+    totalPagina: number,
+    pageSize: number,
 }
 export type EntradaProductoState = {
     loading: boolean,
     entradaProductos: EntradaProducto[],
     messageError: string,
     operationState: string,
+    paginaActual: number,
+    totalPagina: number,
+    pageSize: number,
 }
 export type DetalleEntradaState = {
     loading: boolean,
@@ -77,6 +92,9 @@ export type SalidaProductoState = {
     salidaProductos: SalidaProducto[],
     messageError: string,
     operationState: string,
+    paginaActual: number,
+    totalPagina: number,
+    pageSize: number,
 }
 export type DetalleSalidaState = {
     loading: boolean,

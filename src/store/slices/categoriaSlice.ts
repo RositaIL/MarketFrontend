@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Categoria } from "../../marbella/types/categoria";
 import { CategoriaState } from "../interfaceState";
+import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
 const initialCategory: Categoria[] = [];
 
@@ -16,6 +17,9 @@ export const categoriaSlice = createSlice(
             categorias: initialCategory,
             messageError: '',
             operationState: '',
+            paginaActual: 0,
+            totalPagina: 0,
+            pageSize: 0,
         },
         reducers: {
             startLoading: (state: CategoriaState) => {
@@ -32,9 +36,12 @@ export const categoriaSlice = createSlice(
                 state.operationState = '';
                 state.loading = false;
             },
-            getAllCategory: (state: CategoriaState, { payload }: PayloadAction<Categoria[]>) => {
-                state.categorias = payload
+            getAllCategory: (state: CategoriaState, { payload }: PayloadAction<PaginationResponse<Categoria>>) => {
+                state.categorias = payload.content;
                 state.loading = false;
+                state.pageSize = payload.page.size;
+                state.paginaActual = payload.page.number;
+                state.totalPagina = payload.page.totalPages;
                 state.messageError = ''
                 state.operationState = '';
             },

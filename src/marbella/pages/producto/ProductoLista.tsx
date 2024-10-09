@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '../../components/Button';
 import { IoMdAdd } from 'react-icons/io';
 import { Search } from '../../components/Search';
@@ -17,6 +17,7 @@ import { Formulario } from '../../components/Formulario';
 import { UnidadMedida } from '../../types/unidadMedida';
 import { Marca } from '../../types/marca';
 import { Categoria } from '../../types/categoria';
+import { DropdownMenu } from '../../components/DropdownMenu';
 
 const initialProducto: Producto = {
     idPro: 0,
@@ -37,7 +38,7 @@ export const ProductoLista = () => {
     const [isOpenModalDelete, setIsOpenModalDelete] = useState<boolean>(false);
     const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
 
-    const { loading, productos } = useSelector((state: RootState) => state.producto);
+    const { loading, productos, pageSize } = useSelector((state: RootState) => state.producto);
     const { categorias } = useSelector((state: RootState) => state.categoria);
     const { marcas } = useSelector((state: RootState) => state.marca);
     const { unidadMedidas } = useSelector((state: RootState) => state.unidadMedida);
@@ -76,6 +77,16 @@ export const ProductoLista = () => {
 
     }
 
+    const getProductoWithLimit = (size: number) => {
+        dispatch(obtenerProductos(0, size));
+    }
+    useEffect(() => {
+        dispatch(obtenerProductos());
+        dispatch(obtenerUnidadMedida());
+        dispatch(obtenerMarcas());
+        dispatch(obtenerCategorias());
+    }, []);
+
     const inicialValues: Producto = isEditMode ? producto : initialProducto;
     const fields = [
         {
@@ -112,7 +123,7 @@ export const ProductoLista = () => {
     const selects = [
         {
             name: "idMedida",
-            options: unidadMedidas.map(({ idMedida, nombreMedida }: UnidadMedida) => {
+            options: unidadMedidas?.map(({ idMedida, nombreMedida }: UnidadMedida) => {
                 return {
                     value: idMedida,
                     label: nombreMedida,
@@ -138,12 +149,7 @@ export const ProductoLista = () => {
             })
         }
     ]
-    useEffect(() => {
-        dispatch(obtenerProductos());
-        dispatch(obtenerUnidadMedida());
-        dispatch(obtenerMarcas());
-        dispatch(obtenerCategorias());
-    }, [])
+
 
     return (
         <>
@@ -152,7 +158,10 @@ export const ProductoLista = () => {
                     <IoMdAdd className="w-6 h-6" />
                     Agregar nuevo producto
                 </Button>
-                <Search name={"marca"} hadleSearch={() => { }} />
+                <div className="flex items-center gap-9 ">
+                    <DropdownMenu getDataWithLimit={getProductoWithLimit} pageSize={pageSize} />
+                    <Search name={"marca"} hadleSearch={() => { }} />
+                </div>
             </div>
             <table className="min-w-full bg-white">
                 <thead className="bg-blue-200 whitespace-nowrap">

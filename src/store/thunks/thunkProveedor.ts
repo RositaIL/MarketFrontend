@@ -3,14 +3,15 @@ import axios from "axios";
 import { Proveedor } from "../../marbella/types/proveedor";
 import { StoreDispatch } from "../store";
 import { deleteProveedor, getAllProveedor, handleErrorMessage, saveProveedor, startLoading, updateProveedor } from "../slices/proveedorSlice";
+import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
 
 
-export const obtenerProveedores = () => {
+export const obtenerProveedores = (page: number = 0, size: number = 3) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.get<Proveedor[]>('/proveedor');
+            const { data } = await marbellaApi.get<PaginationResponse<Proveedor>>(`/proveedor?page=${page}&size=${size}`);
             setTimeout(() => {
                 dispatch(getAllProveedor(data));
             }, 1400);

@@ -5,12 +5,13 @@ import { StoreDispatch } from '../store';
 import { marbellaApi } from "../../api/marbellaApi"
 import { SalidaProducto } from "../../marbella/types/salida"
 import { updateAllDetalleSalida } from "../slices/detalleSalidaSlice";
+import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
-export const obtenerSalidaProductos = () => {
+export const obtenerSalidaProductos = (page: number = 0, size: number = 3) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.get<SalidaProducto[]>('/salida');
+            const { data } = await marbellaApi.get<PaginationResponse<SalidaProducto>>(`/salida?page=${page}&size=${size}`);
             dispatch(getAllSalidaProducto(data));
         } catch (Error) {
             if (axios.isAxiosError(Error)) {

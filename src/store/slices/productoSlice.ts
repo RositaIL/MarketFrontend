@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Producto } from "../../marbella/types/Producto";
 import { ProductoState } from "../interfaceState";
+import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
 const initialProduct: Producto[] = [];
 
@@ -15,6 +16,9 @@ export const productoSlice = createSlice({
         productos: initialProduct,
         messageError: "",
         operationState: "",
+        paginaActual: 0,
+        totalPagina: 0,
+        pageSize: 0,
     },
     reducers: {
         startLoading: (state: ProductoState) => {
@@ -31,9 +35,12 @@ export const productoSlice = createSlice({
             state.operationState = '';
             state.loading = false;
         },
-        getAllProducts: (state: ProductoState, { payload }: PayloadAction<Producto[]>
+        getAllProducts: (state: ProductoState, { payload }: PayloadAction<PaginationResponse<Producto>>
         ) => {
-            state.productos = payload;
+            state.productos = payload.content;
+            state.totalPagina = payload.page.totalPages;
+            state.paginaActual = payload.page.number;
+            state.pageSize = payload.page.size;
             state.loading = false;
             state.messageError = "";
             state.operationState = "";

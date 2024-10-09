@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Proveedor } from "../../marbella/types/proveedor";
 import { ProveedorState } from '../interfaceState';
+import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
 const initialProveedor: Proveedor[] = []
 
@@ -14,7 +15,10 @@ export const proveedorSlice = createSlice({
         proveedores: initialProveedor,
         loading: false,
         operationState: '',
-        messageError: ''
+        messageError: '',
+        paginaActual: 0,
+        totalPagina: 0,
+        pageSize: 0,
     },
     reducers: {
         startLoading: (state: ProveedorState) => {
@@ -32,8 +36,11 @@ export const proveedorSlice = createSlice({
             state.operationState = '';
             state.loading = false;
         },
-        getAllProveedor: (state: ProveedorState, { payload }: ActionPayload<Proveedor[]>) => {
-            state.proveedores = payload;
+        getAllProveedor: (state: ProveedorState, { payload }: ActionPayload<PaginationResponse<Proveedor>>) => {
+            state.proveedores = payload.content;
+            state.paginaActual = payload.page.number;
+            state.pageSize = payload.page.size;
+            state.totalPagina = payload.page.totalPages;
             state.loading = false;
             state.messageError = '';
             state.operationState = '';

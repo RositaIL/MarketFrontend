@@ -1,14 +1,21 @@
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../store/rootState'
 import { FaCircleCheck } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
 import { EntradaLista } from './EntradaLista';
+import { Pagination } from '../../../components/Pagination';
+import { StoreDispatch } from '../../../../store/store';
+import { obtenerEntradas } from '../../../../store/thunks/thunkEntradaProducto';
 
 export const EntradaPage = () => {
 
+    const dispatch: StoreDispatch = useDispatch();
+    const { operationState, pageSize, paginaActual, totalPagina } = useSelector((state: RootState) => state.entradaProducto);
 
-    const { operationState } = useSelector((state: RootState) => state.entradaProducto);
+    const handlePageChange = (newPage: number) => {
+        dispatch(obtenerEntradas(newPage, pageSize));
+    };
 
     return (
         <div className="font-sans overflow-x-auto">
@@ -20,14 +27,14 @@ export const EntradaPage = () => {
                 </div>
             )}
             <EntradaLista />
-            {/* <div className="md:flex m-4">
+            <div className="md:flex m-4">
                 <p className="text-sm text-gray-500 flex-1">Mostrando {paginaActual} a {pageSize} de {totalPagina} entradas</p>
                 <div className="flex items-center max-md:mt-4">
                     <ul className="flex space-x-4 justify-center">
                         <Pagination paginaActual={paginaActual} totalPagina={totalPagina} handlePageChange={handlePageChange} />
                     </ul>
                 </div>
-            </div> */}
+            </div>
         </div>
     )
 }

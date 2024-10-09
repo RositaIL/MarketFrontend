@@ -3,12 +3,13 @@ import axios from "axios";
 import { marbellaApi } from "../../api/marbellaApi";
 import { Producto } from "../../marbella/types/Producto";
 import { getAllProducts, startLoading, handleErrorMessage, updateProducto, saveProducto, deleteProducto } from "../slices/productoSlice"
+import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
-export const obtenerProductos = () => {
+export const obtenerProductos = (page: number = 0, size: number = 3) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.get<Producto[]>('/producto');
+            const { data } = await marbellaApi.get<PaginationResponse<Producto>>(`/producto?page=${page}&size=${size}`);
             setTimeout(() => {
                 dispatch(getAllProducts(data))
             }, 1400);

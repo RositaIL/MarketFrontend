@@ -17,10 +17,14 @@ export const SalidaLista = () => {
 
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
     const dispatch: StoreDispatch = useDispatch();
-    const { salidaProductos, loading } = useSelector((state: RootState) => state.salidaProducto);
+    const { salidaProductos, loading, pageSize } = useSelector((state: RootState) => state.salidaProducto);
 
     const openModalAdd = () => setIsOpenModal(true);
     const closeModal = () => setIsOpenModal(false);
+
+    const handleSalidaWithLimit = (size: number) => {
+        dispatch(obtenerSalidaProductos(0, size))
+    }
 
     useEffect(() => {
         dispatch(obtenerSalidaProductos());
@@ -34,7 +38,7 @@ export const SalidaLista = () => {
                     Agregar nueva salida
                 </Button>
                 <div className="flex items-center gap-9 ">
-                    <DropdownMenu getDataWithLimit={() => { }} pageSize={6} />
+                    <DropdownMenu getDataWithLimit={handleSalidaWithLimit} pageSize={pageSize} />
                     <Search name={"marca"} hadleSearch={() => { }} />
                 </div>
             </div>

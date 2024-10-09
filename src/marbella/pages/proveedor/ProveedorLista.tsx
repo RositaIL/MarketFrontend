@@ -11,6 +11,7 @@ import { Proveedor } from '../../types/proveedor';
 import { StoreDispatch } from '../../../store/store';
 import { actualizarProveedor, agregarProveedor, eliminarProveedor, obtenerProveedores } from '../../../store/thunks/thunkProveedor';
 import { Formulario } from '../../components/Formulario';
+import { DropdownMenu } from '../../components/DropdownMenu';
 
 const initialValuesProveedor: Proveedor = {
     idProveedor: -1,
@@ -31,7 +32,7 @@ export const ProveedorLista = () => {
 
     const dispatch: StoreDispatch = useDispatch();
 
-    const { proveedores, loading } = useSelector((state: RootState) => state.proveedor);
+    const { proveedores, loading, pageSize } = useSelector((state: RootState) => state.proveedor);
 
     const handleProveedor = (prov: Proveedor) => {
         setProveedor(prov);
@@ -64,7 +65,11 @@ export const ProveedorLista = () => {
             dispatch(agregarProveedor(values));
         }
         closeModalEdit()
-    }
+    };
+
+    const getProveedorWithLimit = (size: number) => {
+        dispatch(obtenerProveedores(0, size));
+    };
 
     const inicialValues: Proveedor = isEditMode ? proveedor : initialValuesProveedor;
     const fields = [
@@ -115,7 +120,10 @@ export const ProveedorLista = () => {
                     <IoMdAdd className="w-6 h-6" />
                     Agregar nuevo proveedor
                 </Button>
-                <Search name={"marca"} hadleSearch={() => { }} />
+                <div className="flex items-center gap-9 ">
+                    <DropdownMenu getDataWithLimit={getProveedorWithLimit} pageSize={pageSize} />
+                    <Search name={"marca"} hadleSearch={() => { }} />
+                </div>
             </div>
             <table className="min-w-full bg-white">
                 <thead className="bg-blue-200 whitespace-nowrap">

@@ -18,6 +18,7 @@ import {
 } from "../../../store/thunks/thunkUsuario";
 import { obtenerRoles } from "../../../store/thunks/thunkRol";
 import { Rol } from "../../types/rol";
+import { DropdownMenu } from "../../components/DropdownMenu";
 
 const initialUser: Usuario = {
   idUsuario: -1,
@@ -36,7 +37,7 @@ export const UsuarioLista = () => {
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
 
 
-  const { usuarios, loading } = useSelector(
+  const { usuarios, loading, pageSize } = useSelector(
     (state: RootState) => state.usuario
   );
 
@@ -115,6 +116,10 @@ export const UsuarioLista = () => {
     closeModalDelete();
   };
 
+  const getUsuarioWithLimit = (size: number) => {
+    dispatch(obtenerUsuarios(0, size));
+  };
+
   useEffect(() => {
     dispatch(obtenerUsuarios());
     dispatch(obtenerRoles());
@@ -126,7 +131,10 @@ export const UsuarioLista = () => {
           <IoMdAdd className="w-6 h-6" />
           Agregar nuevo usuario
         </Button>
-        <Search name={"marca"} hadleSearch={() => { }} />
+        <div className="flex items-center gap-9 ">
+          <DropdownMenu getDataWithLimit={getUsuarioWithLimit} pageSize={pageSize} />
+          <Search name={"marca"} hadleSearch={() => { }} />
+        </div>
       </div>
       <table className="min-w-full bg-white">
         <thead className="bg-blue-200 whitespace-nowrap">

@@ -10,12 +10,13 @@ import {
   updateCategory,
 } from "../slices/categoriaSlice";
 import { Categoria } from "../../marbella/types/categoria";
+import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
-export const obtenerCategorias = () => {
+export const obtenerCategorias = (page: number = 0, size: number = 5) => {
   return async (dispatch: StoreDispatch) => {
     dispatch(startLoading());
     try {
-      const { data } = await marbellaApi.get<Categoria[]>("/categoria");
+      const { data } = await marbellaApi.get<PaginationResponse<Categoria>>(`/categoria?page=${page}&size=${size}`);
       setTimeout(() => {
         dispatch(getAllCategory(data));
       }, 1500);

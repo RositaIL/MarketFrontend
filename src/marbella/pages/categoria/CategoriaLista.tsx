@@ -16,6 +16,7 @@ import { CategoriaItem } from "./CategoriaItem";
 import { Categoria } from "../../types/categoria";
 import { ModalDelete } from "../../components/ModalDelete";
 import { Formulario } from "../../components/Formulario";
+import { DropdownMenu } from "../../components/DropdownMenu";
 
 const inicialCategory = {
   idCategoria: -1,
@@ -30,7 +31,7 @@ export const CategoriaLista = () => {
 
   const dispatch: StoreDispatch = useDispatch();
 
-  const { categorias, loading } = useSelector(
+  const { categorias, loading, pageSize } = useSelector(
     (state: RootState) => state.categoria
   );
 
@@ -67,6 +68,10 @@ export const CategoriaLista = () => {
     closeModalEdit();
   };
 
+  const getCategoriaWithLimit = (size: number) => {
+    dispatch(obtenerCategorias(0, size));
+  };
+
   const fields = [
     {
       name: "nombreCategoria",
@@ -85,7 +90,10 @@ export const CategoriaLista = () => {
           <IoMdAdd className="w-6 h-6" />
           Agregar nueva categoria
         </Button>
-        <Search name={"marca"} hadleSearch={() => { }} />
+        <div className="flex items-center gap-9 ">
+          <DropdownMenu getDataWithLimit={getCategoriaWithLimit} pageSize={pageSize} />
+          <Search name={"marca"} hadleSearch={() => { }} />
+        </div>
       </div>
       <table className="min-w-full bg-white">
         <thead className="bg-blue-200 whitespace-nowrap">

@@ -18,7 +18,6 @@ export const MarcaPage = () => {
     const { operationState, messageError, paginaActual, totalPagina, pageSize } = useSelector((state: RootState) => state.marca);
 
     const handlePageChange = (siguientePagina: number) => {
-        console.log(siguientePagina);
         dispatch(obtenerMarcas(siguientePagina, pageSize))
     }
 

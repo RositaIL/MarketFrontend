@@ -142,7 +142,10 @@ export const Formulario = <T extends Record<string, unknown>>({
             >
               Cancelar
             </Button>
-            <Button type={"submit"}>
+            <Button
+              onClick={() => { }}
+              type={"submit"}
+            >
               {isEditMode ? "Editar" : "Agregar"} {nameForm}
             </Button>
           </div>

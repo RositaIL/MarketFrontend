@@ -4,13 +4,14 @@ import { startLoading, handleErrorMessage, saveEntradaProducto, getAllEntradaPro
 import { StoreDispatch } from "../store"
 import { EntradaProducto } from "../../marbella/types/entrada"
 import { updateAllDetalleEntrada } from "../slices/detalleEntradaSlice"
+import { PaginationResponse } from "../../marbella/types/paginationResponse"
 
 
-export const obtenerEntradas = () => {
+export const obtenerEntradas = (page: number = 0, size: number = 3) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.get<EntradaProducto[]>('/entrada');
+            const { data } = await marbellaApi.get<PaginationResponse<EntradaProducto>>(`/entrada?page=${page}&size=${size}`);
             dispatch(getAllEntradaProducto(data));
         } catch (Error) {
             if (axios.isAxiosError(Error)) {
