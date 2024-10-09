@@ -5,7 +5,7 @@ import Dropdown from "../../components/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/rootState";
 import { useEffect, useState } from "react";
-import { obtenerProductos } from "../../../store/thunks/thunkProducto";
+import { buscarPorIdProducto, obtenerProductos } from "../../../store/thunks/thunkProducto";
 import { StoreDispatch } from "../../../store/store";
 import { MdOutlineAddCircle } from "react-icons/md";
 import { DetalleTabla } from "./DetalleTabla";
@@ -15,6 +15,10 @@ import { agregarDetalleEntrada } from "../../../store/thunks/thunkDetalleEntrada
 import { guardarEntrada } from "../../../store/thunks/thunkEntradaProducto";
 import { obtenerProveedores } from "../../../store/thunks/thunkProveedor";
 import { IoClose } from "react-icons/io5";
+import Swal from 'sweetalert2';
+import { agregarDetalleSalida } from "../../../store/thunks/thunkDetalleSalida";
+import { DetalleSalida, SalidaProducto } from "../../types/salida";
+import { agregarSalidaProducto } from "../../../store/thunks/thunkSalidaProducto";
 
 const intialValuesEntrada: DetalleEntrada = {
     idProducto: 0,
@@ -23,10 +27,11 @@ const intialValuesEntrada: DetalleEntrada = {
 }
 
 type MovimientoModalProps = {
-    handleCloseModal: () => void;
+    handleCloseModal: () => void,
+    isIngreso: boolean
 }
 
-export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseModal }) => {
+export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseModal, isIngreso }) => {
 
     const [idProduct, setIdProduct] = useState<number>(0);
     const [idProveedor, setIdProveedor] = useState<number>(0);
@@ -35,6 +40,7 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
     const { productos } = useSelector((state: RootState) => state.producto);
     const { proveedores } = useSelector((state: RootState) => state.proveedor);
     const { detalleEntradas } = useSelector((state: RootState) => state.detalleEntrada);
+    const { detalleSalidas } = useSelector((state: RootState) => state.detalleSalida);
 
     const dispatch: StoreDispatch = useDispatch();
 
@@ -42,8 +48,12 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
     const proveedorSelected = (idProve: number) => setIdProveedor(idProve);
 
 
-    const registrarEntrada = () => {
-        if (idProveedor && idProveedor !== 0) {
+    const registrarEntradaOrSalida = () => {
+        if (isIngreso) {
+            if (!idProveedor || idProduct === 0) {
+                swalAlert(`Seleccione un proveedor para registrar la entrada`);
+                return;
+            }
             const entrada: EntradaProducto = {
                 idEntrada: 0,
                 fechaEntrada: fechaActual,
@@ -52,7 +62,15 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
                 detalleEntrada: detalleEntradas
             };
             dispatch(guardarEntrada(entrada));
-        };
+        } else {
+            const salida: SalidaProducto = {
+                idSalida: 0,
+                idUsuario: 1,
+                fechaSalida: fechaActual,
+                detalleSalida: detalleSalidas,
+            };
+            dispatch(agregarSalidaProducto(salida));
+        }
     };
 
 
@@ -61,8 +79,10 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
         if (!values.cantidad || parseInt(values.cantidad.toString()) < 1) {
             errors.cantidad = 'Este campo no puede estar vacio'
         }
-        if (!values.precio || parseInt(values.precio.toString()) < 1) {
-            errors.precio = 'Este campo no puede estar vacio'
+        if (isIngreso) {
+            if (!values.precio || parseInt(values.precio.toString()) < 1) {
+                errors.precio = 'Este campo no puede estar vacio'
+            }
         }
         if (!idProduct || parseInt(idProduct.toString()) === 0) {
             errors.idProducto = 'Este campo no puede estar vacio'
@@ -72,9 +92,26 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
 
     const formik = useFormik({
         initialValues: intialValuesEntrada,
-        onSubmit: (values: DetalleEntrada, { resetForm }) => {
-            dispatch(agregarDetalleEntrada({ ...values, idProducto: idProduct }));
-            resetForm();
+        onSubmit: (values, { resetForm }) => {
+            const cantidad = parseInt(values.cantidad.toString());
+            buscarPorIdProducto(idProduct)
+                .then((response) => {
+
+                    if (isIngreso) {
+                        dispatch(agregarDetalleEntrada({ ...values, idProducto: idProduct }));
+                    } else {
+                        if (cantidad > response!.stockActual) {
+                            swalAlert(`El producto no tiene estoy suficiente: Stock disponible ${response?.stockActual}`);
+                            return;
+                        }
+                        const detalleSalida: DetalleSalida = { ...values, idProducto: idProduct, idSalida: 0 };
+                        dispatch(agregarDetalleSalida(detalleSalida));
+                    }
+                    resetForm();
+                })
+                .catch(() => {
+                    swalAlert(`El producto con id: ${idProduct} no existe`);
+                })
         },
         validate: validaciondeForm
     });
@@ -91,6 +128,14 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
             description: pro.nombreProv,
         }
     })
+
+    const swalAlert = (texto: string) => {
+        Swal.fire({
+            text: texto,
+            width: '250px',
+            confirmButtonColor: '#007bff',
+        });
+    };
 
     useEffect(() => {
         dispatch(obtenerProductos());
@@ -110,7 +155,7 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
                 <form onSubmit={formik.handleSubmit}
                     className="font-[sans-serif] text-[#333] max-w-4xl mx-auto px-6 my-6">
                     <div className="grid sm:grid-cols-2 gap-x-10 gap-y-4">
-                        <div className="col-span-full flex justify-between flex-wrap">
+                        <div className={`col-span-full flex justify-between flex-wrap gap`}>
                             <div className="relative flex items-center">
                                 <label className="text-[#007bff] absolute top-[-10px] left-0 font-bold">Fecha</label>
                                 <input
@@ -121,50 +166,72 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
                                     className="px-2 pt-5 pb-2 bg-white w-full text-sm border-b-2 border-gray-100 focus:border-[#007bff] outline-none" />
                                 <BsCalendarDateFill className="w-[18px] h-[18px] absolute right-2 text-[#007bff]" />
                             </div>
+                            {isIngreso && (
+                                <div className="relative flex items-center">
+                                    <label className="text-[#007bff] absolute top-[-10px] left-0 font-bold">Proveedor</label>
+                                    <Dropdown options={optionsProveedors} optionSelected={proveedorSelected} />
+                                </div>
 
-                            <div className="relative flex items-center">
-                                <label className="text-[#007bff] absolute top-[-10px] left-0 font-bold">Proveedor</label>
-                                <Dropdown options={optionsProveedors} optionSelected={proveedorSelected} />
-                            </div>
-
+                            )}
                             <div className="relative flex items-center">
                                 <label className={`text-${formik.touched.idProducto && formik.errors.idProducto ? 'red-500' : '[#007bff]'} absolute top-[-10px] left-0 font-bold`}>Producto</label>
                                 <Dropdown options={optionsProducts} optionSelected={productSelected} />
                             </div>
+                            {!isIngreso && (
+                                <div className="relative flex items-center">
+                                    <label
+                                        className={`text-${formik.touched.cantidad && formik.errors.cantidad ? 'red-500' : '[#007bff]'} absolute top-[-10px] left-0 font-bold`}>
+                                        Cantidad
+                                    </label>
+                                    <input
+                                        value={formik.values.cantidad}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        name="cantidad"
+                                        type="number"
+                                        placeholder="Cantidad..."
+                                        className="px-2 no-spinners appearance-none pt-5 pb-2 bg-white w-full text-sm border-b-2 border-gray-100 focus:border-[#007bff] outline-none" />
+                                    <FaSortAmountUpAlt className="w-[18px] h-[18px] absolute right-2 text-[#007bff]" />
+                                </div>
+                            )}
                         </div>
 
-                        <div className="col-span-full flex justify-between flex-wrap">
-                            <div className="relative flex items-center">
-                                <label
-                                    className={`text-${formik.touched.cantidad && formik.errors.cantidad ? 'red-500' : '[#007bff]'} absolute top-[-10px] left-0 font-bold`}>
-                                    Cantidad
-                                </label>
-                                <input
-                                    value={formik.values.cantidad}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    name="cantidad"
-                                    type="number"
-                                    placeholder="Cantidad..."
-                                    className="px-2 no-spinners appearance-none pt-5 pb-2 bg-white w-full text-sm border-b-2 border-gray-100 focus:border-[#007bff] outline-none" />
-                                <FaSortAmountUpAlt className="w-[18px] h-[18px] absolute right-2 text-[#007bff]" />
-                            </div>
+                        <div className={`col-span-full flex justify-${isIngreso ? 'between' : 'end'} flex-wrap`}>
+                            {isIngreso && (
+                                <div className="relative flex items-center">
+                                    <label
+                                        className={`text-${formik.touched.cantidad && formik.errors.cantidad ? 'red-500' : '[#007bff]'} absolute top-[-10px] left-0 font-bold`}>
+                                        Cantidad
+                                    </label>
+                                    <input
+                                        value={formik.values.cantidad}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        name="cantidad"
+                                        type="number"
+                                        placeholder="Cantidad..."
+                                        className="px-2 no-spinners appearance-none pt-5 pb-2 bg-white w-full text-sm border-b-2 border-gray-100 focus:border-[#007bff] outline-none" />
+                                    <FaSortAmountUpAlt className="w-[18px] h-[18px] absolute right-2 text-[#007bff]" />
+                                </div>
+                            )}
 
-                            <div className="relative flex items-center">
-                                <label
-                                    className={`text-${formik.touched.precio && formik.errors.precio ? 'red-500' : '[#007bff]'} absolute top-[-10px] left-0 font-bold`}>
-                                    Precio
-                                </label>
-                                <input
-                                    value={formik.values.precio}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    name="precio"
-                                    type="number"
-                                    placeholder="Precio..."
-                                    className="px-2 no-spinners appearance-none pt-5 pb-2 bg-white w-full text-sm border-b-2 border-gray-100 focus:border-[#007bff] outline-none" />
-                                <BiSolidDollarCircle className="w-6 h-6 absolute right-2 text-[#007bff]" />
-                            </div>
+                            {isIngreso && (
+                                <div className="relative flex items-center">
+                                    <label
+                                        className={`text-${formik.touched.precio && formik.errors.precio ? 'red-500' : '[#007bff]'} absolute top-[-10px] left-0 font-bold`}>
+                                        Precio
+                                    </label>
+                                    <input
+                                        value={formik.values.precio}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        name="precio"
+                                        type="number"
+                                        placeholder="Precio..."
+                                        className="px-2 no-spinners appearance-none pt-5 pb-2 bg-white w-full text-sm border-b-2 border-gray-100 focus:border-[#007bff] outline-none" />
+                                    <BiSolidDollarCircle className="w-6 h-6 absolute right-2 text-[#007bff]" />
+                                </div>
+                            )}
                             <div className="relative flex items-center">
                                 <button
                                     type="submit"
@@ -178,9 +245,9 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
                             </div>
                         </div>
                     </div>
-                    <DetalleTabla />
+                    <DetalleTabla isIngreso={isIngreso} detalleLista={isIngreso ? detalleEntradas as [] : detalleSalidas as []} />
                     <button
-                        onClick={registrarEntrada}
+                        onClick={registrarEntradaOrSalida}
                         type="button"
                         className="mt-10 px-2 py-2.5 w-full rounded-sm text-sm bg-[#333] hover:bg-[#222] text-white">Registrar la Entrada </button>
                 </form>

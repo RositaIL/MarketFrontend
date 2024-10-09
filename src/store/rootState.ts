@@ -3,11 +3,13 @@ import {
     AuthState,
     CategoriaState,
     DetalleEntradaState,
+    DetalleSalidaState,
     EntradaProductoState,
     MarcaState,
     ProductoState,
     ProveedorState,
     RolState,
+    SalidaProductoState,
     UnidadMedidaState,
     UsuarioState,
 } from "./interfaceState";
@@ -23,4 +25,6 @@ export type RootState = {
     proveedor: ProveedorState,
     entradaProducto: EntradaProductoState,
     detalleEntrada: DetalleEntradaState,
+    salidaProducto: SalidaProductoState,
+    detalleSalida: DetalleSalidaState,
 }

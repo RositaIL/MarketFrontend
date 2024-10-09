@@ -84,4 +84,13 @@ export const eliminarProducto = (idProducto: number) => {
             console.log("Error: ", Error);
         }
     }
-} 
+}
+
+export const buscarPorIdProducto = async (idProducto: number) => {
+    try {
+        const { data } = await marbellaApi.get<Producto>(`/producto/${idProducto}`);
+        return data;
+    } catch (Error) {
+        console.log("Error: ", Error);
+    }
+}
