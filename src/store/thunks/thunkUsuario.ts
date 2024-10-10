@@ -32,8 +32,8 @@ export const guardarUsuario = (usuario: Usuario) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.post<Usuario>('/usuario', usuario);
-            dispatch(saveUsuario(data));
+            await marbellaApi.post<Usuario>('/usuario', usuario);
+            dispatch(saveUsuario());
         } catch (Error) {
             if (axios.isAxiosError(Error)) {
                 if (Error.code === "ERR_NETWORK") {

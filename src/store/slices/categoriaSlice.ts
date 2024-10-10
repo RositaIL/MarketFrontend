@@ -45,8 +45,8 @@ export const categoriaSlice = createSlice(
                 state.messageError = ''
                 state.operationState = '';
             },
-            saveCategory: (state: CategoriaState, { payload }: PayloadAction<Categoria>) => {
-                state.categorias = [payload, ...state.categorias];
+            saveCategory: (state: CategoriaState) => {
+                state.categorias = [...state.categorias];
                 state.messageError = '';
                 state.loading = false;
                 state.operationState = 'Agregado';

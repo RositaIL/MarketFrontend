@@ -14,7 +14,7 @@ type DetalleSalidaProps = {
 export const DetalleTabla: React.FC<DetalleSalidaProps> = ({ detalleLista, isIngreso }) => {
 
     const dispatch: StoreDispatch = useDispatch();
-    const { productos } = useSelector((state: RootState) => state.producto);
+    const { productos } = useSelector((state: RootState) => state.dataSinPaginacion);
 
     useEffect(() => {
         dispatch(obtenerProductos())

@@ -83,8 +83,6 @@ export const agregarMarca = (marca: Marca) => {
                     console.log('Error: ', Error);
                 }
             }
-
-
         }
     }
 }

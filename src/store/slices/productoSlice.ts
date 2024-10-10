@@ -46,8 +46,8 @@ export const productoSlice = createSlice({
             state.operationState = "";
         },
 
-        saveProducto: (state: ProductoState, { payload }: PayloadAction<Producto>) => {
-            state.productos = [...state.productos, payload];
+        saveProducto: (state: ProductoState,) => {
+            state.productos = [...state.productos];
             state.loading = false;
             state.messageError = "";
             state.operationState = "Agregado";

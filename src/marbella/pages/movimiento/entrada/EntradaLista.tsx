@@ -11,21 +11,35 @@ import { EntradaProducto } from '../../../types/entrada';
 import { useEffect, useState } from 'react';
 import { MovimientoModal } from '../MoviminetoModal';
 import { StoreDispatch } from '../../../../store/store';
-import { obtenerEntradas } from '../../../../store/thunks/thunkEntradaProducto';
+import { eliminarEntrada, obtenerEntradas } from '../../../../store/thunks/thunkEntradaProducto';
+import { ModalDelete } from '../../../components/ModalDelete';
 
 export const EntradaLista = () => {
 
     const [isOpenMOdal, setIsOpenModal] = useState<boolean>(false);
+    const [isOpenModalDelete, setIsOpenModalDelete] = useState<boolean>(false);
+    const [idEntrada, setIdEntrada] = useState<number>(0);
     // const [isIngreso, setIngreso] = useState<boolean>(true);
     const dispatch: StoreDispatch = useDispatch();
     const openModalAdd = () => setIsOpenModal(true);
+    const closeModalDelete = () => setIsOpenModalDelete(false);
 
     const { entradaProductos, loading } = useSelector((state: RootState) => state.entradaProducto);
     const closeModal = () => setIsOpenModal(false);
+    const handleIdEntrada = (idEntra: number) => {
+        setIdEntrada(idEntra);
+        setIsOpenModalDelete(true);
+    };
+
+    const eliminarItem = () => {
+        dispatch(eliminarEntrada(idEntrada));
+        closeModalDelete();
+    };
 
     useEffect(() => {
         dispatch(obtenerEntradas());
     }, [])
+
     return (
         <>
             <div className="container flex items-center justify-between p-4">
@@ -50,6 +64,9 @@ export const EntradaLista = () => {
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
                             PROVEEDOR
                         </th>
+                        <th className="p-4 text-center text-xs font-bold text-gray-700">
+                            ACCIONES
+                        </th>
                     </tr>
                 </thead>
                 <tbody className="whitespace-nowrap">
@@ -64,6 +81,7 @@ export const EntradaLista = () => {
                             <EntradaItem
                                 key={entrada.idEntrada}
                                 entrada={entrada}
+                                eliminarItem={handleIdEntrada}
                             />
                         );
                     }))}
@@ -75,6 +93,12 @@ export const EntradaLista = () => {
                     isIngreso={true}
                 />
             }
+            {isOpenModalDelete && (
+                <ModalDelete
+                    handleDeleteItem={eliminarItem}
+                    closeModalDetele={closeModalDelete}
+                />
+            )}
         </>
     )
 }

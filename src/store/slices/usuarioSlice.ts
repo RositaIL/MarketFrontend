@@ -44,8 +44,8 @@ export const usuarioSlice = createSlice({
             state.messageError = '';
             state.operationState = '';
         },
-        saveUsuario: (state: UsuarioState, { payload }: PayloadAction<Usuario>) => {
-            state.usuarios = [...state.usuarios, payload];
+        saveUsuario: (state: UsuarioState) => {
+            state.usuarios = [...state.usuarios];
             state.loading = false;
             state.messageError = '';
             state.operationState = 'Agregado';

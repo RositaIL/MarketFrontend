@@ -12,12 +12,14 @@ import { detalleEntradaSlice } from "./slices/detalleEntradaSlice"
 import { entradaProductoSlice } from "./slices/entradaProductoSlice"
 import { salidaProductoSlice } from "./slices/salidaProductoSlice"
 import { detalleSalidaSlice } from "./slices/detalleSalidaSlice"
+import { dataSinPaginacionSlice } from "./slices/dataSinPaginacionSlice"
 
 export const store = configureStore(
     {
         reducer: {
             auth: authSlice.reducer,
             rol: rolSlice.reducer,
+            dataSinPaginacion: dataSinPaginacionSlice.reducer,
             unidadMedida: unidadMedidaSlice.reducer,
             marca: marcaSlice.reducer,
             categoria: categoriaSlice.reducer,

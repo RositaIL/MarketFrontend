@@ -29,7 +29,12 @@ export const detalleSalidaSlice = createSlice({
             state.operationState = '';
         },
         saveDetalleSalida: (state: DetalleSalidaState, { payload }: PayloadAction<DetalleSalida>) => {
-            state.detalleSalidas = [...state.detalleSalidas, payload];
+            const index = state.detalleSalidas.findIndex(detalle => detalle.idProducto === payload.idProducto);
+            if (index !== -1) {
+                const detalle = state.detalleSalidas[index];
+                state.detalleSalidas[index] = { ...detalle, cantidad: (detalle.cantidad as number) + (payload.cantidad as number) }
+            } else state.detalleSalidas = [...state.detalleSalidas, payload];
+
             state.loading = false;
             state.messageError = '';
             state.operationState = 'Añadido';

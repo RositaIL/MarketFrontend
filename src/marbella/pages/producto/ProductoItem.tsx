@@ -13,9 +13,7 @@ type ProductoItemsProps = {
 
 export const ProductoItem: React.FC<ProductoItemsProps> = ({ producto, handleproducto, openModalDelete }) => {
 
-    const { unidadMedidas } = useSelector((state: RootState) => state.unidadMedida);
-    const { marcas } = useSelector((state: RootState) => state.marca);
-    const { categorias } = useSelector((state: RootState) => state.categoria);
+    const { marcas, categorias, unidadMedidas } = useSelector((state: RootState) => state.dataSinPaginacion);
 
     const hanldeUpdateProducto = () => {
         handleproducto(producto);

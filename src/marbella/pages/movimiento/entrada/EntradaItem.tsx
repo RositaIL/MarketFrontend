@@ -1,27 +1,43 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { EntradaProducto } from '../../../types/entrada'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../../../store/rootState'
+import { RiDeleteBin5Line } from 'react-icons/ri'
+import { StoreDispatch } from '../../../../store/store'
+import { listarProveedorSinPaginada, listarUsuarioSinPaginada } from '../../../../store/thunks/thunkDataSinPaginacion'
 
 type EntradaItemProps = {
-    entrada: EntradaProducto
+    entrada: EntradaProducto,
+    eliminarItem: (id: number) => void;
 }
 
-export const EntradaItem: React.FC<EntradaItemProps> = ({ entrada }) => {
+export const EntradaItem: React.FC<EntradaItemProps> = ({ entrada, eliminarItem }) => {
+
+    const { proveedores, usuarios } = useSelector((state: RootState) => state.dataSinPaginacion);
+    const dispatch: StoreDispatch = useDispatch();
+
+    const handleRemoveEntrada = () => {
+        eliminarItem(entrada.idEntrada);
+    };
+    useEffect(() => {
+        dispatch(listarUsuarioSinPaginada());
+        dispatch(listarProveedorSinPaginada());
+    }, [])
     return (
         <tr className="hover:bg-gray-50">
             <td className="p-4 text-center text-gray-600">
                 {entrada.fechaEntrada}
             </td>
             <td className="p-4 text-center text-gray-600">
-                {entrada.idUsuario}
+                {usuarios.find(user => user.idUsuario === entrada.idUsuario)?.nombresApellidosUsu}
             </td>
             <td className="p-4 text-center">
-                {entrada.idProveedor}
-                {/* <button onClick={handleUpdateMarca} className="mr-4" title="Editar">
-                    <FiEdit className="w-6 h-6 text-blue-400 hover:text-blue-600" />
-                </button>
+                {proveedores.find(proveedor => proveedor.idProveedor === entrada.idProveedor)?.nombreProv}
+            </td>
+            <td className="p-4 text-center text-gray-600">
                 <button className="mr-4" title="Eliminar">
-                    <RiDeleteBin5Line onClick={handleRemoveMarca} className="w-6 h-6 text-red-500 hover:text-red-700" />
-                </button> */}
+                    <RiDeleteBin5Line onClick={handleRemoveEntrada} className="w-6 h-6 text-red-500 hover:text-red-700" />
+                </button>
             </td>
         </tr>
     )

@@ -46,16 +46,13 @@ export const SalidaLista = () => {
                 <thead className="bg-blue-200 whitespace-nowrap">
                     <tr>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
-                            PRODUCTO
+                            ID
                         </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
-                            DESCRIPCION
+                            FECHA SALIDA
                         </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
-                            CANTIDAD
-                        </th>
-                        <th className="p-4 text-center text-xs font-bold text-gray-700">
-                            PRECIO
+                            USUARIO
                         </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
                             ACCIONES

@@ -7,15 +7,33 @@ import { EntradaLista } from './EntradaLista';
 import { Pagination } from '../../../components/Pagination';
 import { StoreDispatch } from '../../../../store/store';
 import { obtenerEntradas } from '../../../../store/thunks/thunkEntradaProducto';
+import { useEffect } from 'react';
+import Swal from 'sweetalert2';
+import { clearHandleErrorMessage, clearOperationState } from '../../../../store/slices/entradaProductoSlice';
 
 export const EntradaPage = () => {
 
     const dispatch: StoreDispatch = useDispatch();
-    const { operationState, pageSize, paginaActual, totalPagina } = useSelector((state: RootState) => state.entradaProducto);
+    const { operationState, pageSize, paginaActual, totalPagina, messageError } = useSelector((state: RootState) => state.entradaProducto);
 
     const handlePageChange = (newPage: number) => {
         dispatch(obtenerEntradas(newPage, pageSize));
     };
+
+    useEffect(() => {
+        if (messageError) {
+            Swal.fire("Error", messageError, "error");
+            dispatch(clearHandleErrorMessage());
+        }
+    }, [messageError]);
+
+    useEffect(() => {
+        if (operationState) {
+            setTimeout(() => {
+                dispatch(clearOperationState())
+            }, 1500);
+        }
+    }, [operationState])
 
     return (
         <div className="font-sans overflow-x-auto">

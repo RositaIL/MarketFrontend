@@ -22,7 +22,7 @@ export const MarcaItem: React.FC<MarcaItemProps> = ({ marca, actualizarMarca, op
     return (
         <tr className="hover:bg-gray-50">
             <td className="p-4 text-center text-gray-600">
-                1
+                {marca.idMarca}
             </td>
             <td className="p-4 text-center text-gray-600">
                 {marca.nombreMarca}

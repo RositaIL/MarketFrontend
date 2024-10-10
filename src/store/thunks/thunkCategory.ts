@@ -38,11 +38,8 @@ export const agregarCatergoria = (categoria: Categoria) => {
   return async (dispatch: StoreDispatch) => {
     dispatch(startLoading());
     try {
-      const { data } = await marbellaApi.post<Categoria>(
-        "/categoria",
-        categoria
-      );
-      dispatch(saveCategory(data));
+      await marbellaApi.post<Categoria>("/categoria", categoria);
+      dispatch(saveCategory());
     } catch (Error) {
       if (axios.isAxiosError(Error)) {
         if (Error.code === "ERR_NETWORK") {

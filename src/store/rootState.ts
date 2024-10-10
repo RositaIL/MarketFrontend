@@ -2,6 +2,7 @@
 import {
     AuthState,
     CategoriaState,
+    DataSinPagincionState,
     DetalleEntradaState,
     DetalleSalidaState,
     EntradaProductoState,
@@ -17,6 +18,7 @@ import {
 export type RootState = {
     auth: AuthState;
     rol: RolState;
+    dataSinPaginacion: DataSinPagincionState;
     unidadMedida: UnidadMedidaState;
     marca: MarcaState;
     categoria: CategoriaState;

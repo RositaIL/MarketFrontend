@@ -32,8 +32,8 @@ export const agregarProducto = (producto: Producto) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.post<Producto>('/producto', producto);
-            dispatch(saveProducto(data));
+            await marbellaApi.post<Producto>('/producto', producto);
+            dispatch(saveProducto());
         } catch (Error) {
             if (axios.isAxiosError(Error)) {
                 if (Error.code === "ERR_NETWORK") {

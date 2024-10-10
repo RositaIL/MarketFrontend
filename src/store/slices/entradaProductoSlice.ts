@@ -49,8 +49,17 @@ export const entradaProductoSlice = createSlice({
             state.loading = false;
             state.messageError = '';
             state.operationState = 'Añadido';
+        },
+        deleteEntradaProducto: (state: EntradaProductoState, { payload }: PayloadAction<number>) => {
+            const index = state.entradaProductos.findIndex(entrada => entrada.idEntrada === payload);
+            if (index !== -1) {
+                state.entradaProductos = state.entradaProductos.filter(entrada => entrada.idEntrada !== payload);
+                state.loading = false;
+                state.messageError = '';
+                state.operationState = 'Eliminado';
+            }
         }
     }
 });
 
-export const { getAllEntradaProducto, saveEntradaProducto, startLoading, clearHandleErrorMessage, clearOperationState, handleErrorMessage } = entradaProductoSlice.actions;
+export const { getAllEntradaProducto, saveEntradaProducto, deleteEntradaProducto, startLoading, clearHandleErrorMessage, clearOperationState, handleErrorMessage } = entradaProductoSlice.actions;

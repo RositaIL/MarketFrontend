@@ -3,6 +3,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { GrClose } from "react-icons/gr";
 import { Navbar } from "./Navbar";
 import { Profile } from "./Profile";
+import logoHeader from '../../data/logoHeader.jpg'
 
 export const Header = () => {
 
@@ -21,12 +22,12 @@ export const Header = () => {
     return (
         <header className='shadow-md font-sans tracking-wide relative z-50'>
             <section className='py-2 bg-[#007bff] text-white text-right px-10'>
-                <p className='text-sm'><strong className="mx-3">Address:</strong>SWF New York 185669<strong className="mx-3">Contact
-                    No:</strong>1800333665</p>
+                <p className='text-sm'><strong className="mx-3">Dirección:</strong>Lima-Perú 185669<strong className="mx-3">Contacto
+                    N°:</strong>1800333665</p>
             </section>
 
             <div className='flex flex-wrap items-center justify-between gap-4 px-10 py-4 bg-white min-h-[70px]'>
-                <a href="/"><img src="https://readymadeui.com/readymadeui.svg" alt="logo" className='w-36' />
+                <a href="/"><img src={logoHeader} alt="logo" className='w-36' />
                 </a>
 
                 <div id="collapseMenu"

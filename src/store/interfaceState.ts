@@ -17,6 +17,14 @@ export type AuthState = {
     messageError: string,
     operationState: string,
 }
+export type DataSinPagincionState = {
+    marcas: Marca[];
+    categorias: Categoria[];
+    usuarios: Usuario[];
+    proveedores: Proveedor[];
+    productos: Producto[];
+    unidadMedidas: UnidadMedida[];
+}
 
 export type RolState = {
     roles: Rol[],

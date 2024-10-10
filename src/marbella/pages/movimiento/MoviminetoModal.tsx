@@ -5,7 +5,7 @@ import Dropdown from "../../components/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/rootState";
 import { useEffect, useState } from "react";
-import { buscarPorIdProducto, obtenerProductos } from "../../../store/thunks/thunkProducto";
+import { buscarPorIdProducto } from "../../../store/thunks/thunkProducto";
 import { StoreDispatch } from "../../../store/store";
 import { MdOutlineAddCircle } from "react-icons/md";
 import { DetalleTabla } from "./DetalleTabla";
@@ -13,12 +13,12 @@ import { useFormik } from "formik";
 import { DetalleEntrada, EntradaProducto } from "../../types/entrada";
 import { agregarDetalleEntrada } from "../../../store/thunks/thunkDetalleEntrada";
 import { guardarEntrada } from "../../../store/thunks/thunkEntradaProducto";
-import { obtenerProveedores } from "../../../store/thunks/thunkProveedor";
 import { IoClose } from "react-icons/io5";
 import Swal from 'sweetalert2';
 import { agregarDetalleSalida } from "../../../store/thunks/thunkDetalleSalida";
 import { DetalleSalida, SalidaProducto } from "../../types/salida";
 import { agregarSalidaProducto } from "../../../store/thunks/thunkSalidaProducto";
+import { listarProductoSinPaginada, listarProveedorSinPaginada } from "../../../store/thunks/thunkDataSinPaginacion";
 
 const intialValuesEntrada: DetalleEntrada = {
     idProducto: 0,
@@ -37,10 +37,10 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
     const [idProveedor, setIdProveedor] = useState<number>(0);
     // const fechaActual = new Date().toLocaleDateString('es-ES');
     const fechaActual = new Date().toISOString().split('T')[0];
-    const { productos } = useSelector((state: RootState) => state.producto);
-    const { proveedores } = useSelector((state: RootState) => state.proveedor);
+    const { productos, proveedores } = useSelector((state: RootState) => state.dataSinPaginacion);
     const { detalleEntradas } = useSelector((state: RootState) => state.detalleEntrada);
     const { detalleSalidas } = useSelector((state: RootState) => state.detalleSalida);
+    const { user } = useSelector((state: RootState) => state.auth);
 
     const dispatch: StoreDispatch = useDispatch();
 
@@ -50,7 +50,7 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
 
     const registrarEntradaOrSalida = () => {
         if (isIngreso) {
-            if (!idProveedor || idProduct === 0) {
+            if (!idProveedor || idProveedor === 0) {
                 swalAlert(`Seleccione un proveedor para registrar la entrada`);
                 return;
             }
@@ -58,18 +58,20 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
                 idEntrada: 0,
                 fechaEntrada: fechaActual,
                 idProveedor: idProveedor,
-                idUsuario: 1,
+                idUsuario: user.userID!,
                 detalleEntrada: detalleEntradas
             };
             dispatch(guardarEntrada(entrada));
+            handleCloseModal();
         } else {
             const salida: SalidaProducto = {
                 idSalida: 0,
-                idUsuario: 1,
+                idUsuario: user.userID!,
                 fechaSalida: fechaActual,
                 detalleSalida: detalleSalidas,
             };
             dispatch(agregarSalidaProducto(salida));
+            handleCloseModal();
         }
     };
 
@@ -100,10 +102,22 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
                     if (isIngreso) {
                         dispatch(agregarDetalleEntrada({ ...values, idProducto: idProduct }));
                     } else {
-                        if (cantidad > response!.stockActual) {
-                            swalAlert(`El producto no tiene estoy suficiente: Stock disponible ${response?.stockActual}`);
-                            return;
-                        }
+                        const index = detalleSalidas.findIndex(detalle => detalle.idProducto === idProduct);
+                        if (index !== -1) {
+                            const detalle = detalleSalidas[index];
+                            const nuevaCantidad = (detalle.cantidad as number) + (values.cantidad as number);
+                            if (nuevaCantidad > response!.stockActual) {
+                                swalAlert(`Stock insuficiente: Disponibles 
+                                    ${response?.stockActual}, ya tienes ${detalle.cantidad}U en detalle. 
+                                    No puedes añadir ${values.cantidad}U más `);
+                                return;
+                            }
+                        } else {
+                            if (cantidad > response!.stockActual) {
+                                swalAlert(`El producto no tiene estoy suficiente: Stock disponible ${response?.stockActual}`);
+                                return;
+                            };
+                        };
                         const detalleSalida: DetalleSalida = { ...values, idProducto: idProduct, idSalida: 0 };
                         dispatch(agregarDetalleSalida(detalleSalida));
                     }
@@ -138,8 +152,8 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
     };
 
     useEffect(() => {
-        dispatch(obtenerProductos());
-        dispatch(obtenerProveedores());
+        dispatch(listarProductoSinPaginada());
+        dispatch(listarProveedorSinPaginada());
     }, [])
 
     return (
@@ -150,7 +164,7 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
                     className="w-6 h-6 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500 float-right"
                 />
                 <div className="mb-12">
-                    <h3 className="text-[#007bff] text-3xl font-bold text-center">Registrar nuevo entrada</h3>
+                    <h3 className="text-[#007bff] text-3xl font-bold text-center">{isIngreso ? 'Registrar nueva entrada' : 'Registrar nueva Salida'}</h3>
                 </div>
                 <form onSubmit={formik.handleSubmit}
                     className="font-[sans-serif] text-[#333] max-w-4xl mx-auto px-6 my-6">
@@ -248,8 +262,9 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
                     <DetalleTabla isIngreso={isIngreso} detalleLista={isIngreso ? detalleEntradas as [] : detalleSalidas as []} />
                     <button
                         onClick={registrarEntradaOrSalida}
+                        // disabled={!(isIngreso && detalleEntradas.length <= 0) || !(!isIngreso && detalleSalidas.length <= 0)}
                         type="button"
-                        className="mt-10 px-2 py-2.5 w-full rounded-sm text-sm bg-[#333] hover:bg-[#222] text-white">Registrar la Entrada </button>
+                        className="mt-10 px-2 py-2.5 w-full rounded-sm text-sm bg-[#333] hover:bg-[#222] text-white">{isIngreso ? 'Registrar la Entrada' : 'Registrar la Salida '}</button>
                 </form>
             </div>
         </div>

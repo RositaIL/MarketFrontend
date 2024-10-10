@@ -9,15 +9,13 @@ import { Producto } from '../../types/Producto';
 import { ProductoItem } from './ProductoItem';
 import { StoreDispatch } from '../../../store/store';
 import { actualizarProducto, agregarProducto, eliminarProducto, obtenerProductos } from '../../../store/thunks/thunkProducto';
-import { obtenerUnidadMedida } from '../../../store/thunks/thunkUnidadMedida';
-import { obtenerMarcas } from '../../../store/thunks/thunkMarca';
-import { obtenerCategorias } from '../../../store/thunks/thunkCategory';
 import { ModalDelete } from '../../components/ModalDelete';
 import { Formulario } from '../../components/Formulario';
 import { UnidadMedida } from '../../types/unidadMedida';
 import { Marca } from '../../types/marca';
 import { Categoria } from '../../types/categoria';
 import { DropdownMenu } from '../../components/DropdownMenu';
+import { listarCategoriaSinPaginada, listarMarcaSinPaginada, listarUnidadMedidaSinPaginada } from '../../../store/thunks/thunkDataSinPaginacion';
 
 const initialProducto: Producto = {
     idPro: 0,
@@ -39,9 +37,7 @@ export const ProductoLista = () => {
     const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
 
     const { loading, productos, pageSize } = useSelector((state: RootState) => state.producto);
-    const { categorias } = useSelector((state: RootState) => state.categoria);
-    const { marcas } = useSelector((state: RootState) => state.marca);
-    const { unidadMedidas } = useSelector((state: RootState) => state.unidadMedida);
+    const { marcas, categorias, unidadMedidas } = useSelector((state: RootState) => state.dataSinPaginacion);
 
     const dispatch: StoreDispatch = useDispatch();
 
@@ -79,12 +75,13 @@ export const ProductoLista = () => {
 
     const getProductoWithLimit = (size: number) => {
         dispatch(obtenerProductos(0, size));
-    }
+    };
+
     useEffect(() => {
         dispatch(obtenerProductos());
-        dispatch(obtenerUnidadMedida());
-        dispatch(obtenerMarcas());
-        dispatch(obtenerCategorias());
+        dispatch(listarUnidadMedidaSinPaginada());
+        dispatch(listarMarcaSinPaginada());
+        dispatch(listarCategoriaSinPaginada());
     }, [dispatch]);
 
     const inicialValues: Producto = isEditMode ? producto : initialProducto;
@@ -123,7 +120,7 @@ export const ProductoLista = () => {
     const selects = [
         {
             name: "idMedida",
-            options: unidadMedidas?.map(({ idMedida, nombreMedida }: UnidadMedida) => {
+            options: unidadMedidas.map(({ idMedida, nombreMedida }: UnidadMedida) => {
                 return {
                     value: idMedida,
                     label: nombreMedida,
@@ -163,7 +160,7 @@ export const ProductoLista = () => {
                     <Search name={"marca"} hadleSearch={() => { }} />
                 </div>
             </div>
-            <table className="min-w-full bg-white">
+            <table className="min-w-full bg-white" style={{ border: '2px dashed lightgray' }}>
                 <thead className="bg-blue-200 whitespace-nowrap">
                     <tr>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
