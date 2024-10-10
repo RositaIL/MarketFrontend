@@ -95,7 +95,7 @@ export const CategoriaLista = () => {
           <Search name={"marca"} hadleSearch={() => { }} />
         </div>
       </div>
-      <table className="min-w-full bg-white">
+      <table className="min-w-full bg-white" style={{ border: '2px dashed lightgray' }}>
         <thead className="bg-blue-200 whitespace-nowrap">
           <tr>
             <th className="p-4 text-center text-xs font-bold text-gray-700">

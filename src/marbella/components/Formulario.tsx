@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useFormik } from "formik";
 import { Button } from "./Button";
 
@@ -41,12 +42,16 @@ export const Formulario = <T extends Record<string, unknown>>({
   const handleCancel = () => onCancelForm();
 
   //Validar formulario
-  const validateForm = (values: T) => {
-    const errors: Partial<T> = {};
+  const validateForm = (values: any) => {
+    const errors: { [key: string]: string } = {};
     fields.map((field) => {
-      if (!values[field.name]) {
+      const value = values[field.name]
+      if (typeof value === 'string' && !value.trim()) {
         errors[field.name] = "Este campo no puede estar campo vacio";
-      }
+      };
+      if (typeof value === "number" && value < 1) {
+        errors[field.name] = "El valor no puede tener menor o igual a 0";
+      };
     });
     return errors;
   };
@@ -77,40 +82,38 @@ export const Formulario = <T extends Record<string, unknown>>({
           <div className={selects ? `grid sm:grid-cols-2 gap-4` : "space-y-4 mt-8"}>
             {fields.map((field, index) => {
               return (
-                <div key={index} className={selects ? 'block w-full relative items-center' : ''}>
-                  <label
-                    className={`text-${formik.touched[field.name] && formik.errors[field.name]
-                      ? "red"
-                      : "gray"
-                      }-500 text-sm mb-2 block`}
-                  >
-                    {field.label}
-                  </label>
-                  <input
-                    name={field.name}
-                    value={formik.values[field.name] as string}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    className={`px-4 py-3 bg-gray-100 w-full text-gray-800 text-sm border-2 border-${formik.touched[field.name] && formik.errors[field.name]
-                      ? "red"
-                      : "gray"
-                      }-500 focus:outline-blue-600 focus:bg-transparent rounded-lg`}
-                  />
+                <div key={index}>
+                  <div className="relative flex items-center">
+                    <label
+                      className={`text-${formik.touched[field.name] && formik.errors[field.name] ? 'red-500' : '[#007bff]'} absolute top-[-10px] left-0 font-bold`}>
+                      {field.label}
+                    </label>
+                    <input
+                      value={formik.values[field.name] as string}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      name={field.name}
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      className="px-2 no-spinners appearance-none pt-5 pb-2 bg-white w-full text-sm border-b-2 border-[#007bff] focus:border-[#007bff] outline-none" />
+
+                  </div>
+                  <p className="text-xs h-0.5 text-red-500 flex items-center mt-2">
+                    {formik.touched[field.name] && formik.errors[field.name] ? <p> {formik.errors[field.name] as string} </p> : undefined}
+                  </p>
                 </div>
               );
             })}
-            {/* {formik.touched.nombreMarca && formik.errors.nombreMarca ? <p> {formik.errors.nombreMarca} </p> : undefined} */}
+
             {selects && (
               selects.map((select, index) => {
                 return (
                   < div key={index} className="block w-full">
                     <label
                       className={`text-${formik.touched[select?.name] && formik.errors[select?.name]
-                        ? "red"
-                        : "gray"
-                        }-500 text-sm mb-2 block`}
+                        ? "red-500"
+                        : "[#007bff]"
+                        } text-sm block font-bold`}
                     >
                       {select?.name}
                     </label>

@@ -85,7 +85,7 @@ export const ProductoLista = () => {
         dispatch(obtenerUnidadMedida());
         dispatch(obtenerMarcas());
         dispatch(obtenerCategorias());
-    }, []);
+    }, [dispatch]);
 
     const inicialValues: Producto = isEditMode ? producto : initialProducto;
     const fields = [

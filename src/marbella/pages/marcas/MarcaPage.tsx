@@ -37,7 +37,7 @@ export const MarcaPage = () => {
     }, [operationState])
 
     return (
-        <div className="font-sans overflow-x-auto">
+        <div className="font-sans overflow-x-auto p-4">
             {operationState && (
                 <div className="bg-green-500 text-white absolute right-0 font-semibold tracking-wide flex items-center w-max max-w-sm p-4 rounded-md shadow-md shadow-green-200 mx-auto font-[sans-serif]" role="alert">
                     <FaCircleCheck className="w-5 h-5 shrink-0 fill-white inline mr-3" />
