@@ -5,18 +5,15 @@ import { IoEye, IoEyeOff } from "react-icons/io5";
 import Swal from "sweetalert2";
 import { useAuthStore } from "../../hooks/useAuthStore";
 import { Login } from "./Login";
+import { StoreDispatch } from "../../../store/store";
+import { useDispatch } from "react-redux";
 
 export const LoginForm = () => {
 
     const [typePassword, setTypePasswprd] = useState('password');
-    const { startAuthenticate, messageError, status } = useAuthStore();
+    const { startAuthenticate, loading, messageError, clearErrorMessage } = useAuthStore();
 
-    useEffect(() => {
-        if (messageError !== null) {
-            Swal.fire('Error en autenticacion', messageError, "error");
-        }
-
-    }, [messageError]);
+    const dispatch: StoreDispatch = useDispatch();
 
     const hidenPassword = () => {
         if (typePassword === 'text') {
@@ -54,9 +51,16 @@ export const LoginForm = () => {
             validate: validateForm,
 
         }
-    )
+    );
 
-    if (status === 'checking') {
+    useEffect(() => {
+        if (messageError) {
+            Swal.fire('Error en autenticacion', messageError, "error");
+        };
+        dispatch(clearErrorMessage());
+    }, [messageError]);
+
+    if (loading) {
         return (
             <div className="text-center mt-3">
                 <div role="status">
@@ -78,7 +82,7 @@ export const LoginForm = () => {
                     <input
                         name="username"
                         type="text"
-                        className="w-full text-gray-800 text-sm border border-gray-300 px-4 py-3 rounded-md outline-blue-600"
+                        className={`w-full text-gray-800 text-sm border-2 border-${formik.touched.username && formik.errors.username ? 'red' : 'gray'}-300 px-4 py-3 rounded-md outline-blue-600`}
                         placeholder="Ingrese su usuario"
                         onChange={formik.handleChange}
                         value={formik.values.username}
@@ -86,9 +90,9 @@ export const LoginForm = () => {
                     />
                     <FaUser className="w-4 h-4 absolute right-4" />
                 </div>
-                <div>
+                <p className="text-xs h-0.5 text-red-500 flex items-center mt-2">
                     {formik.touched.username && formik.errors.username ? <p> {formik.errors.username} </p> : undefined}
-                </div>
+                </p>
             </div>
 
             <div>
@@ -97,7 +101,7 @@ export const LoginForm = () => {
                     <input
                         type={typePassword}
                         name="password"
-                        className="w-full text-gray-800 text-sm border border-gray-300 px-4 py-3 rounded-md outline-blue-600"
+                        className={`w-full text-gray-800 text-sm border-2 border-${formik.touched.password && formik.errors.password ? 'red' : 'gray'}-300 px-4 py-3 rounded-md outline-blue-600`}
                         placeholder="Ingrese su constraseña"
                         autoComplete="password"
                         onChange={formik.handleChange}
@@ -110,9 +114,9 @@ export const LoginForm = () => {
                             : <IoEye onClick={hidenPassword} className="w-5 h-5 absolute right-4 cursor-pointer" />
                     }
                 </div>
-                <div>
+                <p className="text-xs h-0.5 text-red-500 flex items-center mt-2">
                     {formik.touched.password && formik.errors.password ? <p> {formik.errors.password} </p> : undefined}
-                </div>
+                </p>
             </div>
 
             <div className="flex flex-wrap items-center justify-between gap-4">

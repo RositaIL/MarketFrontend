@@ -4,12 +4,12 @@ import { UserAuthenticate } from "./userAuthenticate";
 import { AuthState } from "../interfaceState";
 
 const initialUserAuthenticate: UserAuthenticate = {
-    accessToken: '',
-    exp: 0,
-    iat: 0,
-    rol: '',
     sub: '',
     photoURL: '',
+    userID: 0,
+    nombre: '',
+    correo: '',
+    rol: '',
 }
 
 type PayloadAction<T> = {
@@ -32,6 +32,10 @@ export const authSlice = createSlice(
             },
             handleErrorMessage: (state: AuthState, { payload }: PayloadAction<string>) => {
                 state.messageError = payload;
+                state.loading = false;
+            },
+            clearErrorMessage: (state: AuthState) => {
+                state.messageError = ''
             },
             login: (state: AuthState, { payload }: PayloadAction<UserAuthenticate>) => {
                 state.authenticated = true;
@@ -44,10 +48,8 @@ export const authSlice = createSlice(
                 state.user = {} as UserAuthenticate;
                 state.loading = false;
                 state.messageError = payload;
-            },
-            clearErrorMessage: (state: AuthState) => {
-                state.messageError = ''
             }
+
         }
     }
 )
