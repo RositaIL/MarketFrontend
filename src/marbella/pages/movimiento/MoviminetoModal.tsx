@@ -262,7 +262,7 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
                     <DetalleTabla isIngreso={isIngreso} detalleLista={isIngreso ? detalleEntradas as [] : detalleSalidas as []} />
                     <button
                         onClick={registrarEntradaOrSalida}
-                        // disabled={!(isIngreso && detalleEntradas.length <= 0) || !(!isIngreso && detalleSalidas.length <= 0)}
+                        disabled={!(isIngreso && detalleEntradas.length > 0) && !(!isIngreso && detalleSalidas.length > 0)}
                         type="button"
                         className="mt-10 px-2 py-2.5 w-full rounded-sm text-sm bg-[#333] hover:bg-[#222] text-white">{isIngreso ? 'Registrar la Entrada' : 'Registrar la Salida '}</button>
                 </form>

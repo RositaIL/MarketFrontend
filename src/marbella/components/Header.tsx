@@ -7,13 +7,11 @@ import logoHeader from '../../data/logoHeader.jpg'
 
 export const Header = () => {
 
-    const [openMenu, setOpenMenu] = useState<string>('block')
+    const [openMenu, setOpenMenu] = useState<string>('hidden')
 
     const handleMenu = () => {
-        console.log('ENTRAAA AQUI');
-
         if (openMenu === 'hidden') {
-            setOpenMenu('block');
+            setOpenMenu('none');
         } else {
             setOpenMenu('hidden');
         }
@@ -31,13 +29,12 @@ export const Header = () => {
                 </a>
 
                 <div id="collapseMenu"
-                    className={`max-lg:${openMenu} lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50`}>
+                    className={`max-lg:${openMenu}  lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50`}>
                     <button onClick={handleMenu} id="toggleClose" className='lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white p-3'>
                         <GrClose className="w-6 h-6" />
                     </button>
                     <Navbar />
                 </div>
-
 
                 <div className='flex max-lg:ml-auto'>
                     <button id="toggleOpen" onClick={handleMenu} className='lg:hidden'>

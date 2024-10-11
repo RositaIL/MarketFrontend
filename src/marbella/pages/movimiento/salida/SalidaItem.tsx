@@ -7,15 +7,16 @@ import { listarUsuarioSinPaginada } from '../../../../store/thunks/thunkDataSinP
 import { RootState } from '../../../../store/rootState';
 
 type SalidaItemProps = {
-    salida: SalidaProducto
+    salida: SalidaProducto,
+    removeItemSalida: (idSalida: number) => void
 }
 
-export const SalidaItem: React.FC<SalidaItemProps> = ({ salida }) => {
+export const SalidaItem: React.FC<SalidaItemProps> = ({ salida, removeItemSalida }) => {
 
     const dispatch: StoreDispatch = useDispatch();
     const { usuarios } = useSelector((state: RootState) => state.dataSinPaginacion);
 
-    const handleRemoveMarca = () => { }
+    const handleRemoveMarca = () => removeItemSalida(salida.idSalida)
     useEffect(() => {
         dispatch(listarUsuarioSinPaginada());
     }, [])

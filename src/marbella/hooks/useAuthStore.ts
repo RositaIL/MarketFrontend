@@ -7,6 +7,7 @@ import { handleErrorMessage, login, startLoading, logout, clearErrorMessage } fr
 import { Login } from "../auth/signIn/Login";
 import { UserAuthenticate } from "../../store/auth/userAuthenticate";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import { marbellaApi } from "../../api/marbellaApi";
 
 interface CustomJwtPayload extends JwtPayload {
     sub?: string;
@@ -49,7 +50,7 @@ export const useAuthStore = () => {
         }
     }
 
-    const checkAuthToken = async () => {
+    const checkAuthToken = () => {
         const token = localStorage.getItem('token');
         try {
             if (!token) {
@@ -88,10 +89,16 @@ export const useAuthStore = () => {
         return false;
     };
 
-    const logoutUser = (message: string) => {
-        localStorage.clear();
-        dispatch(logout(message));
-        navegate('/login', { replace: true });
+    const logoutUser = async (message: string) => {
+        try {
+            await marbellaApi.post('/auth/logout');
+            localStorage.clear();
+            dispatch(logout(message));
+            navegate('/login', { replace: true });
+        } catch (Error) {
+            console.log('ERROR LOGOUT: ', Error);
+
+        }
     }
 
     return {

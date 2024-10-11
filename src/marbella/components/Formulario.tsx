@@ -99,7 +99,7 @@ export const Formulario = <T extends Record<string, unknown>>({
 
                   </div>
                   <p className="text-xs h-0.5 text-red-500 flex items-center mt-2">
-                    {formik.touched[field.name] && formik.errors[field.name] ? <p> {formik.errors[field.name] as string} </p> : undefined}
+                    {formik.touched[field.name] && formik.errors[field.name] ? formik.errors[field.name] as string : undefined}
                   </p>
                 </div>
               );

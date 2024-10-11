@@ -11,11 +11,14 @@ import { SalidaProducto } from '../../../types/salida';
 import { useEffect, useState } from 'react';
 import { MovimientoModal } from '../MoviminetoModal';
 import { StoreDispatch } from '../../../../store/store';
-import { obtenerSalidaProductos } from '../../../../store/thunks/thunkSalidaProducto';
+import { eliminarSalidaProducto, obtenerSalidaProductos } from '../../../../store/thunks/thunkSalidaProducto';
+import { ModalDelete } from '../../../components/ModalDelete';
 
 export const SalidaLista = () => {
 
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+    const [isOpenModalDelete, setOpenModalDelete] = useState<boolean>(false);
+    const [idSalida, setIdSalida] = useState<number>(0);
     const dispatch: StoreDispatch = useDispatch();
     const { salidaProductos, loading, pageSize } = useSelector((state: RootState) => state.salidaProducto);
 
@@ -24,6 +27,19 @@ export const SalidaLista = () => {
 
     const handleSalidaWithLimit = (size: number) => {
         dispatch(obtenerSalidaProductos(0, size))
+    }
+    const closeModalDelete = () => {
+        setOpenModalDelete(false);
+    };
+
+    const handleIDSalida = (id: number) => {
+        setIdSalida(id);
+        setOpenModalDelete(true);
+    };
+
+    const removeItemSalida = () => {
+        dispatch(eliminarSalidaProducto(idSalida));
+        closeModalDelete();
     }
 
     useEffect(() => {
@@ -71,6 +87,7 @@ export const SalidaLista = () => {
                             <SalidaItem
                                 key={salida.idSalida}
                                 salida={salida}
+                                removeItemSalida={handleIDSalida}
                             />
                         );
                     }))}
@@ -82,6 +99,12 @@ export const SalidaLista = () => {
                     isIngreso={false}
                 />
             }
+            {isOpenModalDelete && (
+                <ModalDelete
+                    handleDeleteItem={removeItemSalida}
+                    closeModalDetele={closeModalDelete}
+                />
+            )}
         </>
     )
 }

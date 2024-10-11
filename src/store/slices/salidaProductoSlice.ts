@@ -49,8 +49,17 @@ export const salidaProductoSlice = createSlice({
             state.loading = false;
             state.messageError = '';
             state.operationState = 'Añadido';
+        },
+        deleteSalidaProducto: (state: SalidaProductoState, { payload }: PayloadAction<number>) => {
+            const index = state.salidaProductos.findIndex(salida => salida.idSalida === payload);
+            if (index !== -1) {
+                state.salidaProductos = state.salidaProductos.filter(salida => salida.idSalida !== payload);
+                state.loading = false;
+                state.messageError = '';
+                state.operationState = 'Eliminado';
+            }
         }
     }
 });
 
-export const { getAllSalidaProducto, saveSalidaProducto, startLoading, handleErrorMessage, clearHandleErrorMessage, clearOperationState } = salidaProductoSlice.actions;
+export const { getAllSalidaProducto, saveSalidaProducto, deleteSalidaProducto, startLoading, handleErrorMessage, clearHandleErrorMessage, clearOperationState } = salidaProductoSlice.actions;
