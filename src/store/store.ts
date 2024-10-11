@@ -13,6 +13,7 @@ import { entradaProductoSlice } from "./slices/entradaProductoSlice"
 import { salidaProductoSlice } from "./slices/salidaProductoSlice"
 import { detalleSalidaSlice } from "./slices/detalleSalidaSlice"
 import { dataSinPaginacionSlice } from "./slices/dataSinPaginacionSlice"
+import { reporteSlice } from "./slices/reporteSlice"
 
 export const store = configureStore(
     {
@@ -30,6 +31,7 @@ export const store = configureStore(
             detalleEntrada: detalleEntradaSlice.reducer,
             salidaProducto: salidaProductoSlice.reducer,
             detalleSalida: detalleSalidaSlice.reducer,
+            reporte: reporteSlice.reducer,
         },
     }
 )

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MarcaItem } from "./MarcaItem";
 import { useDispatch, useSelector } from "react-redux";
-import { actualizarMarca, agregarMarca, eliminarMarca, obtenerMarcas } from "../../../store/thunks/thunkMarca";
+import { actualizarMarca, agregarMarca, eliminarMarca, filtrarMarcaPorNombre, obtenerMarcas } from "../../../store/thunks/thunkMarca";
 import { RootState } from "../../../store/rootState";
 import { Marca } from "../../types/marca";
 import { Skeleton } from "../../components/Skeleton";
@@ -32,7 +32,7 @@ export const MarcaLista = () => {
 
 
   const hadleSearch = (buscar: string) => {
-    console.log("BUSCAR", buscar);
+    dispatch(filtrarMarcaPorNombre(0, pageSize, buscar));
   };
 
   const handleMarca = (marca: Marca) => {

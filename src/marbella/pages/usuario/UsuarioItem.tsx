@@ -2,6 +2,7 @@ import React from "react";
 import { Usuario } from "../../types/Usuario";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { GiPadlock } from "react-icons/gi";
 
 type UsuarioItemsProps = {
   usuario: Usuario;
@@ -30,7 +31,7 @@ export const UsuarioItem: React.FC<UsuarioItemsProps> = ({
       </td>
       <td className="p-4 text-center text-gray-600">{usuario.emailUsu}</td>
       <td className="p-4 text-center text-gray-600">{usuario.username}</td>
-      <td className="p-4 text-center text-gray-600">{usuario.password}</td>
+      <td className="p-4 flex justify-center items-center"><GiPadlock /></td>
       <td className="p-4 text-center text-gray-600">{usuario.idRol}</td>
       <td className="p-4 text-center">
         <button onClick={hanldeUpdateUsuario} className="mr-4" title="Editar">

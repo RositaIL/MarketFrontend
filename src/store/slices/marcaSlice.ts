@@ -70,9 +70,18 @@ export const marcaSlice = createSlice(
                     state.operationState = 'Eliminado';
                     state.messageError = '';
                 }
+            },
+            searchMarca: (state: MarcaState, { payload }: PayloadAction<PaginationResponse<Marca>>) => {
+                state.marcas = payload.content;
+                state.paginaActual = payload.page.number;
+                state.totalPagina = payload.page.totalPages;
+                state.pageSize = payload.page.size;
+                state.loading = false;
+                state.messageError = '';
+                state.operationState = '';
             }
         }
     }
 )
 
-export const { getAllMarca, saveMarca, updateMarca, deleteMarca, handleErrorMessage, clearHandleErrorMessage, startLoading, clearOperationState } = marcaSlice.actions;
+export const { getAllMarca, saveMarca, updateMarca, deleteMarca, searchMarca, handleErrorMessage, clearHandleErrorMessage, startLoading, clearOperationState } = marcaSlice.actions;

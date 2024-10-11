@@ -9,6 +9,7 @@ import {
     MarcaState,
     ProductoState,
     ProveedorState,
+    ReporteState,
     RolState,
     SalidaProductoState,
     UnidadMedidaState,
@@ -29,4 +30,5 @@ export type RootState = {
     detalleEntrada: DetalleEntradaState,
     salidaProducto: SalidaProductoState,
     detalleSalida: DetalleSalidaState,
+    reporte: ReporteState,
 }

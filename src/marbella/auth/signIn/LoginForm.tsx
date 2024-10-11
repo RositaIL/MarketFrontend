@@ -91,7 +91,7 @@ export const LoginForm = () => {
                     <FaUser className="w-4 h-4 absolute right-4" />
                 </div>
                 <p className="text-xs h-0.5 text-red-500 flex items-center mt-2">
-                    {formik.touched.username && formik.errors.username ? <p> {formik.errors.username} </p> : undefined}
+                    {formik.touched.username && formik.errors.username ? formik.errors.username : undefined}
                 </p>
             </div>
 

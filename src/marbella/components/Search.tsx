@@ -11,6 +11,7 @@ export const Search: React.FC<SearchProps> = ({ name, hadleSearch }) => {
 
     const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(target.value);
+        hadleSearch(target.value);
     };
     const handleSearch = () => {
         hadleSearch(search);

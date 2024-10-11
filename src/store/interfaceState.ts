@@ -110,3 +110,8 @@ export type DetalleSalidaState = {
     messageError: string,
     operationState: string,
 }
+export type ReporteState = {
+    loading: boolean,
+    reporteStockBajo: Producto[],
+    messageError: string,
+}

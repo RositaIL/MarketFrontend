@@ -11,6 +11,7 @@ import LoginPage from "../marbella/auth/signIn/LoginPage";
 import { useAuthStore } from "../marbella/hooks/useAuthStore";
 import { EntradaPage } from "../marbella/pages/movimiento/entrada/EntradaPage";
 import { SalidaPage } from "../marbella/pages/movimiento/salida/SalidaPage";
+import { ReportePage } from "../marbella/pages/reporte/ReportePage";
 
 export const AppRoute = () => {
 
@@ -31,6 +32,7 @@ export const AppRoute = () => {
           <Route path="/proveedor" element={<ProveedorPage />} />
           <Route path="/entrada" element={<EntradaPage />} />
           <Route path="/salida" element={<SalidaPage />} />
+          <Route path="/reportes" element={<ReportePage />} />
           <Route path="/*" element={<Navigate to={"/marca"} />} />
         </Route>
       </>
