@@ -19,12 +19,11 @@ export const EntradaLista = () => {
     const [isOpenMOdal, setIsOpenModal] = useState<boolean>(false);
     const [isOpenModalDelete, setIsOpenModalDelete] = useState<boolean>(false);
     const [idEntrada, setIdEntrada] = useState<number>(0);
-    // const [isIngreso, setIngreso] = useState<boolean>(true);
     const dispatch: StoreDispatch = useDispatch();
     const openModalAdd = () => setIsOpenModal(true);
     const closeModalDelete = () => setIsOpenModalDelete(false);
 
-    const { entradaProductos, loading } = useSelector((state: RootState) => state.entradaProducto);
+    const { entradaProductos, loading, pageSize } = useSelector((state: RootState) => state.entradaProducto);
     const closeModal = () => setIsOpenModal(false);
     const handleIdEntrada = (idEntra: number) => {
         setIdEntrada(idEntra);
@@ -35,6 +34,10 @@ export const EntradaLista = () => {
         dispatch(eliminarEntrada(idEntrada));
         closeModalDelete();
     };
+
+    const handleSalidaWithLimit = (size: number) => {
+        dispatch(obtenerEntradas(0, size))
+    }
 
     useEffect(() => {
         dispatch(obtenerEntradas());
@@ -48,8 +51,8 @@ export const EntradaLista = () => {
                     Agregar nueva entrada
                 </Button>
                 <div className="flex items-center gap-9 ">
-                    <DropdownMenu getDataWithLimit={() => { }} pageSize={6} />
-                    <Search name={"marca"} hadleSearch={() => { }} />
+                    <DropdownMenu getDataWithLimit={handleSalidaWithLimit} pageSize={pageSize} />
+                    <Search name={"entrada"} hadleSearch={() => { }} />
                 </div>
             </div>
             <table className="min-w-full bg-white">
