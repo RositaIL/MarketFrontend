@@ -1,5 +1,5 @@
 
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from "react-redux";
 import { MarcaLista } from "./MarcaLista"
@@ -10,31 +10,33 @@ import { StoreDispatch } from "../../../store/store";
 import { Pagination } from "../../components/Pagination";
 import { clearHandleErrorMessage, clearOperationState } from "../../../store/slices/marcaSlice";
 import { obtenerMarcas } from "../../../store/thunks/thunkMarca";
+import { MarcaContext } from "../../../context/MarcaProvider";
 
 export const MarcaPage = () => {
 
     const dispatch: StoreDispatch = useDispatch();
 
     const { operationState, messageError, paginaActual, totalPagina, pageSize } = useSelector((state: RootState) => state.marca);
+    const { marcaNameSerch } = useContext(MarcaContext);
 
     const handlePageChange = (siguientePagina: number) => {
-        dispatch(obtenerMarcas(siguientePagina, pageSize))
-    }
+        dispatch(obtenerMarcas(siguientePagina, pageSize, marcaNameSerch));
+    };
 
     useEffect(() => {
         if (messageError) {
             Swal.fire("Error", messageError, "error");
             dispatch(clearHandleErrorMessage());
         }
-    }, [messageError]);
+    }, [dispatch, messageError]);
 
     useEffect(() => {
         if (operationState) {
             setTimeout(() => {
-                dispatch(clearOperationState())
+                dispatch(clearOperationState());
             }, 1500);
         }
-    }, [operationState])
+    }, [dispatch, operationState]);
 
     return (
         <div className="font-sans overflow-x-auto p-4">
@@ -47,7 +49,7 @@ export const MarcaPage = () => {
             )}
             <MarcaLista />
             <div className="md:flex m-4">
-                <p className="text-sm text-gray-500 flex-1">Mostrando {paginaActual} a {pageSize} de {totalPagina} entradas</p>
+                <p className="text-sm text-gray-500 flex-1"></p>
                 <div className="flex items-center max-md:mt-4">
                     <ul className="flex space-x-4 justify-center">
                         <Pagination paginaActual={paginaActual} totalPagina={totalPagina} handlePageChange={handlePageChange} />

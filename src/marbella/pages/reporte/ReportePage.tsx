@@ -6,6 +6,7 @@ import { StoreDispatch } from '../../../store/store';
 import { RootState } from '../../../store/rootState';
 import { ReporteStockLista } from './ReporteStockLista';
 import { SiParamountplus } from "react-icons/si";
+import imagenLogo from '../../../data/logo-Login.png'
 
 export const ReportePage = () => {
 
@@ -19,6 +20,10 @@ export const ReportePage = () => {
 
     return (
         <div>
+            <div className="w-full mt-6">
+                <img src={imagenLogo} alt="logo" className='w-20 mx-auto block' />
+                <h1 className='font-bold text-center text-black text-2xl'>Reporte de productos con stock bajo</h1>
+            </div>
             <ReporteStockLista />
             <div className="flex w-2/3 justify-center mx-auto mt-8">
                 <div>

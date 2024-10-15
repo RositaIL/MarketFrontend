@@ -6,11 +6,12 @@ import React from "react";
 
 interface MarcaItemProps {
     marca: Marca,
+    index: number,
     actualizarMarca: (marca: Marca) => void
     openShowDelete: (id: number) => void
 }
 
-export const MarcaItem: React.FC<MarcaItemProps> = ({ marca, actualizarMarca, openShowDelete }) => {
+export const MarcaItem: React.FC<MarcaItemProps> = ({ marca, index, actualizarMarca, openShowDelete }) => {
 
     const handleUpdateMarca = () => {
         actualizarMarca(marca);
@@ -22,7 +23,7 @@ export const MarcaItem: React.FC<MarcaItemProps> = ({ marca, actualizarMarca, op
     return (
         <tr className="hover:bg-gray-50">
             <td className="p-4 text-center text-gray-600">
-                {marca.idMarca}
+                {index}
             </td>
             <td className="p-4 text-center text-gray-600">
                 {marca.nombreMarca}

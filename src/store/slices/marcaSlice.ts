@@ -47,8 +47,7 @@ export const marcaSlice = createSlice(
                 state.messageError = '';
                 state.operationState = '';
             },
-            saveMarca: (state: MarcaState, { payload }: PayloadAction<Marca>) => {
-                state.marcas = [...state.marcas, payload];
+            saveMarca: (state: MarcaState) => {
                 state.loading = false;
                 state.operationState = 'Agregado';
                 state.messageError = '';

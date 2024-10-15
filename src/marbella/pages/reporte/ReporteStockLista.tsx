@@ -7,7 +7,7 @@ export const ReporteStockLista = () => {
 
     const { reporteStockBajo } = useSelector((state: RootState) => state.reporte);
     return (
-        <div className="font-sans overflow-x-auto p-4">
+        <div className="font-sans overflow-x-auto p-4 mt-4">
             <div className="overflow-x-auto">
                 <table className="w-full border-collapse border border-gray-300">
                     <thead>
