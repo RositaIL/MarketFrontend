@@ -20,12 +20,11 @@ export const obtenerMarcas = (page: number = 0, size: number = 5, name: string =
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export const actualizarMarca = (id: number, marca: Marca) => {
     return async (dispatch: StoreDispatch) => {
@@ -40,12 +39,11 @@ export const actualizarMarca = (id: number, marca: Marca) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log('Error: ', Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export const eliminarMarca = (id: number) => {
     return async (dispatch: StoreDispatch) => {
@@ -60,11 +58,11 @@ export const eliminarMarca = (id: number) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export const agregarMarca = (marca: Marca) => {
     return async (dispatch: StoreDispatch) => {
@@ -79,16 +77,14 @@ export const agregarMarca = (marca: Marca) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                    console.log('Error: ', Error);
-                }
-            }
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export const filtrarMarcaPorNombre = (page: number = 0, size: number = 3, name: string = '') => {
     return async (dispatch: StoreDispatch) => {
-        // dispatch(startLoading());
         try {
             const { data } = await marbellaApi.get<PaginationResponse<Marca>>(`/marca?page=${page}&size=${size}&nombre=${name}`);
             dispatch(searchMarca(data));
@@ -99,9 +95,8 @@ export const filtrarMarcaPorNombre = (page: number = 0, size: number = 3, name: 
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                    console.log('Error: ', Error);
-                }
-            }
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};

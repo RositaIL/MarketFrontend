@@ -10,9 +10,9 @@ export const agregarDetalleEntrada = (detalle: DetalleEntrada) => {
             dispatch(saveDetalleEntrada(detalle));
         } catch (Error) {
             console.log('Error: ', Error);
-        }
-    }
-}
+        };
+    };
+};
 
 export const eliminarDetalleEntrada = (idProducto: number) => {
     return async (dispatch: StoreDispatch) => {
@@ -21,6 +21,6 @@ export const eliminarDetalleEntrada = (idProducto: number) => {
             dispatch(deleteByIdProducto(idProducto));
         } catch (Error) {
             console.log('Error: ', Error);
-        }
-    }
-}
+        };
+    };
+};

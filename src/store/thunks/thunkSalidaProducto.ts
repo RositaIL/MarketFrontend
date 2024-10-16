@@ -20,9 +20,8 @@ export const obtenerSalidaProductos = (page: number = 0, size: number = 3) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
+                };
+            };
         };
     };
 };
@@ -41,12 +40,11 @@ export const agregarSalidaProducto = (salida: SalidaProducto) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export const eliminarSalidaProducto = (idSalida: number) => {
     return async (dispatch: StoreDispatch) => {
@@ -61,9 +59,8 @@ export const eliminarSalidaProducto = (idSalida: number) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};

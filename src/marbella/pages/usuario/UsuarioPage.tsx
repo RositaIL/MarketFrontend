@@ -5,18 +5,20 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { StoreDispatch } from "../../../store/store";
 import { clearHandleErrorMessage, clearOperationState } from "../../../store/slices/usuarioSlice";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Swal from 'sweetalert2';
 import { Pagination } from "../../components/Pagination";
 import { obtenerUsuarios } from "../../../store/thunks/thunkUsuario";
+import { MarbellaContext } from "../../../context/MarbellaProvider";
 
 export const UsuarioPage = () => {
 
   const dispatch: StoreDispatch = useDispatch();
+  const { usuarioNameSearch } = useContext(MarbellaContext);
   const { operationState, pageSize, paginaActual, totalPagina, messageError } = useSelector((state: RootState) => state.usuario);
 
   const handlePageChange = (newPage: number) => {
-    dispatch(obtenerUsuarios(newPage, pageSize))
+    dispatch(obtenerUsuarios(newPage, pageSize, usuarioNameSearch))
   };
 
   useEffect(() => {
@@ -24,7 +26,7 @@ export const UsuarioPage = () => {
       Swal.fire("Error", messageError, "error");
       dispatch(clearHandleErrorMessage());
     }
-  }, [messageError]);
+  }, [dispatch, messageError]);
 
   useEffect(() => {
     if (operationState) {
@@ -32,7 +34,7 @@ export const UsuarioPage = () => {
         dispatch(clearOperationState())
       }, 1500)
     }
-  }, [operationState]);
+  }, [dispatch, operationState]);
 
   return (
     <div className="font-sans overflow-x-auto p-4">

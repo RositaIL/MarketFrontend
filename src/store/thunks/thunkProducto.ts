@@ -5,28 +5,23 @@ import { Producto } from "../../marbella/types/Producto";
 import { getAllProducts, startLoading, handleErrorMessage, updateProducto, saveProducto, deleteProducto } from "../slices/productoSlice"
 import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
-export const obtenerProductos = (page: number = 0, size: number = 3) => {
+export const obtenerProductos = (page: number = 0, size: number = 3, name: string = '') => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.get<PaginationResponse<Producto>>(`/producto?page=${page}&size=${size}`);
+            const { data } = await marbellaApi.get<PaginationResponse<Producto>>(`/producto?page=${page}&size=${size}&nombre=${name}`);
             setTimeout(() => {
                 dispatch(getAllProducts(data))
             }, 1400);
         } catch (Error) {
             if (axios.isAxiosError(Error)) {
                 if (Error.code === "ERR_NETWORK") {
-                    dispatch(
-                        handleErrorMessage(
-                            "El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"
-                        )
-                    );
-                }
-                console.log("ERROR: ", Error);
-            }
-        }
-    }
-}
+                    dispatch(handleErrorMessage("El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"));
+                };
+            };
+        };
+    };
+};
 
 export const agregarProducto = (producto: Producto) => {
     return async (dispatch: StoreDispatch) => {
@@ -41,12 +36,11 @@ export const agregarProducto = (producto: Producto) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export const actualizarProducto = (idProducto: number, producto: Producto) => {
     return async (dispatch: StoreDispatch) => {
@@ -61,12 +55,12 @@ export const actualizarProducto = (idProducto: number, producto: Producto) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
+
 export const eliminarProducto = (idProducto: number) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
@@ -80,12 +74,29 @@ export const eliminarProducto = (idProducto: number) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
+
+export const filtrarProductoPorNombre = (page: number = 0, size: number = 3, name: string = '') => {
+    return async (dispatch: StoreDispatch) => {
+        try {
+            const { data } = await marbellaApi.get<PaginationResponse<Producto>>(`/producto?page=${page}&size=${size}&nombre=${name}`);
+            dispatch(getAllProducts(data))
+        } catch (Error) {
+            if (axios.isAxiosError(Error)) {
+                if (Error.code === "ERR_NETWORK") {
+                    dispatch(handleErrorMessage("El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"));
+                } else {
+                    const { error }: { error: string } = Error.response!.data;
+                    dispatch(handleErrorMessage(error));
+                };
+            };
+        };
+    };
+};
 
 export const buscarPorIdProducto = async (idProducto: number) => {
     try {
@@ -93,5 +104,5 @@ export const buscarPorIdProducto = async (idProducto: number) => {
         return data;
     } catch (Error) {
         console.log("Error: ", Error);
-    }
-}
+    };
+};

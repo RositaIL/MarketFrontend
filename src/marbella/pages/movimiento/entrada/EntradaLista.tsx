@@ -23,7 +23,7 @@ export const EntradaLista = () => {
     const openModalAdd = () => setIsOpenModal(true);
     const closeModalDelete = () => setIsOpenModalDelete(false);
 
-    const { entradaProductos, loading, pageSize } = useSelector((state: RootState) => state.entradaProducto);
+    const { entradaProductos, loading, pageSize, paginaActual } = useSelector((state: RootState) => state.entradaProducto);
     const closeModal = () => setIsOpenModal(false);
     const handleIdEntrada = (idEntra: number) => {
         setIdEntrada(idEntra);
@@ -37,11 +37,11 @@ export const EntradaLista = () => {
 
     const handleSalidaWithLimit = (size: number) => {
         dispatch(obtenerEntradas(0, size))
-    }
+    };
 
     useEffect(() => {
         dispatch(obtenerEntradas());
-    }, [])
+    }, [dispatch]);
 
     return (
         <>
@@ -59,6 +59,9 @@ export const EntradaLista = () => {
                 <thead className="bg-blue-200 whitespace-nowrap">
                     <tr>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
+                            N°
+                        </th>
+                        <th className="p-4 text-center text-xs font-bold text-gray-700">
                             FECHA ENTRADA
                         </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
@@ -75,14 +78,15 @@ export const EntradaLista = () => {
                 <tbody className="whitespace-nowrap">
                     {loading ? (
                         <tr>
-                            <td colSpan={3} className="p-2">
+                            <td colSpan={4} className="p-2">
                                 <Skeleton times={5} className="h-10 w-full" />
                             </td>
                         </tr>
-                    ) : (entradaProductos.map((entrada: EntradaProducto) => {
+                    ) : (entradaProductos.map((entrada: EntradaProducto, index) => {
                         return (
                             <EntradaItem
                                 key={entrada.idEntrada}
+                                index={paginaActual * pageSize + index + 1}
                                 entrada={entrada}
                                 eliminarItem={handleIdEntrada}
                             />

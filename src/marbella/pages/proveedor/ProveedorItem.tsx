@@ -5,11 +5,12 @@ import { RiDeleteBin5Line } from 'react-icons/ri';
 
 type ProveedorItemProps = {
     proveedor: Proveedor,
+    index: number,
     handleproveedor: (proveedor: Proveedor) => void;
     openModalDelete: (idProveedor: number) => void;
 }
 
-export const ProveedorItem: React.FC<ProveedorItemProps> = ({ proveedor, handleproveedor, openModalDelete }) => {
+export const ProveedorItem: React.FC<ProveedorItemProps> = ({ proveedor, index, handleproveedor, openModalDelete }) => {
 
     const handleRemoveProveedor = () => {
         openModalDelete(proveedor.idProveedor);
@@ -19,6 +20,7 @@ export const ProveedorItem: React.FC<ProveedorItemProps> = ({ proveedor, handlep
     }
     return (
         <tr className="hover:bg-gray-50">
+            <td className="p-4 text-center text-gray-600">{index}</td>
             <td className="p-4 text-center text-gray-600">{proveedor.nombreProv}</td>
             <td className="p-4 text-center text-gray-600">
                 {proveedor.direccProv}

@@ -11,7 +11,6 @@ export const obtenerUnidadMedida = () => {
             dispatch(getAllUnidadMedida(data))
         } catch (Error) {
             console.log('ERROR; ', Error);
-
-        }
-    }
-}
+        };
+    };
+};

@@ -1,77 +1,29 @@
 import { Button } from "../../components/Button";
 import { IoMdAdd } from "react-icons/io";
 import { Search } from "../../components/Search";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../store/rootState";
 import { Skeleton } from "../../components/Skeleton";
 import { Usuario } from "../../types/Usuario";
 import { UsuarioItem } from "./UsuarioItem";
-import { useEffect, useState } from "react";
 import { Formulario } from "../../components/Formulario";
 import { ModalDelete } from "../../components/ModalDelete";
-import { StoreDispatch } from "../../../store/store";
-import {
-  actualizarUsuario,
-  eliminarUsuario,
-  guardarUsuario,
-  obtenerUsuarios,
-} from "../../../store/thunks/thunkUsuario";
-import { obtenerRoles } from "../../../store/thunks/thunkRol";
 import { Rol } from "../../types/rol";
 import { DropdownMenu } from "../../components/DropdownMenu";
-
-const initialUser: Usuario = {
-  idUsuario: -1,
-  nombresApellidosUsu: "",
-  emailUsu: "",
-  username: "",
-  password: "",
-  idRol: -1,
-};
+import { useUsuarioLista } from "../../hooks/useUsuarioLista";
+import { UsuarioFields } from "../formFields";
 
 export const UsuarioLista = () => {
-  //estados
-  const [user, setUser] = useState<Usuario>(initialUser);
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [isOpenModalDelete, setIsOpenModalDelete] = useState<boolean>(false);
-  const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
 
-
-  const { usuarios, loading, pageSize } = useSelector(
-    (state: RootState) => state.usuario
-  );
+  const { usuarios, loading, pageSize, paginaActual,
+    isOpenModalDelete, isOpenModalEdit, isEditMode,
+    handleUsuario, openModalDelete, openModalEdit,
+    closeModalDelete, closeModalEdit, onSubmitForm, hadleSearchUsuarioWithName,
+    deleteUsuarioItem, getUsuarioWithLimit, inicialValues } = useUsuarioLista();
 
   const { roles } = useSelector((state: RootState) => state.rol);
 
-  const dispatch: StoreDispatch = useDispatch();
-  const inicialValues: Usuario = isEditMode ? user : initialUser;
-
-  const fields = [
-    {
-      name: "nombresApellidosUsu",
-      label: "Nombres Completos",
-      type: "text",
-      placeholder: "Ingrese sus nombres",
-    },
-    {
-      name: "emailUsu",
-      label: "Email",
-      type: "text",
-      placeholder: "Ingrese sus nombres",
-    },
-    {
-      name: "username",
-      label: "Usuario",
-      type: "text",
-      placeholder: "Ingrese su usuario",
-    },
-    {
-      name: "password",
-      label: "Contraseña",
-      type: "password",
-      placeholder: "Ingrese su contraseña",
-    },
-  ];
+  const fields = UsuarioFields;
 
   const selects = [
     {
@@ -84,46 +36,7 @@ export const UsuarioLista = () => {
       })
     }
   ]
-  const handleUsuario = (userEdit: Usuario) => {
-    setUser(userEdit);
-    setIsEditMode(true);
-    setIsOpenModalEdit(true);
-  };
 
-  const openModalDelete = (idUsuario: number) => {
-    setUser({ ...user, idUsuario: idUsuario });
-    setIsOpenModalDelete(true);
-  };
-
-  const openModalEdit = () => {
-    setIsEditMode(false);
-    setIsOpenModalEdit(true);
-  };
-  const closeModalDelete = () => setIsOpenModalDelete(false);
-  const closeModalEdit = () => {
-    setIsEditMode(false);
-    setIsOpenModalEdit(false);
-  };
-  const onSubmitForm = (values: Usuario) => {
-    if (isEditMode) {
-      dispatch(actualizarUsuario(values.idUsuario, values))
-    } else dispatch(guardarUsuario(values));
-    closeModalEdit();
-  };
-
-  const deleteUsuarioItem = () => {
-    dispatch(eliminarUsuario(user.idUsuario));
-    closeModalDelete();
-  };
-
-  const getUsuarioWithLimit = (size: number) => {
-    dispatch(obtenerUsuarios(0, size));
-  };
-
-  useEffect(() => {
-    dispatch(obtenerUsuarios());
-    dispatch(obtenerRoles());
-  }, []);
   return (
     <>
       <div className="container flex items-center justify-between p-4">
@@ -133,14 +46,14 @@ export const UsuarioLista = () => {
         </Button>
         <div className="flex items-center gap-9 ">
           <DropdownMenu getDataWithLimit={getUsuarioWithLimit} pageSize={pageSize} />
-          <Search name={"marca"} hadleSearch={() => { }} />
+          <Search name={"marca"} hadleSearch={hadleSearchUsuarioWithName} />
         </div>
       </div>
       <table className="min-w-full bg-white" style={{ border: '2px dashed lightgray' }}>
         <thead className="bg-blue-200 whitespace-nowrap">
           <tr>
             <th className="p-4 text-center text-xs font-bold text-gray-700">
-              ID
+              N°
             </th>
             <th className="p-4 text-center text-xs font-bold text-gray-700">
               NOMBRES Y APELLIDOS
@@ -170,10 +83,11 @@ export const UsuarioLista = () => {
               </td>
             </tr>
           ) : (
-            usuarios.map((usuario: Usuario) => {
+            usuarios.map((usuario: Usuario, index) => {
               return (
                 <UsuarioItem
                   key={usuario.idUsuario}
+                  index={paginaActual * pageSize + index + 1}
                   usuario={usuario}
                   handleUsuario={handleUsuario}
                   openModalDelete={openModalDelete}

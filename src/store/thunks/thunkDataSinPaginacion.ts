@@ -63,6 +63,7 @@ export const listarUnidadMedidaSinPaginada = () => {
         };
     };
 };
+
 export const listarUsuarioSinPaginada = () => {
     return async (dispatch: StoreDispatch) => {
         try {

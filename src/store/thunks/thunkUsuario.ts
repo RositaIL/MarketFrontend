@@ -6,11 +6,11 @@ import { Usuario } from "../../marbella/types/Usuario";
 import { getAllUsuario, saveUsuario, updateUsuario, deleteUsuario, handleErrorMessage, startLoading } from "../slices/usuarioSlice";
 import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
-export const obtenerUsuarios = (page: number = 0, size: number = 3) => {
+export const obtenerUsuarios = (page: number = 0, size: number = 3, name: string = '') => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.get<PaginationResponse<Usuario>>(`/usuario?page=${page}&size=${size}`);
+            const { data } = await marbellaApi.get<PaginationResponse<Usuario>>(`/usuario?page=${page}&size=${size}&nombre=${name}`);
             setTimeout(() => {
                 dispatch(getAllUsuario(data));
             }, 1400)
@@ -21,12 +21,11 @@ export const obtenerUsuarios = (page: number = 0, size: number = 3) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export const guardarUsuario = (usuario: Usuario) => {
     return async (dispatch: StoreDispatch) => {
@@ -41,12 +40,11 @@ export const guardarUsuario = (usuario: Usuario) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export const actualizarUsuario = (idUsuario: number, usuario: Usuario) => {
     return async (dispatch: StoreDispatch) => {
@@ -61,12 +59,11 @@ export const actualizarUsuario = (idUsuario: number, usuario: Usuario) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export const eliminarUsuario = (idUsuario: number) => {
     return async (dispatch: StoreDispatch) => {
@@ -81,9 +78,26 @@ export const eliminarUsuario = (idUsuario: number) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
+
+export const filtrarUsuarioPorNombre = (page: number = 0, size: number = 3, name: string = '') => {
+    return async (dispatch: StoreDispatch) => {
+        try {
+            const { data } = await marbellaApi.get<PaginationResponse<Usuario>>(`/usuario?page=${page}&size=${size}&nombre=${name}`);
+            dispatch(getAllUsuario(data));
+        } catch (Error) {
+            if (axios.isAxiosError(Error)) {
+                if (Error.code === "ERR_NETWORK") {
+                    dispatch(handleErrorMessage("El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"));
+                } else {
+                    const { error }: { error: string } = Error.response!.data;
+                    dispatch(handleErrorMessage(error));
+                };
+            };
+        };
+    };
+};

@@ -9,6 +9,7 @@ import { Formulario } from "../../components/Formulario";
 import { DropdownMenu } from "../../components/DropdownMenu";
 import { useMarcaLista } from "../../hooks/useMarcaLista";
 import { Marca } from "../../types/marca";
+import { MarcaFields } from "../formFields";
 
 
 export const MarcaLista = () => {
@@ -17,14 +18,7 @@ export const MarcaLista = () => {
     closeModalEdit, openModalDelete, closeModalDelete, inicialValues, getMarcaWithLimit,
     deleteMarcaItem, handleMarca, hadleSearchMarcaWithname, onSubmitForm } = useMarcaLista();
 
-  const fields = [
-    {
-      name: "nombreMarca",
-      label: "Marca",
-      type: "text",
-      placeholder: "Ingrese la marca",
-    }
-  ]
+  const fields = MarcaFields;
 
   return (
     <>

@@ -8,10 +8,11 @@ import { listarProveedorSinPaginada, listarUsuarioSinPaginada } from '../../../.
 
 type EntradaItemProps = {
     entrada: EntradaProducto,
+    index: number,
     eliminarItem: (id: number) => void;
 }
 
-export const EntradaItem: React.FC<EntradaItemProps> = ({ entrada, eliminarItem }) => {
+export const EntradaItem: React.FC<EntradaItemProps> = ({ entrada, index, eliminarItem }) => {
 
     const { proveedores, usuarios } = useSelector((state: RootState) => state.dataSinPaginacion);
     const dispatch: StoreDispatch = useDispatch();
@@ -19,12 +20,17 @@ export const EntradaItem: React.FC<EntradaItemProps> = ({ entrada, eliminarItem 
     const handleRemoveEntrada = () => {
         eliminarItem(entrada.idEntrada);
     };
+
     useEffect(() => {
         dispatch(listarUsuarioSinPaginada());
         dispatch(listarProveedorSinPaginada());
-    }, [])
+    }, []);
+
     return (
         <tr className="hover:bg-gray-50">
+            <td className="p-4 text-center text-gray-600">
+                {index}
+            </td>
             <td className="p-4 text-center text-gray-600">
                 {entrada.fechaEntrada}
             </td>

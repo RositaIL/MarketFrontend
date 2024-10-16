@@ -1,87 +1,22 @@
 import { Button } from "../../components/Button";
 import { IoMdAdd } from "react-icons/io";
 import { Search } from "../../components/Search";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store/rootState";
-import { useEffect, useState } from "react";
-import {
-  actualizarCategoria,
-  agregarCatergoria,
-  eliminarCategoria,
-  obtenerCategorias,
-} from "../../../store/thunks/thunkCategory";
-import { StoreDispatch } from "../../../store/store";
 import { Skeleton } from "../../components/Skeleton";
 import { CategoriaItem } from "./CategoriaItem";
 import { Categoria } from "../../types/categoria";
 import { ModalDelete } from "../../components/ModalDelete";
 import { Formulario } from "../../components/Formulario";
 import { DropdownMenu } from "../../components/DropdownMenu";
-
-const inicialCategory = {
-  idCategoria: -1,
-  nombreCategoria: "",
-};
+import { useCategoriaLista } from "../../hooks/useCategoriaLista";
+import { CategoriaFields } from "../formFields";
 
 export const CategoriaLista = () => {
-  const [isOpenModalDelete, setIsOpenModalDelete] = useState<boolean>(false);
-  const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
-  const [category, setCategory] = useState<Categoria>(inicialCategory);
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
-  const dispatch: StoreDispatch = useDispatch();
+  const { loading, pageSize, paginaActual, categorias, openModalEdit, openModalDelete, closeModalDelete, isEditMode,
+    isOpenModalDelete, isOpenModalEdit, closeModalEdit, handleCategory, deleteCategoryItem, onSubmitForm,
+    inicialValues, getCategoriaWithLimit, hadleSearchMarcaWithName } = useCategoriaLista();
 
-  const { categorias, loading, pageSize } = useSelector(
-    (state: RootState) => state.categoria
-  );
-
-  useEffect(() => {
-    dispatch(obtenerCategorias());
-  }, []);
-
-  const closeModalDelete = () => setIsOpenModalDelete(false);
-  const openModalDelete = (id: number) => {
-    setCategory({ ...category, idCategoria: id });
-    setIsOpenModalDelete(true);
-  };
-  const handleCategory = (categoria: Categoria) => {
-    setCategory(categoria);
-    setIsEditMode(true);
-    setIsOpenModalEdit(true);
-  };
-  const openModalEdit = () => {
-    setIsEditMode(false);
-    setIsOpenModalEdit(true);
-  };
-  const closeModalEdit = () => setIsOpenModalEdit(false);
-
-  const deleteCategoryItem = () => {
-    dispatch(eliminarCategoria(category.idCategoria));
-    closeModalDelete();
-  };
-
-  //Actualizar o agregar marca
-  const onSubmitForm = (values: Categoria) => {
-    if (isEditMode) {
-      dispatch(actualizarCategoria(values.idCategoria, values));
-    } else dispatch(agregarCatergoria(values));
-    closeModalEdit();
-  };
-
-  const getCategoriaWithLimit = (size: number) => {
-    dispatch(obtenerCategorias(0, size));
-  };
-
-  const fields = [
-    {
-      name: "nombreCategoria",
-      label: "Categoria",
-      type: "text",
-      placeholder: "Ingrese la categoria",
-    },
-  ];
-
-  const inicialValues: Categoria = isEditMode ? category : inicialCategory;
+  const fields = CategoriaFields;
 
   return (
     <>
@@ -92,14 +27,14 @@ export const CategoriaLista = () => {
         </Button>
         <div className="flex items-center gap-9 ">
           <DropdownMenu getDataWithLimit={getCategoriaWithLimit} pageSize={pageSize} />
-          <Search name={"marca"} hadleSearch={() => { }} />
+          <Search name={"marca"} hadleSearch={hadleSearchMarcaWithName} />
         </div>
       </div>
       <table className="min-w-full bg-white" style={{ border: '2px dashed lightgray' }}>
         <thead className="bg-blue-200 whitespace-nowrap">
           <tr>
             <th className="p-4 text-center text-xs font-bold text-gray-700">
-              ID
+              N°
             </th>
             <th className="p-4 text-center text-xs font-bold text-gray-700">
               DESCRIPCION
@@ -117,10 +52,11 @@ export const CategoriaLista = () => {
               </td>
             </tr>
           ) : (
-            categorias.map((categoria: Categoria) => {
+            categorias.map((categoria: Categoria, index) => {
               return (
                 <CategoriaItem
                   key={categoria.idCategoria}
+                  index={paginaActual * pageSize + index + 1}
                   categoria={categoria}
                   handleCategory={handleCategory}
                   openModalDelete={openModalDelete}

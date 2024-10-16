@@ -20,12 +20,11 @@ export const obtenerEntradas = (page: number = 0, size: number = 3) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export const guardarEntrada = (entrada: EntradaProducto) => {
     return async (dispatch: StoreDispatch) => {
@@ -41,12 +40,11 @@ export const guardarEntrada = (entrada: EntradaProducto) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export const eliminarEntrada = (idEntrada: number) => {
     return async (dispatch: StoreDispatch) => {
@@ -61,9 +59,8 @@ export const eliminarEntrada = (idEntrada: number) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};

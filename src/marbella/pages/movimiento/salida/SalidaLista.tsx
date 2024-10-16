@@ -20,7 +20,7 @@ export const SalidaLista = () => {
     const [isOpenModalDelete, setOpenModalDelete] = useState<boolean>(false);
     const [idSalida, setIdSalida] = useState<number>(0);
     const dispatch: StoreDispatch = useDispatch();
-    const { salidaProductos, loading, pageSize } = useSelector((state: RootState) => state.salidaProducto);
+    const { salidaProductos, loading, pageSize, paginaActual } = useSelector((state: RootState) => state.salidaProducto);
 
     const openModalAdd = () => setIsOpenModal(true);
     const closeModal = () => setIsOpenModal(false);
@@ -44,7 +44,7 @@ export const SalidaLista = () => {
 
     useEffect(() => {
         dispatch(obtenerSalidaProductos());
-    }, [])
+    }, [dispatch])
 
     return (
         <>
@@ -62,7 +62,7 @@ export const SalidaLista = () => {
                 <thead className="bg-blue-200 whitespace-nowrap">
                     <tr>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
-                            ID
+                            N°
                         </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
                             FECHA SALIDA
@@ -82,10 +82,11 @@ export const SalidaLista = () => {
                                 <Skeleton times={5} className="h-10 w-full" />
                             </td>
                         </tr>
-                    ) : (salidaProductos.map((salida: SalidaProducto) => {
+                    ) : (salidaProductos.map((salida: SalidaProducto, index) => {
                         return (
                             <SalidaItem
                                 key={salida.idSalida}
+                                index={paginaActual * pageSize + index + 1}
                                 salida={salida}
                                 removeItemSalida={handleIDSalida}
                             />

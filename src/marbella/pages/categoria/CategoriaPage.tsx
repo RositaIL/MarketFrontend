@@ -4,27 +4,29 @@ import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/rootState";
 import { clearHandleErrorMessage, clearOperationState } from "../../../store/slices/categoriaSlice";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Swal from 'sweetalert2';
 import { Pagination } from "../../components/Pagination";
 import { obtenerCategorias } from "../../../store/thunks/thunkCategory";
 import { StoreDispatch } from "../../../store/store";
+import { MarbellaContext } from "../../../context/MarbellaProvider";
 
 export const CategoriaPage = () => {
 
   const dispatch: StoreDispatch = useDispatch();
   const { paginaActual, pageSize, totalPagina, operationState, messageError } = useSelector((state: RootState) => state.categoria);
+  const { categoriaNameSearch } = useContext(MarbellaContext);
 
   const handlePageChange = (siguientePagina: number) => {
-    dispatch(obtenerCategorias(siguientePagina, pageSize))
-  }
+    dispatch(obtenerCategorias(siguientePagina, pageSize, categoriaNameSearch));
+  };
 
   useEffect(() => {
     if (messageError) {
       Swal.fire("Error", messageError, "error");
       dispatch(clearHandleErrorMessage());
     }
-  }, [messageError]);
+  }, [dispatch, messageError]);
 
   useEffect(() => {
     if (operationState) {
@@ -32,7 +34,7 @@ export const CategoriaPage = () => {
         dispatch(clearOperationState());
       }, 1500);
     }
-  }, [operationState])
+  }, [dispatch, operationState])
 
   return (
     <div className="font-sans overflow-x-auto p-4">
@@ -50,7 +52,7 @@ export const CategoriaPage = () => {
       )}
       <CategoriaLista />
       <div className="md:flex m-4">
-        <p className="text-sm text-gray-500 flex-1">Mostrando {paginaActual} a {pageSize} de {totalPagina} entradas</p>
+        <p className="text-sm text-gray-500 flex-1"></p>
         <div className="flex items-center max-md:mt-4">
           <ul className="flex space-x-4 justify-center">
             <Pagination paginaActual={paginaActual} totalPagina={totalPagina} handlePageChange={handlePageChange} />

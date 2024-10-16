@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { StoreDispatch } from "../../store/store";
 import { RootState } from "../../store/rootState";
 import { Marca } from '../types/marca';
-import { MarcaContext } from "../../context/MarcaProvider";
+import { MarbellaContext } from "../../context/MarbellaProvider";
 import { actualizarMarca, agregarMarca, eliminarMarca, filtrarMarcaPorNombre, obtenerMarcas } from "../../store/thunks/thunkMarca";
 
 const initialMarca: Marca = {
@@ -19,7 +19,7 @@ export const useMarcaLista = () => {
     const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
     const [isOpenModalDelete, setIsOpenModalDelete] = useState<boolean>(false);
 
-    const { marcaNameSerch, onSetMarcaNameSearch } = useContext(MarcaContext);
+    const { marcaNameSerch, onSetMarcaNameSearch } = useContext(MarbellaContext);
     const { loading, marcas, pageSize, paginaActual } = useSelector(
         (state: RootState) => state.marca
     );

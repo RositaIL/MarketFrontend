@@ -8,10 +8,11 @@ import { RootState } from '../../../../store/rootState';
 
 type SalidaItemProps = {
     salida: SalidaProducto,
+    index: number,
     removeItemSalida: (idSalida: number) => void
 }
 
-export const SalidaItem: React.FC<SalidaItemProps> = ({ salida, removeItemSalida }) => {
+export const SalidaItem: React.FC<SalidaItemProps> = ({ salida, index, removeItemSalida }) => {
 
     const dispatch: StoreDispatch = useDispatch();
     const { usuarios } = useSelector((state: RootState) => state.dataSinPaginacion);
@@ -19,11 +20,11 @@ export const SalidaItem: React.FC<SalidaItemProps> = ({ salida, removeItemSalida
     const handleRemoveMarca = () => removeItemSalida(salida.idSalida)
     useEffect(() => {
         dispatch(listarUsuarioSinPaginada());
-    }, [])
+    }, [dispatch])
     return (
         <tr className="hover:bg-gray-50">
             <td className="p-4 text-center text-gray-600">
-                {salida.idSalida}
+                {index}
             </td>
             <td className="p-4 text-center text-gray-600">
                 {salida.fechaSalida}

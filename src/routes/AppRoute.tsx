@@ -12,7 +12,6 @@ import { useAuthStore } from "../marbella/hooks/useAuthStore";
 import { EntradaPage } from "../marbella/pages/movimiento/entrada/EntradaPage";
 import { SalidaPage } from "../marbella/pages/movimiento/salida/SalidaPage";
 import { ReportePage } from "../marbella/pages/reporte/ReportePage";
-import { MarcaProvider } from "../context/MarcaProvider";
 
 export const AppRoute = () => {
 
@@ -26,7 +25,7 @@ export const AppRoute = () => {
     <Routes>
       {authenticated ? (<>
         <Route path="/" element={<HomePage />}>
-          <Route path="/marca" element={<MarcaProvider><MarcaPage /></MarcaProvider>} />
+          <Route path="/marca" element={<MarcaPage />} />
           <Route path="/categoria" element={<CategoriaPage />} />
           <Route path="/productos" element={<ProductoPage />} />
           <Route path="/usuario" element={<UsuarioPage />} />

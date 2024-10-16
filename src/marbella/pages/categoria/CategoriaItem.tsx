@@ -5,12 +5,14 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 
 type CategoriaItemProps = {
   categoria: Categoria;
+  index: number;
   openModalDelete: (idCategoria: number) => void;
   handleCategory: (categoria: Categoria) => void;
 };
 
 export const CategoriaItem: React.FC<CategoriaItemProps> = ({
   categoria,
+  index,
   openModalDelete,
   handleCategory,
 }) => {
@@ -19,7 +21,7 @@ export const CategoriaItem: React.FC<CategoriaItemProps> = ({
   const handleRemoveCategory = () => openModalDelete(categoria.idCategoria);
   return (
     <tr className="hover:bg-gray-50">
-      <td className="p-4 text-center text-gray-600">{categoria.idCategoria}</td>
+      <td className="p-4 text-center text-gray-600">{index}</td>
       <td className="p-4 text-center text-gray-600">
         {categoria.nombreCategoria}
       </td>

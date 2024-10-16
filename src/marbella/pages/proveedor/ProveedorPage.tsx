@@ -5,34 +5,37 @@ import { FaCircleCheck } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
 import { ProveedorLista } from './ProveedorLista';
 import { clearHandleErrorMessage, clearOperationState } from '../../../store/slices/proveedorSlice';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { Pagination } from '../../components/Pagination';
 import { obtenerProveedores } from '../../../store/thunks/thunkProveedor';
 import { StoreDispatch } from '../../../store/store';
+import { MarbellaContext } from '../../../context/MarbellaProvider';
 
 export const ProveedorPage = () => {
 
     const dispatch: StoreDispatch = useDispatch()
     const { pageSize, totalPagina, paginaActual, operationState, messageError } = useSelector((state: RootState) => state.proveedor);
 
+    const { proveedorNameSearch } = useContext(MarbellaContext);
     const handlePageChange = (newPage: number) => {
-        dispatch(obtenerProveedores(newPage, pageSize))
-    }
+        dispatch(obtenerProveedores(newPage, pageSize, proveedorNameSearch));
+    };
 
     useEffect(() => {
         if (messageError) {
             Swal.fire("Error", messageError, "error");
             dispatch(clearHandleErrorMessage());
         }
-    }, [messageError]);
+    }, [dispatch, messageError]);
+
     useEffect(() => {
         if (operationState) {
             setTimeout(() => {
                 dispatch(clearOperationState())
             }, 1500)
         }
-    }, [operationState]);
+    }, [dispatch, operationState]);
     return (
         <div className="font-sans overflow-x-auto p-4">
             {operationState && (
@@ -50,7 +53,7 @@ export const ProveedorPage = () => {
             <ProveedorLista />
 
             <div className="md:flex m-4">
-                <p className="text-sm text-gray-500 flex-1"> Mostrando {paginaActual} a {pageSize} de {totalPagina} entradas</p>
+                <p className="text-sm text-gray-500 flex-1"></p>
                 <div className="flex items-center max-md:mt-4">
                     <ul className="flex space-x-4 justify-center">
                         <Pagination paginaActual={paginaActual} totalPagina={totalPagina} handlePageChange={handlePageChange} />

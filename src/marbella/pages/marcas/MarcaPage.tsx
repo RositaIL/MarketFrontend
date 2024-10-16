@@ -10,14 +10,14 @@ import { StoreDispatch } from "../../../store/store";
 import { Pagination } from "../../components/Pagination";
 import { clearHandleErrorMessage, clearOperationState } from "../../../store/slices/marcaSlice";
 import { obtenerMarcas } from "../../../store/thunks/thunkMarca";
-import { MarcaContext } from "../../../context/MarcaProvider";
+import { MarbellaContext } from "../../../context/MarbellaProvider";
 
 export const MarcaPage = () => {
 
     const dispatch: StoreDispatch = useDispatch();
 
     const { operationState, messageError, paginaActual, totalPagina, pageSize } = useSelector((state: RootState) => state.marca);
-    const { marcaNameSerch } = useContext(MarcaContext);
+    const { marcaNameSerch } = useContext(MarbellaContext);
 
     const handlePageChange = (siguientePagina: number) => {
         dispatch(obtenerMarcas(siguientePagina, pageSize, marcaNameSerch));

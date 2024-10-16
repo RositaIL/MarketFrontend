@@ -12,11 +12,11 @@ import {
 import { Categoria } from "../../marbella/types/categoria";
 import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
-export const obtenerCategorias = (page: number = 0, size: number = 5) => {
+export const obtenerCategorias = (page: number = 0, size: number = 5, name: string = '') => {
   return async (dispatch: StoreDispatch) => {
     dispatch(startLoading());
     try {
-      const { data } = await marbellaApi.get<PaginationResponse<Categoria>>(`/categoria?page=${page}&size=${size}`);
+      const { data } = await marbellaApi.get<PaginationResponse<Categoria>>(`/categoria?page=${page}&size=${size}&nombre=${name}`);
       setTimeout(() => {
         dispatch(getAllCategory(data));
       }, 1500);
@@ -27,10 +27,9 @@ export const obtenerCategorias = (page: number = 0, size: number = 5) => {
         } else {
           const { error }: { error: string } = Error.response!.data;
           dispatch(handleErrorMessage(error));
-        }
-      }
-      console.log("Error: ", Error);
-    }
+        };
+      };
+    };
   };
 };
 
@@ -43,18 +42,13 @@ export const agregarCatergoria = (categoria: Categoria) => {
     } catch (Error) {
       if (axios.isAxiosError(Error)) {
         if (Error.code === "ERR_NETWORK") {
-          dispatch(
-            handleErrorMessage(
-              "El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"
-            )
-          );
+          dispatch(handleErrorMessage("El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"));
         } else {
           const { error }: { error: string } = Error.response!.data;
           dispatch(handleErrorMessage(error));
-        }
-      }
-      console.log("Error: ", Error);
-    }
+        };
+      };
+    };
   };
 };
 
@@ -73,10 +67,9 @@ export const actualizarCategoria = (idCategoria: number, categoria: Categoria) =
         } else {
           const { error }: { error: string } = Error.response!.data;
           dispatch(handleErrorMessage(error));
-        }
-      }
-      console.log("Error: ", Error);
-    }
+        };
+      };
+    };
   };
 };
 
@@ -95,9 +88,26 @@ export const eliminarCategoria = (idCategoria: number) => {
         } else {
           const { error }: { error: string } = Error.response!.data
           dispatch(handleErrorMessage(error));
-        }
-      }
-      console.log("Error: ", Error);
-    }
-  }
-}
+        };
+      };
+    };
+  };
+};
+
+export const filtrarCategoriaPorNombre = (page: number = 0, size: number = 5, name: string = '') => {
+  return async (dispatch: StoreDispatch) => {
+    try {
+      const { data } = await marbellaApi.get<PaginationResponse<Categoria>>(`/categoria?page=${page}&size=${size}&nombre=${name}`);
+      dispatch(getAllCategory(data));
+    } catch (Error) {
+      if (axios.isAxiosError(Error)) {
+        if (Error.code === "ERR_NETWORK") {
+          dispatch(handleErrorMessage("El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"));
+        } else {
+          const { error }: { error: string } = Error.response!.data;
+          dispatch(handleErrorMessage(error));
+        };
+      };
+    };
+  };
+};

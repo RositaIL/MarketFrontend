@@ -7,11 +7,11 @@ import { PaginationResponse } from "../../marbella/types/paginationResponse";
 
 
 
-export const obtenerProveedores = (page: number = 0, size: number = 3) => {
+export const obtenerProveedores = (page: number = 0, size: number = 3, name: string = '') => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
         try {
-            const { data } = await marbellaApi.get<PaginationResponse<Proveedor>>(`/proveedor?page=${page}&size=${size}`);
+            const { data } = await marbellaApi.get<PaginationResponse<Proveedor>>(`/proveedor?page=${page}&size=${size}&nombre=${name}`);
             setTimeout(() => {
                 dispatch(getAllProveedor(data));
             }, 1400);
@@ -19,12 +19,11 @@ export const obtenerProveedores = (page: number = 0, size: number = 3) => {
             if (axios.isAxiosError(Error)) {
                 if (Error.code === "ERR_NETWORK") {
                     dispatch(handleErrorMessage("El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"));
-                }
-                console.log("ERROR: ", Error);
-            }
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export const agregarProveedor = (proveedor: Proveedor) => {
     return async (dispatch: StoreDispatch) => {
@@ -39,12 +38,11 @@ export const agregarProveedor = (proveedor: Proveedor) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export const actualizarProveedor = (idProveedor: number, proveedor: Proveedor) => {
     return async (dispatch: StoreDispatch) => {
@@ -59,12 +57,11 @@ export const actualizarProveedor = (idProveedor: number, proveedor: Proveedor) =
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export const eliminarProveedor = (idProveedor: number) => {
     return async (dispatch: StoreDispatch) => {
@@ -79,9 +76,26 @@ export const eliminarProveedor = (idProveedor: number) => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
+
+export const filtrarProveedorPorNombre = (page: number = 0, size: number = 3, name: string = '') => {
+    return async (dispatch: StoreDispatch) => {
+        try {
+            const { data } = await marbellaApi.get<PaginationResponse<Proveedor>>(`/proveedor?page=${page}&size=${size}&nombre=${name}`);
+            dispatch(getAllProveedor(data));
+        } catch (Error) {
+            if (axios.isAxiosError(Error)) {
+                if (Error.code === "ERR_NETWORK") {
+                    dispatch(handleErrorMessage("El servidor no está disponible en este momento. Por favor, intente de nuevo más tarde"));
+                } else {
+                    const { error }: { error: string } = Error.response!.data;
+                    dispatch(handleErrorMessage(error));
+                };
+            };
+        };
+    };
+};

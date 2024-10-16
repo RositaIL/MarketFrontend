@@ -2,7 +2,6 @@ import { DetalleSalida } from "../../marbella/types/salida";
 import { deleteByIdProducto, saveDetalleSalida, startLoading } from "../slices/detalleSalidaSlice";
 import { StoreDispatch } from "../store";
 
-
 export const agregarDetalleSalida = (detalle: DetalleSalida) => {
     return async (dispatch: StoreDispatch) => {
         dispatch(startLoading());
@@ -10,10 +9,9 @@ export const agregarDetalleSalida = (detalle: DetalleSalida) => {
             dispatch(saveDetalleSalida(detalle));
         } catch (Error) {
             console.log('Error: ', Error);
-
-        }
-    }
-}
+        };
+    };
+};
 
 export const eliminarDetalleSalida = (idProducto: number) => {
     return async (dispatch: StoreDispatch) => {
@@ -22,6 +20,6 @@ export const eliminarDetalleSalida = (idProducto: number) => {
             dispatch(deleteByIdProducto(idProducto));
         } catch (Error) {
             console.log('Error: ', Error);
-        }
-    }
-}
+        };
+    };
+};

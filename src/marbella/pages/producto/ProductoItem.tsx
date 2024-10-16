@@ -7,11 +7,12 @@ import { RootState } from '../../../store/rootState';
 
 type ProductoItemsProps = {
     producto: Producto;
+    index: number,
     handleproducto: (producto: Producto) => void;
     openModalDelete: (idPro: number) => void;
 }
 
-export const ProductoItem: React.FC<ProductoItemsProps> = ({ producto, handleproducto, openModalDelete }) => {
+export const ProductoItem: React.FC<ProductoItemsProps> = ({ producto, index, handleproducto, openModalDelete }) => {
 
     const { marcas, categorias, unidadMedidas } = useSelector((state: RootState) => state.dataSinPaginacion);
 
@@ -24,6 +25,7 @@ export const ProductoItem: React.FC<ProductoItemsProps> = ({ producto, handlepro
 
     return (
         <tr className="hover:bg-gray-50">
+            <td className="p-4 text-center text-gray-600">{index}</td>
             <td className="p-4 text-center text-gray-600">{producto.nombrePro}</td>
             <td className="p-4 text-center text-gray-600">
                 {producto.descripcionPro}

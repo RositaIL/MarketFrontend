@@ -8,12 +8,14 @@ import { RootState } from "../../../store/rootState";
 
 type UsuarioItemsProps = {
   usuario: Usuario;
+  index: number,
   openModalDelete: (idUsuario: number) => void;
   handleUsuario: (user: Usuario) => void;
 };
 
 export const UsuarioItem: React.FC<UsuarioItemsProps> = ({
   usuario,
+  index,
   openModalDelete,
   handleUsuario,
 }) => {
@@ -29,7 +31,7 @@ export const UsuarioItem: React.FC<UsuarioItemsProps> = ({
 
   return (
     <tr className="hover:bg-gray-50">
-      <td className="p-4 text-center text-gray-600">{usuario.idUsuario}</td>
+      <td className="p-4 text-center text-gray-600">{index}</td>
       <td className="p-4 text-center text-gray-600">
         {usuario.nombresApellidosUsu}
       </td>

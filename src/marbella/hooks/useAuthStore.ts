@@ -44,11 +44,10 @@ export const useAuthStore = () => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-            console.log("Error: ", Error);
-        }
-    }
+                };
+            };
+        };
+    };
 
     const checkAuthToken = () => {
         const token = localStorage.getItem('token');
@@ -66,7 +65,7 @@ export const useAuthStore = () => {
             dispatch(login(user));
         } catch (error) {
             console.log('ERROR: ', error);
-        }
+        };
     };
 
     const userAutheticado = (token: string): UserAuthenticate => {
@@ -97,9 +96,8 @@ export const useAuthStore = () => {
             navegate('/login', { replace: true });
         } catch (Error) {
             console.log('ERROR LOGOUT: ', Error);
-
-        }
-    }
+        };
+    };
 
     return {
         startAuthenticate,

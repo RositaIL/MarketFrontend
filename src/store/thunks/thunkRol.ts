@@ -11,7 +11,6 @@ export const obtenerRoles = () => {
             dispatch(getAllRols(data))
         } catch (Error) {
             console.log('ERROR: ', Error);
-
-        }
-    }
-}
+        };
+    };
+};

@@ -18,8 +18,8 @@ export const obtenerReporteStockBajo = () => {
                 } else {
                     const { error }: { error: string } = Error.response!.data;
                     dispatch(handleErrorMessage(error));
-                }
-            }
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};

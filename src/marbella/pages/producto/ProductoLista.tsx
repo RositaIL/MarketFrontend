@@ -1,122 +1,30 @@
-import { useEffect, useState } from 'react'
+
 import { Button } from '../../components/Button';
 import { IoMdAdd } from 'react-icons/io';
 import { Search } from '../../components/Search';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store/rootState';
 import { Skeleton } from '../../components/Skeleton';
 import { Producto } from '../../types/Producto';
 import { ProductoItem } from './ProductoItem';
-import { StoreDispatch } from '../../../store/store';
-import { actualizarProducto, agregarProducto, eliminarProducto, obtenerProductos } from '../../../store/thunks/thunkProducto';
 import { ModalDelete } from '../../components/ModalDelete';
 import { Formulario } from '../../components/Formulario';
 import { UnidadMedida } from '../../types/unidadMedida';
 import { Marca } from '../../types/marca';
 import { Categoria } from '../../types/categoria';
 import { DropdownMenu } from '../../components/DropdownMenu';
-import { listarCategoriaSinPaginada, listarMarcaSinPaginada, listarUnidadMedidaSinPaginada } from '../../../store/thunks/thunkDataSinPaginacion';
-
-const initialProducto: Producto = {
-    idPro: 0,
-    nombrePro: '',
-    descripcionPro: '',
-    precioPro: 0,
-    stockActual: 0,
-    stockMin: 0,
-    idMedida: 0,
-    idMarca: 0,
-    idCategoria: 0,
-}
+import { useProductoLista } from '../../hooks/useProductoLista';
+import { FieldsProducts } from '../formFields';
 
 export const ProductoLista = () => {
 
-    const [producto, setProducto] = useState<Producto>(initialProducto);
-    const [isEditMode, setIsEditMode] = useState<boolean>(false);
-    const [isOpenModalDelete, setIsOpenModalDelete] = useState<boolean>(false);
-    const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
+    const { loading, productos, pageSize, paginaActual,
+        marcas, categorias, unidadMedidas,
+        isEditMode, isOpenModalDelete, isOpenModalEdit,
+        openModalEdit, closeModalEdit, closeModalDelete, handleproducto,
+        openModalDelete, deleteProductoItem, onSubmitForm,
+        getProductoWithLimit, hadleSearchProductoWithName, inicialValues } = useProductoLista();
 
-    const { loading, productos, pageSize } = useSelector((state: RootState) => state.producto);
-    const { marcas, categorias, unidadMedidas } = useSelector((state: RootState) => state.dataSinPaginacion);
+    const fields = FieldsProducts;
 
-    const dispatch: StoreDispatch = useDispatch();
-
-    const openModalEdit = () => {
-        setIsOpenModalEdit(true);
-        setIsEditMode(false);
-    }
-    const closeModalEdit = () => {
-        setIsOpenModalEdit(false);
-    };
-    const handleproducto = (producto: Producto) => {
-        setProducto(producto);
-        setIsEditMode(true);
-        setIsOpenModalEdit(true);
-    }
-    const openModalDelete = (idProd: number) => {
-        setProducto({ ...producto, idPro: idProd });
-        setIsOpenModalDelete(true);
-    }
-    const closeModalDelete = () => {
-        setIsOpenModalDelete(false);
-    }
-    const deleteProductoItem = () => {
-        dispatch(eliminarProducto(producto.idPro));
-        closeModalDelete();
-    };
-
-    const onSubmitForm = (values: Producto) => {
-        if (isEditMode) {
-            dispatch(actualizarProducto(values.idPro, values));
-        } else dispatch(agregarProducto(values));
-        closeModalEdit();
-
-    }
-
-    const getProductoWithLimit = (size: number) => {
-        dispatch(obtenerProductos(0, size));
-    };
-
-    useEffect(() => {
-        dispatch(obtenerProductos());
-        dispatch(listarUnidadMedidaSinPaginada());
-        dispatch(listarMarcaSinPaginada());
-        dispatch(listarCategoriaSinPaginada());
-    }, [dispatch]);
-
-    const inicialValues: Producto = isEditMode ? producto : initialProducto;
-    const fields = [
-        {
-            name: "nombrePro",
-            label: "producto",
-            type: "text",
-            placeholder: "Ingrese el producto",
-        },
-        {
-            name: "descripcionPro",
-            label: "descrpcion",
-            type: "text",
-            placeholder: "Ingrese la descripion",
-        },
-        {
-            name: "precioPro",
-            label: "precio",
-            type: "number",
-            placeholder: "Ingrese el precio",
-        },
-        {
-            name: "stockActual",
-            label: "stock actual",
-            type: "number",
-            placeholder: "Ingrese stock actual",
-        },
-        {
-            name: "stockMin",
-            label: "stock minimo",
-            type: "number",
-            placeholder: "Ingrese stock minimo",
-        }
-    ]
     const selects = [
         {
             name: "idMedida",
@@ -157,12 +65,15 @@ export const ProductoLista = () => {
                 </Button>
                 <div className="flex items-center gap-9 ">
                     <DropdownMenu getDataWithLimit={getProductoWithLimit} pageSize={pageSize} />
-                    <Search name={"marca"} hadleSearch={() => { }} />
+                    <Search name={"marca"} hadleSearch={hadleSearchProductoWithName} />
                 </div>
             </div>
             <table className="min-w-full bg-white" style={{ border: '2px dashed lightgray' }}>
                 <thead className="bg-blue-200 whitespace-nowrap">
                     <tr>
+                        <th className="p-4 text-center text-xs font-bold text-gray-700">
+                            N°
+                        </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
                             NOMBRE
                         </th>
@@ -200,10 +111,11 @@ export const ProductoLista = () => {
                             </td>
                         </tr>
                     ) : (
-                        productos.map((prod: Producto) => {
+                        productos.map((prod: Producto, index) => {
                             return (
                                 <ProductoItem
                                     key={prod.idPro}
+                                    index={paginaActual * pageSize + index + 1}
                                     producto={prod}
                                     handleproducto={handleproducto}
                                     openModalDelete={openModalDelete}
