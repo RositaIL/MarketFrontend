@@ -16,6 +16,8 @@ export const SalidaItem: React.FC<SalidaItemProps> = ({ salida, index, removeIte
 
     const dispatch: StoreDispatch = useDispatch();
     const { usuarios } = useSelector((state: RootState) => state.dataSinPaginacion);
+    const { user } = useSelector((state: RootState) => state.auth)
+    const rolUser = !user.rol.includes('ADMINISTRADOR');
 
     const handleRemoveMarca = () => removeItemSalida(salida.idSalida)
     useEffect(() => {
@@ -33,8 +35,8 @@ export const SalidaItem: React.FC<SalidaItemProps> = ({ salida, index, removeIte
                 {usuarios.find(user => user.idUsuario === salida.idUsuario)?.nombresApellidosUsu}
             </td>
             <td className="p-4 text-center">
-                <button className="mr-4" title="Eliminar">
-                    <RiDeleteBin5Line onClick={handleRemoveMarca} className="w-6 h-6 text-red-500 hover:text-red-700" />
+                <button className="mr-4" disabled={rolUser} title="Eliminar">
+                    <RiDeleteBin5Line onClick={handleRemoveMarca} className={`w-6 h-6 text-${rolUser ? 'red-200' : 'red-500'} hover:${rolUser ? 'red-200' : 'red-700'}`} />
                 </button>
             </td>
         </tr>

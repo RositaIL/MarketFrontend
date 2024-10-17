@@ -14,6 +14,9 @@ type ProductoItemsProps = {
 
 export const ProductoItem: React.FC<ProductoItemsProps> = ({ producto, index, handleproducto, openModalDelete }) => {
 
+    const { user } = useSelector((state: RootState) => state.auth)
+    const rolUser = !user.rol.includes('ADMINISTRADOR');
+
     const { marcas, categorias, unidadMedidas } = useSelector((state: RootState) => state.dataSinPaginacion);
 
     const hanldeUpdateProducto = () => {
@@ -37,13 +40,13 @@ export const ProductoItem: React.FC<ProductoItemsProps> = ({ producto, index, ha
             <td className="p-4 text-center text-gray-600">{marcas.find(marca => marca.idMarca === producto.idMarca)?.nombreMarca}</td>
             <td className="p-4 text-center text-gray-600">{categorias.find(categoria => categoria.idCategoria === producto.idCategoria)?.nombreCategoria}</td>
             <td className="p-4 text-center">
-                <button onClick={hanldeUpdateProducto} className="mr-4" title="Editar">
-                    <FiEdit className="w-6 h-6 text-blue-400 hover:text-blue-600" />
+                <button onClick={hanldeUpdateProducto} disabled={rolUser} className="mr-4" title="Editar">
+                    <FiEdit className={`w-6 h-6 text-${rolUser ? 'red-200' : 'blue-400'} hover:${rolUser ? 'red-200' : 'blue-600'}`} />
                 </button>
-                <button className="mr-4" title="Eliminar">
+                <button className="mr-4" disabled={rolUser} title="Eliminar">
                     <RiDeleteBin5Line
                         onClick={handleRemoveProducto}
-                        className="w-6 h-6 text-red-500 hover:text-red-700"
+                        className={`w-6 h-6 text-${rolUser ? 'red-200' : 'red-500'} hover:${rolUser ? 'red-200' : 'red-700'}`}
                     />
                 </button>
             </td>

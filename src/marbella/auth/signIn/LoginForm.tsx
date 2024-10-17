@@ -7,6 +7,7 @@ import { Login } from "./Login";
 import { StoreDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
+import imagenLogo from '../../../data/logo-Login.png';
 
 export const LoginForm = () => {
 
@@ -49,7 +50,6 @@ export const LoginForm = () => {
                 resetForm()
             },
             validate: validateForm,
-
         }
     );
 
@@ -58,7 +58,7 @@ export const LoginForm = () => {
             Swal.fire('Error en autenticacion', messageError, "error");
         };
         dispatch(clearErrorMessage());
-    }, [messageError]);
+    }, [clearErrorMessage, dispatch, messageError]);
 
     if (loading) {
         return (
@@ -75,7 +75,9 @@ export const LoginForm = () => {
     }
 
     return (
-        <form className="mt-8 space-y-4" onSubmit={formik.handleSubmit}>
+        <form className="space-y-4" onSubmit={formik.handleSubmit}>
+            <img src={imagenLogo} alt="logo" className='w-40 mx-auto block' />
+            <h2 className="text-gray-800 text-center text-2xl font-bold">Inicio sesión</h2>
             <div>
                 <label className="text-gray-800 text-sm mb-2 block">Usuario</label>
                 <div className="relative flex items-center">
@@ -115,22 +117,8 @@ export const LoginForm = () => {
                     }
                 </div>
                 <p className="text-xs h-0.5 text-red-500 flex items-center mt-2">
-                    {formik.touched.password && formik.errors.password ? <p> {formik.errors.password} </p> : undefined}
+                    {formik.touched.password && formik.errors.password ? formik.errors.password : undefined}
                 </p>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center">
-                    <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 shrink-0 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
-                    <label className="ml-3 block text-sm text-gray-800" >
-                        Recordarme
-                    </label>
-                </div>
-                <div className="text-sm">
-                    <a href="/" className="text-blue-600 hover:underline font-semibold">
-                        ¿Olvidaste tu contraseña?
-                    </a>
-                </div>
             </div>
 
             <div className="!mt-8">
@@ -138,9 +126,6 @@ export const LoginForm = () => {
                     Iniciar Sesión
                 </button>
             </div>
-            <p className="text-gray-800 text-sm !mt-8 text-center">¿No tienes una cuenta?
-                <a href="/" className="text-blue-600 hover:underline ml-1 whitespace-nowrap font-semibold">Registrate aquí</a>
-            </p>
         </form>
     )
 }

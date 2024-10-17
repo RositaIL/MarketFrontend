@@ -7,6 +7,7 @@ function MarbellaApp() {
     <BrowserRouter>
       <AppRoute />
     </BrowserRouter>
+
   )
 }
 

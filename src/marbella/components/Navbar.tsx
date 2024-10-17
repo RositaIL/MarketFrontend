@@ -1,8 +1,14 @@
 
 import { NavLink } from "react-router-dom"
 import logoHeader from '../../data/logoHeader.jpg'
+import { NavItems } from "../pages/formFields"
+import { useSelector } from "react-redux"
+import { RootState } from "../../store/rootState"
 
 export const Navbar = () => {
+    const { user } = useSelector((state: RootState) => state.auth)
+    const navItems = NavItems;
+
     return (
         <ul
             className='lg:flex lg:gap-x-5 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
@@ -10,51 +16,14 @@ export const Navbar = () => {
                 <a href="/"><img src={logoHeader} alt="logo" className='w-36' />
                 </a>
             </li>
-            <li className='max-lg:border-b max-lg:py-3 px-3'>
-                <NavLink to={'/home'} className='hover:text-[#007bff] text-[#007bff] block font-bold text-[15px]'>
-                    Home
-                </NavLink>
-            </li>
-            <li className='max-lg:border-b max-lg:py-3 px-3'>
-                <NavLink to={'/marca'} className='hover:text-[#007bff] text-[#007bff] block font-bold text-[15px]'>
-                    Marca
-                </NavLink>
-            </li>
-            <li className='max-lg:border-b max-lg:py-3 px-3'>
-                <NavLink to={'/categoria'} className='hover:text-[#007bff] text-[#007bff] block font-bold text-[15px]'>
-                    Categoria
-                </NavLink>
-            </li>
-            <li className='max-lg:border-b max-lg:py-3 px-3'>
-                <NavLink to={'/productos'} className='hover:text-[#007bff] text-[#007bff] block font-bold text-[15px]'>
-                    Productos
-                </NavLink>
-            </li>
-            <li className='max-lg:border-b max-lg:py-3 px-3'>
-                <NavLink to={'/usuario'} className='hover:text-[#007bff] text-[#007bff] block font-bold text-[15px]'>
-                    Usuario
-                </NavLink>
-            </li>
-            <li className='max-lg:border-b max-lg:py-3 px-3'>
-                <NavLink to={'/proveedor'} className='hover:text-[#007bff] text-[#007bff] block font-bold text-[15px]'>
-                    Proveedor
-                </NavLink>
-            </li>
-            <li className='max-lg:border-b max-lg:py-3 px-3'>
-                <NavLink to={'/entrada'} className='hover:text-[#007bff] text-[#007bff] block font-bold text-[15px]'>
-                    Entrada
-                </NavLink>
-            </li>
-            <li className='max-lg:border-b max-lg:py-3 px-3'>
-                <NavLink to={'/salida'} className='hover:text-[#007bff] text-[#007bff] block font-bold text-[15px]'>
-                    Salida
-                </NavLink>
-            </li>
-            <li className='max-lg:border-b max-lg:py-3 px-3'>
-                <NavLink to={'/reportes'} className='hover:text-[#007bff] text-[#007bff] block font-bold text-[15px]'>
-                    Reportes
-                </NavLink>
-            </li>
+
+            {navItems.map(item => item.roles.includes(user.rol) && (
+                <li className='max-lg:border-b max-lg:py-3 px-3'>
+                    <NavLink to={item.to} className='hover:text-[#007bff] text-[#007bff] block font-bold text-[15px]'>
+                        {item.label}
+                    </NavLink>
+                </li>
+            ))}
         </ul>
     )
 }

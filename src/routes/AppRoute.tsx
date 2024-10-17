@@ -1,21 +1,21 @@
-
-import { Routes, Route, Navigate } from "react-router-dom";
-import { HomePage } from "../marbella/pages/HomePage";
-import { CategoriaPage } from "../marbella/pages/categoria/CategoriaPage";
-import { ProductoPage } from "../marbella/pages/producto/ProductoPage";
-import { UsuarioPage } from "../marbella/pages/usuario/UsuarioPage";
-import { MarcaPage } from "../marbella/pages/marcas/MarcaPage";
-import { ProveedorPage } from "../marbella/pages/proveedor/ProveedorPage";
 import { useEffect } from "react";
-import LoginPage from "../marbella/auth/signIn/LoginPage";
 import { useAuthStore } from "../marbella/hooks/useAuthStore";
-import { EntradaPage } from "../marbella/pages/movimiento/entrada/EntradaPage";
-import { SalidaPage } from "../marbella/pages/movimiento/salida/SalidaPage";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { PrivateRoute, PublicRoute } from "./AuthGuard";
+import { UsuarioPage } from "../marbella/pages/usuario/UsuarioPage";
+import { HomePage } from "../marbella/pages/home/HomePage";
+import { MarcaPage } from "../marbella/pages/marcas/MarcaPage";
+import { CategoriaPage } from "../marbella/pages/categoria/CategoriaPage";
+import { ProveedorPage } from "../marbella/pages/proveedor/ProveedorPage";
+import { ProductoPage } from "../marbella/pages/producto/ProductoPage";
 import { ReportePage } from "../marbella/pages/reporte/ReportePage";
+import { SalidaPage } from "../marbella/pages/movimiento/salida/SalidaPage";
+import { EntradaPage } from "../marbella/pages/movimiento/entrada/EntradaPage";
+import LoginPage from "../marbella/auth/signIn/LoginPage";
 
 export const AppRoute = () => {
 
-  const { authenticated, checkAuthToken } = useAuthStore();
+  const { authenticated, checkAuthToken, user } = useAuthStore();
 
   useEffect(() => {
     checkAuthToken();
@@ -23,25 +23,28 @@ export const AppRoute = () => {
 
   return (
     <Routes>
-      {authenticated ? (<>
-        <Route path="/" element={<HomePage />}>
-          <Route path="/marca" element={<MarcaPage />} />
-          <Route path="/categoria" element={<CategoriaPage />} />
-          <Route path="/productos" element={<ProductoPage />} />
-          <Route path="/usuario" element={<UsuarioPage />} />
-          <Route path="/proveedor" element={<ProveedorPage />} />
-          <Route path="/entrada" element={<EntradaPage />} />
-          <Route path="/salida" element={<SalidaPage />} />
-          <Route path="/reportes" element={<ReportePage />} />
-          <Route path="/*" element={<Navigate to={"/marca"} />} />
-        </Route>
-      </>
-      ) : (
-        <>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/*" element={<Navigate to={"/login"} />} />
-        </>
-      )}
+      <Route element={<PrivateRoute isAuthenticated={authenticated} role={['ADMINISTRADOR', 'EMPLEADO']} requiredRole={true} user={user} />}>
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/marca" element={<MarcaPage />} />
+        <Route path="/categoria" element={<CategoriaPage />} />
+        <Route path="/producto" element={<ProductoPage />} />
+        <Route path="/entrada" element={<EntradaPage />} />
+        <Route path="/salida" element={<SalidaPage />} />
+        <Route path="/reporte" element={<ReportePage />} />
+        <Route path="/unauthorized" element={<h1>UNAUTHORIZED</h1>} />
+      </Route>
+
+      <Route element={<PrivateRoute isAuthenticated={authenticated} role={['ADMINISTRADOR']} requiredRole={true} user={user} />}>
+        <Route path="/usuario" element={<UsuarioPage />} />
+        <Route path="/proveedor" element={<ProveedorPage />} />
+      </Route>
+
+      <Route path="/login" element={
+        <PublicRoute isAuthenticated={authenticated}>
+          <LoginPage />
+        </PublicRoute>} />
+
+      <Route path="*" element={<Navigate to="/home" replace />} />
     </Routes>
   );
 };

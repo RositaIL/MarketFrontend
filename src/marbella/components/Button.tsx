@@ -1,4 +1,6 @@
 import React from "react"
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/rootState";
 
 type ButtonProps = {
     onClick: () => void;
@@ -23,6 +25,9 @@ export const Button: React.FC<ButtonProps> = ({
     hoverColor = 'bg-blue-800',
     activeColor = 'bg-blue-600',
 }) => {
+    const { user } = useSelector((state: RootState) => state.auth)
+
+    const rolUser = !user.rol.includes('ADMINISTRADOR');
 
     const handleClick = () => {
         onClick();
@@ -31,8 +36,10 @@ export const Button: React.FC<ButtonProps> = ({
     return (
         <button
             onClick={handleClick}
+            disabled={rolUser}
             type={type}
-            className={`px-5 py-3 ${width} flex items-center justify-center rounded-lg text-${colorText} text-${text} tracking-wider  border-none outline-none bg-${colorBG} hover:${hoverColor} active:${activeColor}`}>
+            className={`px-5 py-3 ${width} flex items-center justify-center rounded-lg text-${colorText} text-${text} 
+            tracking-wider  border-none outline-none bg-${rolUser ? 'red-200' : colorBG} hover:${hoverColor} active:${rolUser ? 'bg-red-200' : activeColor}`}>
             {children}
         </button>
     )

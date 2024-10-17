@@ -116,3 +116,15 @@ export const CategoriaFields = [
         placeholder: "Ingrese la categoria",
     },
 ];
+
+export const NavItems = [
+    { to: '/home', label: 'Home', roles: ['ADMINISTRADOR', 'EMPLEADO'] },
+    { to: '/marca', label: 'Marca', roles: ['ADMINISTRADOR', 'EMPLEADO'] },
+    { to: '/categoria', label: 'Categoria', roles: ['ADMINISTRADOR', 'EMPLEADO'] },
+    { to: '/producto', label: 'Productos', roles: ['ADMINISTRADOR', 'EMPLEADO'] },
+    { to: '/usuario', label: 'Usuario', roles: ['ADMINISTRADOR'] },
+    { to: '/proveedor', label: 'Proveedor', roles: ['ADMINISTRADOR'] },
+    { to: '/entrada', label: 'Entrada', roles: ['ADMINISTRADOR', 'EMPLEADO'] },
+    { to: '/salida', label: 'Salida', roles: ['ADMINISTRADOR', 'EMPLEADO'] },
+    { to: '/reporte', label: 'Reportes', roles: ['ADMINISTRADOR', 'EMPLEADO'] }
+];

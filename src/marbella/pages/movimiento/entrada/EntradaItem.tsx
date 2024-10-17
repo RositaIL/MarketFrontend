@@ -16,6 +16,8 @@ export const EntradaItem: React.FC<EntradaItemProps> = ({ entrada, index, elimin
 
     const { proveedores, usuarios } = useSelector((state: RootState) => state.dataSinPaginacion);
     const dispatch: StoreDispatch = useDispatch();
+    const { user } = useSelector((state: RootState) => state.auth)
+    const rolUser = !user.rol.includes('ADMINISTRADOR');
 
     const handleRemoveEntrada = () => {
         eliminarItem(entrada.idEntrada);
@@ -41,8 +43,8 @@ export const EntradaItem: React.FC<EntradaItemProps> = ({ entrada, index, elimin
                 {proveedores.find(proveedor => proveedor.idProveedor === entrada.idProveedor)?.nombreProv}
             </td>
             <td className="p-4 text-center text-gray-600">
-                <button className="mr-4" title="Eliminar">
-                    <RiDeleteBin5Line onClick={handleRemoveEntrada} className="w-6 h-6 text-red-500 hover:text-red-700" />
+                <button className="mr-4" disabled={rolUser} title="Eliminar">
+                    <RiDeleteBin5Line onClick={handleRemoveEntrada} className={`w-6 h-6 text-${rolUser ? 'red-200' : 'red-500'} hover:${rolUser ? 'red-200' : 'red-700'}`} />
                 </button>
             </td>
         </tr>

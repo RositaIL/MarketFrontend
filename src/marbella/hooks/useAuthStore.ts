@@ -17,12 +17,12 @@ interface CustomJwtPayload extends JwtPayload {
     userID?: number,
     nombre?: string,
     correo?: string,
-    rol?: string,
+    rol: string,
 }
 
 export const useAuthStore = () => {
 
-    const { messageError, authenticated, loading } = useSelector((state: RootState) => state.auth);
+    const { messageError, authenticated, loading, user } = useSelector((state: RootState) => state.auth);
     const dispatch: StoreDispatch = useDispatch();
     const navegate: NavigateFunction = useNavigate();
 
@@ -105,7 +105,7 @@ export const useAuthStore = () => {
         checkAuthToken,
         authenticated,
         logoutUser,
-        loading,
+        loading, user,
         clearErrorMessage,
     };
 

@@ -5,5 +5,5 @@ export type UserAuthenticate = {
     userID?: number,
     nombre?: string,
     correo?: string,
-    rol?: string,
+    rol: string,
 }
