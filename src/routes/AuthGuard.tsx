@@ -18,7 +18,7 @@ type PublicRouteProps = {
 };
 
 export const PublicRoute: React.FC<PublicRouteProps> = ({ children, isAuthenticated }) => {
-    return isAuthenticated ? <Navigate replace to={'/marca'} /> : children;
+    return isAuthenticated ? <Navigate replace to={'/home'} /> : children;
 };
 
 export const PrivateRoute: React.FC<PrivateRouteProps> = ({ isAuthenticated, role, user, requiredRole }) => {

@@ -17,9 +17,19 @@ export const Navbar = () => {
                 </a>
             </li>
 
-            {navItems.map(item => item.roles.includes(user.rol) && (
-                <li className='max-lg:border-b max-lg:py-3 px-3'>
-                    <NavLink to={item.to} className='hover:text-[#007bff] text-[#007bff] block font-bold text-[15px]'>
+            {navItems.map((item, index) => item.roles.includes(user.rol) && (
+                <li key={index} className='max-lg:border-b max-lg:py-3 px-3'>
+                    <NavLink
+                        to={item.to}
+                        className='hover:text-[#007bff] text-[#007bff] p-2 block font-bold text-[15px]'
+                        style={({ isActive, isTransitioning }) => {
+                            return {
+                                fontWeight: isActive ? "bold" : "",
+                                borderBottom: isActive ? "3px solid #007bff" : "",
+                                viewTransitionName: isTransitioning ? "slide" : "",
+                            };
+                        }}
+                    >
                         {item.label}
                     </NavLink>
                 </li>
