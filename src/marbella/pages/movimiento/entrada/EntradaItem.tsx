@@ -44,7 +44,11 @@ export const EntradaItem: React.FC<EntradaItemProps> = ({ entrada, index, elimin
             </td>
             <td className="p-4 text-center text-gray-600">
                 <button className="mr-4" disabled={rolUser} title="Eliminar">
-                    <RiDeleteBin5Line onClick={handleRemoveEntrada} className={`w-6 h-6 text-${rolUser ? 'red-200' : 'red-500'} hover:${rolUser ? 'red-200' : 'red-700'}`} />
+                    <RiDeleteBin5Line
+                        onClick={handleRemoveEntrada}
+                        className={`w-6 h-6 text-${rolUser ? 'red-200' : 'red-500'} hover:${rolUser ? 'red-200' : 'red-700'}`}
+                        style={{ color: rolUser ? '#ffa3a3' : 'red-500' }}
+                    />
                 </button>
             </td>
         </tr>

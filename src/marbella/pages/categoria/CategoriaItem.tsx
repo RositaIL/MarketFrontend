@@ -33,12 +33,16 @@ export const CategoriaItem: React.FC<CategoriaItemProps> = ({
       </td>
       <td className="p-4 text-center">
         <button onClick={handleUpdateCategory} disabled={rolUser} className="mr-4" title="Editar">
-          <FiEdit className={`w-6 h-6 text-${rolUser ? 'red-200' : 'blue-400'} hover:${rolUser ? 'red-200' : 'blue-600'}`} />
+          <FiEdit
+            className={`w-6 h-6 text-${rolUser ? 'red-200' : 'blue-400'} hover:${rolUser ? 'red-200' : 'blue-600'}`}
+            style={{ color: rolUser ? '#ffa3a3' : 'blue-400' }}
+          />
         </button>
         <button className="mr-4" disabled={rolUser} title="Eliminar">
           <RiDeleteBin5Line
             onClick={handleRemoveCategory}
             className={`w-6 h-6 text-${rolUser ? 'red-200' : 'red-500'} hover:${rolUser ? 'red-200' : 'red-700'}`}
+            style={{ color: rolUser ? '#ffa3a3' : 'red-500' }}
           />
         </button>
       </td>
