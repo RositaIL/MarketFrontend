@@ -26,7 +26,7 @@ export const EntradaItem: React.FC<EntradaItemProps> = ({ entrada, index, elimin
     useEffect(() => {
         dispatch(listarUsuarioSinPaginada());
         dispatch(listarProveedorSinPaginada());
-    }, []);
+    }, [dispatch]);
 
     return (
         <tr className="hover:bg-gray-50">

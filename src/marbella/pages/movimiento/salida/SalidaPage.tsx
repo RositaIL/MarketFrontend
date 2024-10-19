@@ -26,7 +26,7 @@ export const SalidaPage = () => {
             Swal.fire("Error", messageError, "error");
             dispatch(clearHandleErrorMessage());
         }
-    }, [messageError]);
+    }, [dispatch, messageError]);
 
     useEffect(() => {
         if (operationState) {
@@ -34,7 +34,7 @@ export const SalidaPage = () => {
                 dispatch(clearOperationState());
             }, 1500)
         }
-    }, [operationState])
+    }, [dispatch, operationState])
 
     return (
         <div className="font-sans overflow-x-auto">
@@ -47,7 +47,7 @@ export const SalidaPage = () => {
             )}
             <SalidaLista />
             <div className="md:flex m-4">
-                <p className="text-sm text-gray-500 flex-1">Mostrando {paginaActual} a {pageSize} de {totalPagina} entradas</p>
+                <p className="text-sm text-gray-500 flex-1"></p>
                 <div className="flex items-center max-md:mt-4">
                     <ul className="flex space-x-4 justify-center">
                         <Pagination paginaActual={paginaActual} totalPagina={totalPagina} handlePageChange={handlePageChange} />

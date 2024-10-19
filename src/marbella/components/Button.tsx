@@ -12,6 +12,7 @@ type ButtonProps = {
     hoverColor?: string;
     activeColor?: string;
     width?: string;
+    movimiento?: boolean
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -24,10 +25,11 @@ export const Button: React.FC<ButtonProps> = ({
     colorText = 'white',
     hoverColor = 'bg-blue-800',
     activeColor = 'bg-blue-600',
+    movimiento = false,
 }) => {
     const { user } = useSelector((state: RootState) => state.auth)
 
-    const rolUser = !user.rol.includes('ADMINISTRADOR');
+    const rolUser = !user.rol.includes('ADMINISTRADOR') && !movimiento
 
     const handleClick = () => {
         onClick();

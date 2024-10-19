@@ -2,7 +2,6 @@
 import { Button } from '../../../components/Button';
 import { IoMdAdd } from 'react-icons/io';
 import { DropdownMenu } from '../../../components/DropdownMenu';
-import { Search } from '../../../components/Search';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../store/rootState';
 import { Skeleton } from '../../../components/Skeleton';
@@ -49,13 +48,13 @@ export const SalidaLista = () => {
     return (
         <>
             <div className="container flex items-center justify-between p-4">
-                <Button onClick={openModalAdd} text={"base"}>
+                <Button onClick={openModalAdd} text={"base"} movimiento={true}>
                     <IoMdAdd className="w-6 h-6" />
                     Agregar nueva salida
                 </Button>
                 <div className="flex items-center gap-9 ">
                     <DropdownMenu getDataWithLimit={handleSalidaWithLimit} pageSize={pageSize} />
-                    <Search name={"marca"} hadleSearch={() => { }} />
+                    {/* <Search name={"marca"} hadleSearch={() => { }} /> */}
                 </div>
             </div>
             <table className="min-w-full bg-white">
