@@ -14,9 +14,9 @@ export const ReporteStockLista = () => {
                         <tr className="bg-gray-200">
                             <th className="border-y border-gray-100 bg-gray-50/50 p-2">Nombre</th>
                             <th className="border-y border-gray-100 bg-gray-50/50 p-2">Descripción</th>
-                            <th className="border-y border-gray-100 bg-gray-50/50 p-2">Precio (S/.)</th>
+                            <th className="border-y border-gray-100 bg-gray-50/50 p-2">Precio (S/)</th>
                             <th className="border-y border-gray-100 bg-gray-50/50 p-2">Stock Actual</th>
-                            <th className="border-y border-gray-100 bg-gray-50/50 p-2">Stock Minimo</th>
+                            <th className="border-y border-gray-100 bg-gray-50/50 p-2">Stock Mínimo</th>
                         </tr>
                     </thead>
                     <tbody id="attendees-list">

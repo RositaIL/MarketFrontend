@@ -47,10 +47,10 @@ export const Formulario = <T extends Record<string, unknown>>({
     fields.map((field) => {
       const value = values[field.name]
       if (typeof value === 'string' && !value.trim()) {
-        errors[field.name] = "Este campo no puede estar campo vacio";
+        errors[field.name] = "Este campo no puede estar vacío";
       };
       if (typeof value === "number" && value < 1) {
-        errors[field.name] = "El valor no puede tener menor o igual a 0";
+        errors[field.name] = "El valor no puede ser menor o igual a 0";
       };
     });
     return errors;

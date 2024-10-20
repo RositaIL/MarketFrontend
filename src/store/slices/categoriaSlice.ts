@@ -58,7 +58,7 @@ export const categoriaSlice = createSlice(
                     state.categorias[index] = payload;
                     state.messageError = '';
                     state.loading = false;
-                    state.operationState = 'Acualizadó';
+                    state.operationState = 'Acualizado';
                 }
             },
             deleteCategoria: (state: CategoriaState, { payload }: PayloadAction<number>) => {

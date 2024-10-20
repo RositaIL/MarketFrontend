@@ -69,7 +69,7 @@ export const productoSlice = createSlice({
                 state.productos = state.productos.filter(producto => producto.idPro !== payload);
                 state.loading = false;
                 state.messageError = '';
-                state.operationState = 'Eliminando';
+                state.operationState = 'Eliminado';
             }
         }
     },

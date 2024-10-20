@@ -14,7 +14,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({ pageSize, getDataWit
 
     return (
         <div className="flex items-center gap-3">
-            <p className="text-sm text-gray-500">Display</p>
+            <p className="text-sm text-gray-500">Mostrar</p>
             <select
                 value={pageSize}
                 onChange={getWithLimit}

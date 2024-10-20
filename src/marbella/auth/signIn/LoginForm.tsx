@@ -55,7 +55,7 @@ export const LoginForm = () => {
 
     useEffect(() => {
         if (messageError) {
-            Swal.fire('Error en autenticacion', messageError, "error");
+            Swal.fire('Error en autenticación', messageError, "error");
         };
         dispatch(clearErrorMessage());
     }, [clearErrorMessage, dispatch, messageError]);
@@ -77,7 +77,7 @@ export const LoginForm = () => {
     return (
         <form className="space-y-4" onSubmit={formik.handleSubmit}>
             <img src={imagenLogo} alt="logo" className='w-40 mx-auto block' />
-            <h2 className="text-gray-800 text-center text-2xl font-bold">Inicio sesión</h2>
+            <h2 className="text-gray-800 text-center text-2xl font-bold">Inicio de sesión</h2>
             <div>
                 <label className="text-gray-800 text-sm mb-2 block">Usuario</label>
                 <div className="relative flex items-center">
@@ -123,7 +123,7 @@ export const LoginForm = () => {
 
             <div className="!mt-8">
                 <button type="submit" className="w-full py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
-                    Iniciar Sesión
+                    Iniciar sesión
                 </button>
             </div>
         </form>

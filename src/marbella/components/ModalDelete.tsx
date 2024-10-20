@@ -27,7 +27,7 @@ export const ModalDelete: React.FC<ShowDeleteProps> = ({
           <MdErrorOutline className="w-14 h-14 fill-red-500 inline" />
           <h4 className="text-lg text-gray-800 font-semibold mt-6">
             {" "}
-            La marca sera eliminada permanente
+            La selección sera eliminada permanentemente
           </h4>
           <p className="text-sm text-gray-500 mt-2">
             {" "}

@@ -20,7 +20,7 @@ export const HomePage = () => {
                 Gestión de Inventario Eficiente
               </h1>
               <p className="mt-4 text-base leading-relaxed">
-                En nuestro mini-market, contamos con un sistema avanzado de
+                En nuestro minimarket, contamos con un sistema avanzado de
                 gestión de inventario que nos permite ofrecerte siempre
                 productos frescos y disponibles. Con una organización eficiente
                 de nuestro almacén, garantizamos que los artículos más
@@ -69,7 +69,7 @@ export const HomePage = () => {
             <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-10 mt-14">
               <div>
                 <HiBuildingStorefront className="w-8 h-8 fill-blue-600 mb-4 inline-block" />
-                <h3 className="text-xl font-semibold mb-2">Alamacen</h3>
+                <h3 className="text-xl font-semibold mb-2">Almacén</h3>
                 <p>
                   Garantizar un abastecimiento adecuado y mejorar la rotación de
                   tus productos.
@@ -86,7 +86,7 @@ export const HomePage = () => {
               <div>
                 <SlSupport className="w-8 h-8 fill-blue-600 mb-4 inline-block" />
                 <h3 className="text-xl font-semibold mb-2">Atención</h3>
-                <p>atención al cliente para todas sus consultas.</p>
+                <p>Atención al cliente para todas sus consultas.</p>
               </div>
             </div>
           </div>
@@ -95,7 +95,7 @@ export const HomePage = () => {
         <div className="mt-10">
           <div className="md:text-center max-w-2xl mx-auto">
             <h2 className="md:text-4xl text-3xl font-bold mb-6">
-              Abastecimiento inteligente
+              Abastecimiento Inteligente
             </h2>
             <p>
               Utilizamos tecnología de punta para gestionar nuestro inventario y

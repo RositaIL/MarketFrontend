@@ -65,7 +65,7 @@ export const ProductoLista = () => {
                 </Button>
                 <div className="flex items-center gap-9 ">
                     <DropdownMenu getDataWithLimit={getProductoWithLimit} pageSize={pageSize} />
-                    <Search name={"marca"} hadleSearch={hadleSearchProductoWithName} />
+                    <Search name={"producto"} hadleSearch={hadleSearchProductoWithName} />
                 </div>
             </div>
             <table className="min-w-full bg-white" style={{ border: '2px dashed lightgray' }}>
@@ -78,7 +78,7 @@ export const ProductoLista = () => {
                             NOMBRE
                         </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
-                            DESCRIPCION
+                            DESCRIPCIÓN
                         </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
                             PRECIO (S/.)
@@ -87,7 +87,7 @@ export const ProductoLista = () => {
                             STOCK ACTUAL
                         </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
-                            STOCK MINIMO
+                            STOCK MÍNIMO
                         </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
                             UNIDAD MEDIDA
@@ -96,7 +96,7 @@ export const ProductoLista = () => {
                             MARCA
                         </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
-                            CATEGORIA
+                            CATEGORÍA
                         </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
                             ACCIONES

@@ -23,11 +23,11 @@ export const CategoriaLista = () => {
       <div className="container flex items-center justify-between p-4">
         <Button onClick={openModalEdit} text={"base"}>
           <IoMdAdd className="w-6 h-6" />
-          Agregar nueva categoria
+          Agregar nueva categoría
         </Button>
         <div className="flex items-center gap-9 ">
           <DropdownMenu getDataWithLimit={getCategoriaWithLimit} pageSize={pageSize} />
-          <Search name={"marca"} hadleSearch={hadleSearchMarcaWithName} />
+          <Search name={"categoría"} hadleSearch={hadleSearchMarcaWithName} />
         </div>
       </div>
       <table className="min-w-full bg-white" style={{ border: '2px dashed lightgray' }}>
@@ -37,7 +37,7 @@ export const CategoriaLista = () => {
               N°
             </th>
             <th className="p-4 text-center text-xs font-bold text-gray-700">
-              DESCRIPCION
+              DESCRIPCIÓN
             </th>
             <th className="p-4 text-center text-xs font-bold text-gray-700">
               ACCIONES
@@ -78,7 +78,7 @@ export const CategoriaLista = () => {
           fields={fields}
           onSubmitForm={onSubmitForm}
           onCancelForm={closeModalEdit}
-          nameForm="categoria"
+          nameForm="categoría"
           isEditMode={isEditMode}
         />
       )}

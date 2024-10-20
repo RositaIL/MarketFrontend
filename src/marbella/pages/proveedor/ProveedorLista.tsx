@@ -30,7 +30,7 @@ export const ProveedorLista = () => {
                 </Button>
                 <div className="flex items-center gap-9 ">
                     <DropdownMenu getDataWithLimit={getProveedorWithLimit} pageSize={pageSize} />
-                    <Search name={"marca"} hadleSearch={hadleSearchProveedorWithName} />
+                    <Search name={"proveedor"} hadleSearch={hadleSearchProveedorWithName} />
                 </div>
             </div>
             <table className="min-w-full bg-white" style={{ border: '2px dashed lightgray' }}>
@@ -43,10 +43,10 @@ export const ProveedorLista = () => {
                             NOMBRE
                         </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
-                            DIRECCION
+                            DIRECCIÓN
                         </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
-                            TELEFONO
+                            TELÉFONO
                         </th>
                         <th className="p-4 text-center text-xs font-bold text-gray-700">
                             RUC

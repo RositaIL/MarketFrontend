@@ -37,14 +37,14 @@ export const DetalleTabla: React.FC<DetalleSalidaProps> = ({ detalleLista, isIng
                         PRODUCTO
                     </th>
                     <th className="p-2 text-center text-xs font-bold text-white">
-                        DESCRIPCION
+                        DESCRIPCIÓN
                     </th>
                     <th className="p-2 text-center text-xs font-bold text-white">
                         CANTIDAD
                     </th>
                     {isIngreso && (
                         <th className="p-2 text-center text-xs font-bold text-white">
-                            PRECIO (S/.)
+                            PRECIO (S/)
                         </th>
                     )}
                     <th className="p-2 text-center text-xs font-bold text-white">

@@ -11,19 +11,19 @@ export const ProveedorFields = [
         name: "direccProv",
         label: "Dirección",
         type: "text",
-        placeholder: "Ingrese su direccion",
+        placeholder: "Ingrese su dirección",
     },
     {
         name: "telefProv",
-        label: "Telefono",
+        label: "Teléfono",
         type: "text",
-        placeholder: "Ingrese el telefono",
+        placeholder: "Ingrese el teléfono",
     },
     {
         name: "rucProv",
         label: "Ruc",
         type: "text",
-        placeholder: "Ingrese el ruc",
+        placeholder: "Ingrese el Ruc",
     },
     {
         name: "emailProv",
@@ -42,7 +42,7 @@ export const ProveedorFields = [
 export const UsuarioFields = [
     {
         name: "nombresApellidosUsu",
-        label: "Nombres Completos",
+        label: "Nombres completos",
         type: "text",
         placeholder: "Ingrese sus nombres",
     },
@@ -50,7 +50,7 @@ export const UsuarioFields = [
         name: "emailUsu",
         label: "Email",
         type: "text",
-        placeholder: "Ingrese sus nombres",
+        placeholder: "Ingrese su Email",
     },
     {
         name: "username",
@@ -69,33 +69,33 @@ export const UsuarioFields = [
 export const FieldsProducts = [
     {
         name: "nombrePro",
-        label: "producto",
+        label: "Producto",
         type: "text",
         placeholder: "Ingrese el producto",
     },
     {
         name: "descripcionPro",
-        label: "descrpcion",
+        label: "Descrpción",
         type: "text",
-        placeholder: "Ingrese la descripion",
+        placeholder: "Ingrese la descripción",
     },
     {
         name: "precioPro",
-        label: "precio",
+        label: "Precio",
         type: "number",
         placeholder: "Ingrese el precio",
     },
     {
         name: "stockActual",
-        label: "stock actual",
+        label: "Stock actual",
         type: "number",
         placeholder: "Ingrese stock actual",
     },
     {
         name: "stockMin",
-        label: "stock minimo",
+        label: "Stock mínimo",
         type: "number",
-        placeholder: "Ingrese stock minimo",
+        placeholder: "Ingrese stock mínimo",
     }
 ];
 
@@ -111,20 +111,20 @@ export const MarcaFields = [
 export const CategoriaFields = [
     {
         name: "nombreCategoria",
-        label: "Categoria",
+        label: "Categoría",
         type: "text",
-        placeholder: "Ingrese la categoria",
+        placeholder: "Ingrese la categoría",
     },
 ];
 
 export const NavItems = [
     { to: '/home', label: 'Home', roles: ['ADMINISTRADOR', 'EMPLEADO'] },
     { to: '/marca', label: 'Marca', roles: ['ADMINISTRADOR', 'EMPLEADO'] },
-    { to: '/categoria', label: 'Categoria', roles: ['ADMINISTRADOR', 'EMPLEADO'] },
+    { to: '/categoria', label: 'Categoría', roles: ['ADMINISTRADOR', 'EMPLEADO'] },
     { to: '/producto', label: 'Productos', roles: ['ADMINISTRADOR', 'EMPLEADO'] },
     { to: '/usuario', label: 'Usuario', roles: ['ADMINISTRADOR'] },
     { to: '/proveedor', label: 'Proveedor', roles: ['ADMINISTRADOR'] },
     { to: '/entrada', label: 'Entrada', roles: ['ADMINISTRADOR', 'EMPLEADO'] },
     { to: '/salida', label: 'Salida', roles: ['ADMINISTRADOR', 'EMPLEADO'] },
-    { to: '/reporte', label: 'Reportes', roles: ['ADMINISTRADOR', 'EMPLEADO'] }
+    { to: '/reporte', label: 'Reporte', roles: ['ADMINISTRADOR', 'EMPLEADO'] }
 ];

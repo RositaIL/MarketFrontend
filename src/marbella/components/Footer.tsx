@@ -36,21 +36,21 @@ export const Footer = () => {
                 </div>
 
                 <div>
-                    <h4 className="text-lg font-semibold mb-6 text-white">Contact Us</h4>
+                    <h4 className="text-lg font-semibold mb-6 text-white">Contactenos</h4>
                     <ul className="space-y-4">
                         <li>
                             <NavLink to={'/home'} className="text-gray-300 hover:text-white text-sm">
-                                Phone:
+                                Dirección
                             </NavLink>
                         </li>
                         <li>
                             <NavLink to={'/home'} className="text-gray-300 hover:text-white text-sm">
-                                Telefono
+                                Teléfono
                             </NavLink>
                         </li>
                         <li>
                             <NavLink to={'/home'} className="text-gray-300 hover:text-white text-sm">
-                                Direccion
+                                Correo
                             </NavLink>
                         </li>
                     </ul>
@@ -71,7 +71,7 @@ export const Footer = () => {
                         </li>
                         <li>
                             <NavLink to={'/home'} className="text-gray-300 hover:text-white text-sm">
-                                Policia
+                                Política
                             </NavLink>
                         </li>
                     </ul>

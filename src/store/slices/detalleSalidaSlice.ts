@@ -43,7 +43,7 @@ export const detalleSalidaSlice = createSlice({
             state.detalleSalidas = payload;
             state.loading = false;
             state.messageError = '';
-            state.operationState = 'Tes de prueba';
+            state.operationState = 'Actualizado';
         },
         deleteByIdProducto: (state: DetalleSalidaState, { payload }: PayloadAction<number>) => {
             const index = state.detalleSalidas.findIndex(detalle => detalle.idProducto === payload);

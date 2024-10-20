@@ -57,7 +57,7 @@ export const proveedorSlice = createSlice({
                 state.proveedores[index] = payload;
                 state.loading = false;
                 state.messageError = '';
-                state.operationState = 'Actualizadó';
+                state.operationState = 'Actualizado';
             }
         },
         deleteProveedor: (state: ProveedorState, { payload }: ActionPayload<number>) => {

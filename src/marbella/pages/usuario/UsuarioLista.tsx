@@ -46,7 +46,7 @@ export const UsuarioLista = () => {
         </Button>
         <div className="flex items-center gap-9 ">
           <DropdownMenu getDataWithLimit={getUsuarioWithLimit} pageSize={pageSize} />
-          <Search name={"marca"} hadleSearch={hadleSearchUsuarioWithName} />
+          <Search name={"usuario"} hadleSearch={hadleSearchUsuarioWithName} />
         </div>
       </div>
       <table className="min-w-full bg-white" style={{ border: '2px dashed lightgray' }}>

@@ -15,7 +15,7 @@ type DropdownProps = {
 const Dropdown: React.FC<DropdownProps> = ({ options, optionSelected }) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedOPtion, setSelectedOption] = useState<string>('Seleccione un item');
+  const [selectedOPtion, setSelectedOption] = useState<string>('Seleccione un ítem');
   const [search, setSearch] = useState<string>('')
   const dropdownRef = useRef<HTMLDivElement>(null);
 

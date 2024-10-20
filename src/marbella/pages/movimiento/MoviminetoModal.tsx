@@ -79,15 +79,15 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
     const validaciondeForm = (values: DetalleEntrada) => {
         const errors: Partial<DetalleEntrada> = {};
         if (!values.cantidad || parseInt(values.cantidad.toString()) < 1) {
-            errors.cantidad = 'Este campo no puede estar vacio'
+            errors.cantidad = 'Este campo no puede estar vacío'
         }
         if (isIngreso) {
             if (!values.precio || parseInt(values.precio.toString()) < 1) {
-                errors.precio = 'Este campo no puede estar vacio'
+                errors.precio = 'Este campo no puede estar vacío'
             }
         }
         if (!idProduct || parseInt(idProduct.toString()) === 0) {
-            errors.idProducto = 'Este campo no puede estar vacio'
+            errors.idProducto = 'Este campo no puede estar vacío'
         }
         return errors;
     };
@@ -109,12 +109,12 @@ export const MovimientoModal: React.FC<MovimientoModalProps> = ({ handleCloseMod
                             if (nuevaCantidad > response!.stockActual) {
                                 swalAlert(`Stock insuficiente: Disponibles 
                                     ${response?.stockActual}, ya tienes ${detalle.cantidad}U en detalle. 
-                                    No puedes añadir ${values.cantidad}U más `);
+                                    No puedes añadir ${values.cantidad}U más.`);
                                 return;
                             }
                         } else {
                             if (cantidad > response!.stockActual) {
-                                swalAlert(`El producto no tiene estoy suficiente: Stock disponible ${response?.stockActual}`);
+                                swalAlert(`El producto no tiene stock suficiente: Stock disponible ${response?.stockActual}`);
                                 return;
                             };
                         };

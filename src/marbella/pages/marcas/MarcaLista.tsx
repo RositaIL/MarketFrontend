@@ -39,7 +39,7 @@ export const MarcaLista = () => {
               N°
             </th>
             <th className="p-4 text-center text-xs font-bold text-gray-700">
-              DESCRIPCION
+              DESCRIPCIÓN
             </th>
             <th className="p-4 text-center text-xs font-bold text-gray-700">
               ACCIONES
