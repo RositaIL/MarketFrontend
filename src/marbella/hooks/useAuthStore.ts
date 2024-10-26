@@ -33,7 +33,7 @@ export const useAuthStore = () => {
     const startAuthenticate = async (usuario: Login) => {
         dispatch(startLoading())
         try {
-            const { data } = await axios.post<string>('http://localhost:8081/auth/login', usuario);
+            const { data } = await axios.post<string>('https://marbellaserver.azurewebsites.net/auth/login', usuario);
             localStorage.setItem('token', data);
             const user = userAutheticado(data);
             dispatch(login(user));

@@ -4,7 +4,7 @@ import { store } from "../store/store";
 import { logout } from "../store/auth/authSlice";
 
 const marbellaApi = axios.create({
-    baseURL: 'http://localhost:8081',
+    baseURL: 'https://marbellaserver.azurewebsites.net',
 });
 
 marbellaApi.interceptors.request.use(
